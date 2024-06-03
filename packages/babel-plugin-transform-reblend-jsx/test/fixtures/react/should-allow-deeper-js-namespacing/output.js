@@ -1,1 +1,1 @@
-/*#__PURE__*/Reblend.createElement(Namespace.DeepNamespace.Component, null);
+/*#__PURE__*/ Reblend.construct(Namespace.DeepNamespace.Component, null);

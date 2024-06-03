@@ -5,19 +5,19 @@ import Reblend from 'reblend';
 class BugReport extends Reblend.Component {
   constructor(...args) {
     super(...args);
-    this.thisWontWork = ({
-      color
-    }) => {
+    this.thisWontWork = ({ color }) => {
       var _div;
       return data => {
-        return _div || (_div = <div color={color}>does not reference data</div>);
+        return (
+          _div || (_div = <div color={color}>does not reference data</div>)
+        );
       };
     };
-    this.thisWorks = ({
-      color
-    }) => data => {
-      return <div color={color}>{data}</div>;
-    };
+    this.thisWorks =
+      ({ color }) =>
+      data => {
+        return <div color={color}>{data}</div>;
+      };
   }
   render() {
     return _div2 || (_div2 = <div />);

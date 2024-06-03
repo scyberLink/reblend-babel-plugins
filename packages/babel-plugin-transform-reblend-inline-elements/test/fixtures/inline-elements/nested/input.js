@@ -1,1 +1,4 @@
-<div className="foo">{bar}<Baz key="baz" /></div>
+<div className="foo">
+  {bar}
+  <Baz key="baz" />
+</div>;

@@ -1,3 +1,3 @@
 /* @jsx h */
 
-h("div", null);
+h('div', null);

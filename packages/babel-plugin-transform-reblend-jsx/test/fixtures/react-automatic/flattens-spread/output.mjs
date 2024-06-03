@@ -1,25 +1,25 @@
-import { jsx as _jsx } from "reblend/jsx-runtime";
-/*#__PURE__*/_jsx("p", {
+import { jsx as _jsx } from 'reblend/jsx-runtime';
+/*#__PURE__*/ _jsx('p', {
   ...props,
-  children: "text"
+  children: 'text',
 });
-/*#__PURE__*/_jsx("div", {
+/*#__PURE__*/ _jsx('div', {
   ...props,
-  children: contents
+  children: contents,
 });
-/*#__PURE__*/_jsx("img", {
-  alt: "",
+/*#__PURE__*/ _jsx('img', {
+  alt: '',
   src,
   title,
-  __proto__
+  __proto__,
 });
-/*#__PURE__*/_jsx("blockquote", {
+/*#__PURE__*/ _jsx('blockquote', {
   cite,
-  children: items
+  children: items,
 });
-/*#__PURE__*/_jsx("pre", {
-  ["__proto__"]: null
+/*#__PURE__*/ _jsx('pre', {
+  ['__proto__']: null,
 });
-/*#__PURE__*/_jsx("code", {
-  [__proto__]: null
+/*#__PURE__*/ _jsx('code', {
+  [__proto__]: null,
 });

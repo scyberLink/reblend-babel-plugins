@@ -1,6 +1,6 @@
-import { declare } from "@babel/helper-plugin-utils";
-import path from "path";
-import { types as t } from "@babel/core";
+import { declare } from '@babel/helper-plugin-utils';
+import path from 'path';
+import { types as t } from '@babel/core';
 
 type ReblendCreateClassCall = t.CallExpression & {
   arguments: [t.ObjectExpression];
@@ -19,7 +19,7 @@ export default declare(api => {
         continue;
       }
       const key = t.toComputedKey(prop);
-      if (t.isStringLiteral(key, { value: "displayName" })) {
+      if (t.isStringLiteral(key, { value: 'displayName' })) {
         safe = false;
         break;
       }
@@ -27,15 +27,16 @@ export default declare(api => {
 
     if (safe) {
       props.unshift(
-        t.objectProperty(t.identifier("displayName"), t.stringLiteral(id)),
+        t.objectProperty(t.identifier('displayName'), t.stringLiteral(id))
       );
     }
   }
 
-  const isCreateClassCallExpression =
-    t.buildMatchMemberExpression("Reblend.createClass");
-  const isCreateClassAddon = (callee: t.CallExpression["callee"]) =>
-    t.isIdentifier(callee, { name: "createReblendClass" });
+  const isCreateClassCallExpression = t.buildMatchMemberExpression(
+    'Reblend.createClass'
+  );
+  const isCreateClassAddon = (callee: t.CallExpression['callee']) =>
+    t.isIdentifier(callee, { name: 'createReblendClass' });
 
   function isCreateClass(node?: t.Node): node is ReblendCreateClassCall {
     if (!node || !t.isCallExpression(node)) return false;
@@ -60,17 +61,17 @@ export default declare(api => {
   }
 
   return {
-    name: "transform-reblend-display-name",
+    name: 'transform-reblend-display-name',
 
     visitor: {
       ExportDefaultDeclaration({ node }, state) {
         if (isCreateClass(node.declaration)) {
-          const filename = state.filename || "unknown";
+          const filename = state.filename || 'unknown';
 
           let displayName = path.basename(filename, path.extname(filename));
 
           // ./{module name}/index.js
-          if (displayName === "index") {
+          if (displayName === 'index') {
             displayName = path.basename(path.dirname(filename));
           }
 

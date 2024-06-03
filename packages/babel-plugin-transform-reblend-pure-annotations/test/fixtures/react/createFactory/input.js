@@ -1,3 +1,3 @@
-import {createFactory} from 'reblend';
+import { createFactory } from 'reblend';
 
 const div = createFactory('div');

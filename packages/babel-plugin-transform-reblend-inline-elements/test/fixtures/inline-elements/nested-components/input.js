@@ -1,1 +1,4 @@
-<Foo className="foo">{bar}<Baz key="baz" /></Foo>
+<Foo className="foo">
+  {bar}
+  <Baz key="baz" />
+</Foo>;

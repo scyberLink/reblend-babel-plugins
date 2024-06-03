@@ -1,13 +1,13 @@
-import { jsx as _jsx } from "reblend/jsx-runtime";
-/*#__PURE__*/_jsx("p", {
+import { jsx as _jsx } from 'reblend/jsx-runtime';
+/*#__PURE__*/ _jsx('p', {
   ...{
-    __proto__: null
+    __proto__: null,
   },
-  children: "text"
+  children: 'text',
 });
-/*#__PURE__*/_jsx("div", {
+/*#__PURE__*/ _jsx('div', {
   ...{
-    "__proto__": null
+    __proto__: null,
   },
-  children: contents
+  children: contents,
 });

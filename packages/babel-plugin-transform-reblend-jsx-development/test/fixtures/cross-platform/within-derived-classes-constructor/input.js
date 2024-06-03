@@ -1,4 +1,4 @@
-class A { }
+class A {}
 
 class B extends A {
   constructor() {
@@ -33,14 +33,16 @@ class E extends A {
     function z() {
       return <sometag7 />;
     }
-    { <sometag8 /> }
+    {
+      <sometag8 />;
+    }
     super();
   }
 }
 
 class F {
   constructor() {
-    <sometag9 />
+    <sometag9 />;
   }
 }
 

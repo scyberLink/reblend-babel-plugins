@@ -1,3 +1,7 @@
-var test = <T default="
+var test = (
+  <T
+    default="
     some string
-  " />;
+  "
+  />
+);

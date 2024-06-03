@@ -1,6 +1,6 @@
 exports.Component = Reblend.createClass({
-  displayName: "Component",
+  displayName: 'Component',
   render: function render() {
     return null;
-  }
+  },
 });

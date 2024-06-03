@@ -1,1 +1,1 @@
-/*#__PURE__*/Reblend.createElement(Foo, bar);
+/*#__PURE__*/ Reblend.construct(Foo, bar);

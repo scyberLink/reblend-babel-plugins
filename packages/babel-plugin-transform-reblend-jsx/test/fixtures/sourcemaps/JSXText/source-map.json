@@ -1,14 +1,7 @@
 {
   "version": 3,
-  "names": [
-    "Reblend",
-    "App",
-    "createElement",
-    "className"
-  ],
-  "sources": [
-    "sourcemaps/JSXText/input.js"
-  ],
+  "names": ["Reblend", "App", "createElement", "className"],
+  "sources": ["sourcemaps/JSXText/input.js"],
   "sourcesContent": [
     "import Reblend from 'reblend';\n\nexport default function App() {\n  return (\n    <div className=\"App\">\n      <h1>Welcome to my application!</h1>\n      This is my app!\n      <strong>MINE.</strong>\n    </div>\n  )\n}"
   ],

@@ -1,1 +1,1 @@
-/*#__PURE__*/Reblend.createElement("hasOwnProperty", null, "testing");
+/*#__PURE__*/ Reblend.construct('hasOwnProperty', null, 'testing');

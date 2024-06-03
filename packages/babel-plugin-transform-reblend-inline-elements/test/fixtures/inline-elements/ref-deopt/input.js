@@ -1,1 +1,1 @@
-<Foo ref="bar" />
+<Foo ref="bar" />;

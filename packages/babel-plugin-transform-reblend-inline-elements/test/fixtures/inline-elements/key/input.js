@@ -1,1 +1,1 @@
-<Foo key="foo" data-value="bar" />
+<Foo key="foo" data-value="bar" />;

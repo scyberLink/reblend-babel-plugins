@@ -3,5 +3,7 @@ function render(_ref) {
   let text = _ref.text,
     className = _ref.className,
     id = _ref.id;
-  return () => _Component || (_Component = <Component text={text} className={className} id={id} />);
+  return () =>
+    _Component ||
+    (_Component = <Component text={text} className={className} id={id} />);
 }

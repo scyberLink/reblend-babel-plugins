@@ -4,7 +4,4 @@ import 'reblend-app-polyfill/ie11';
 import 'reblend-app-polyfill/stable';
 import ReblendDOM from 'reblend-dom';
 
-ReblendDOM.render(
-    <p>Hello, World!</p>,
-    document.getElementById('root')
-);
+ReblendDOM.render(<p>Hello, World!</p>, document.getElementById('root'));

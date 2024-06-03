@@ -1,3 +1,3 @@
-/*#__PURE__*/Reblend.createElement(Component, {
-  constructor: "foo"
+/*#__PURE__*/ Reblend.construct(Component, {
+  constructor: 'foo',
 });

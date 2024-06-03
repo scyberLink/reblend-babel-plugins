@@ -1,8 +1,8 @@
-import { createElement as _createElement } from "reblend";
+import { createElement as _createElement } from 'reblend';
 const props = {
-  foo: true
+  foo: true,
 };
-var x = /*#__PURE__*/_createElement("div", {
+var x = /*#__PURE__*/ _createElement('div', {
   ...props,
-  key: undefined
+  key: undefined,
 });

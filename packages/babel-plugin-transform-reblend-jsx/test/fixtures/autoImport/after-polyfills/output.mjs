@@ -3,7 +3,10 @@
 import 'reblend-app-polyfill/ie11';
 import 'reblend-app-polyfill/stable';
 import ReblendDOM from 'reblend-dom';
-import { jsx as _jsx } from "reblend/jsx-runtime";
-ReblendDOM.render( /*#__PURE__*/_jsx("p", {
-  children: "Hello, World!"
-}), document.getElementById('root'));
+import { jsx as _jsx } from 'reblend/jsx-runtime';
+ReblendDOM.render(
+  /*#__PURE__*/ _jsx('p', {
+    children: 'Hello, World!',
+  }),
+  document.getElementById('root')
+);

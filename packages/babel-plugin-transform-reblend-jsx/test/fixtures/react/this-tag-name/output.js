@@ -1,1 +1,1 @@
-var div = /*#__PURE__*/Reblend.createElement(this.foo, null, "test");
+var div = /*#__PURE__*/ Reblend.construct(this.foo, null, 'test');

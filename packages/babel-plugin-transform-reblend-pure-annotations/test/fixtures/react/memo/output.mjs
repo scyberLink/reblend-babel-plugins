@@ -1,2 +1,2 @@
 import Reblend from 'reblend';
-const Comp = /*#__PURE__*/Reblend.memo(props => null);
+const Comp = /*#__PURE__*/ Reblend.memo(props => null);

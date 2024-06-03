@@ -1,2 +1,2 @@
 import Reblend from 'reblend';
-/*#__PURE__*/Reblend.createRef();
+/*#__PURE__*/ Reblend.createRef();

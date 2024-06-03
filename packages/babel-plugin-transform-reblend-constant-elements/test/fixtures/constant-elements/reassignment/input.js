@@ -1,5 +1,5 @@
 function render(text) {
-  text += "yes";
+  text += 'yes';
 
   return function () {
     return <div>{text}</div>;

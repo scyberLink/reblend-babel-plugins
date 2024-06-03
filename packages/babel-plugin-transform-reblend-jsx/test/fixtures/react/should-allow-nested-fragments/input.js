@@ -1,5 +1,5 @@
 <div>
-  <  >
+  <>
     <>
       <span>Hello</span>
       <span>world</span>
@@ -9,4 +9,4 @@
       <span>world</span>
     </>
   </>
-</div>
+</div>;

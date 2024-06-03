@@ -1,6 +1,6 @@
 ({
-  foo: createReblendClass({})
+  foo: createReblendClass({}),
 });
 ({
-  bar: Reblend.createClass({})
+  bar: Reblend.createClass({}),
 });

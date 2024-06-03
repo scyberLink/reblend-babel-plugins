@@ -7,5 +7,5 @@ export default function App() {
       This is my app!
       <strong>MINE.</strong>
     </div>
-  )
+  );
 }

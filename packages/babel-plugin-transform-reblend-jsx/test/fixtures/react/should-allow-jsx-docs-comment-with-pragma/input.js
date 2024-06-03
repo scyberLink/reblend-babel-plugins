@@ -2,4 +2,4 @@
  * @jsx jsx
  */
 
-<foo />
+<foo />;

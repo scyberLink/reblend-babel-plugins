@@ -1,4 +1,4 @@
 {
   "sourceType": "module",
-  "presets": [["reblend", {"pure": false}]]
+  "presets": [["reblend", { "pure": false }]]
 }

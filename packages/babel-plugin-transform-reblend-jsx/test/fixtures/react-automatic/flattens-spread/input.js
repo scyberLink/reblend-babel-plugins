@@ -2,10 +2,10 @@
 
 <div {...props}>{contents}</div>;
 
-<img alt="" {...{src, title, __proto__}} />;
+<img alt="" {...{ src, title, __proto__ }} />;
 
-<blockquote {...{cite}}>{items}</blockquote>;
+<blockquote {...{ cite }}>{items}</blockquote>;
 
-<pre {...{["__proto__"]: null }}></pre>;
+<pre {...{ ['__proto__']: null }}></pre>;
 
-<code {...{[__proto__]: null }}></code>;
+<code {...{ [__proto__]: null }}></code>;

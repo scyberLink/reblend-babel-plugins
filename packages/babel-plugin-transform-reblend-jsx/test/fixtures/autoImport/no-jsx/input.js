@@ -1,1 +1,1 @@
-var foo = "<div></div>";
+var foo = '<div></div>';

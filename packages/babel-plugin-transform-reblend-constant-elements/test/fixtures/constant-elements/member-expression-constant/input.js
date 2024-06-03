@@ -1,4 +1,4 @@
 function render() {
-  this.component = "div";
+  this.component = 'div';
   return () => <this.component />;
 }

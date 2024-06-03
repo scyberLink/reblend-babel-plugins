@@ -1,5 +1,3 @@
 {
-  "plugins": [
-    ["transform-reblend-jsx", { "runtime": "automatic" }]
-  ]
+  "plugins": [["transform-reblend-jsx", { "runtime": "automatic" }]]
 }

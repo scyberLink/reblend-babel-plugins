@@ -1,3 +1,3 @@
 import Reblend from 'reblend';
 
-const Comp = Reblend.memo((props) => null);
+const Comp = Reblend.memo(props => null);

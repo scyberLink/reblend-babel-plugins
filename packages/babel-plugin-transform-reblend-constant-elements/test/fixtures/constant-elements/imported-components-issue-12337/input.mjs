@@ -1,5 +1,5 @@
-import Reblend from "reblend";
-import OtherComponent from "./components/other-component";
+import Reblend from 'reblend';
+import OtherComponent from './components/other-component';
 
 export default function App() {
   return (
@@ -10,4 +10,4 @@ export default function App() {
   );
 }
 
-const LazyComponent = Reblend.lazy(() => import("./components/lazy-component"));
+const LazyComponent = Reblend.lazy(() => import('./components/lazy-component'));

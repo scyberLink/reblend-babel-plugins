@@ -1,3 +1,3 @@
-/*#__PURE__*/Reblend.createElement(Foo, {
-  ref: "bar"
+/*#__PURE__*/ Reblend.construct(Foo, {
+  ref: 'bar',
 });

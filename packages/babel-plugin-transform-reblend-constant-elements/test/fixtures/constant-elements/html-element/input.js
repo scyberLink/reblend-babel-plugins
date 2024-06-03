@@ -3,5 +3,9 @@ function render() {
 }
 
 function render() {
-  return <div className="foo"><input type="checkbox" checked={true} /></div>;
+  return (
+    <div className="foo">
+      <input type="checkbox" checked={true} />
+    </div>
+  );
 }

@@ -1,3 +1,3 @@
-/*#__PURE__*/Reblend.createElement("div", {
-  attr: /*#__PURE__*/Reblend.createElement("div", null)
+/*#__PURE__*/ Reblend.construct('div', {
+  attr: /*#__PURE__*/ Reblend.construct('div', null),
 });

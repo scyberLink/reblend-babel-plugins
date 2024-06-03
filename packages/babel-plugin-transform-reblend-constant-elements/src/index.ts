@@ -1,6 +1,6 @@
-import { declare } from "@babel/helper-plugin-utils";
-import { types as t, template } from "@babel/core";
-import type { Visitor, Scope, NodePath } from "@babel/core";
+import { declare } from '@babel/helper-plugin-utils';
+import { types as t, template } from '@babel/core';
+import type { Visitor, Scope, NodePath } from '@babel/core';
 
 export interface Options {
   allowMutablePropsOnTags?: null | string[];
@@ -22,7 +22,7 @@ export default declare((api, options: Options) => {
     !Array.isArray(allowMutablePropsOnTags)
   ) {
     throw new Error(
-      ".allowMutablePropsOnTags must be an array, null, or undefined.",
+      '.allowMutablePropsOnTags must be an array, null, or undefined.'
     );
   }
 
@@ -31,10 +31,10 @@ export default declare((api, options: Options) => {
 
   function declares(node: t.Identifier | t.JSXIdentifier, scope: Scope) {
     if (
-      t.isJSXIdentifier(node, { name: "this" }) ||
-      t.isJSXIdentifier(node, { name: "arguments" }) ||
-      t.isJSXIdentifier(node, { name: "super" }) ||
-      t.isJSXIdentifier(node, { name: "new" })
+      t.isJSXIdentifier(node, { name: 'this' }) ||
+      t.isJSXIdentifier(node, { name: 'arguments' }) ||
+      t.isJSXIdentifier(node, { name: 'super' }) ||
+      t.isJSXIdentifier(node, { name: 'new' })
     ) {
       const { path } = scope;
       return path.isFunctionParent() && !path.isArrowFunctionExpression();
@@ -99,7 +99,7 @@ export default declare((api, options: Options) => {
 
       // Elements with refs are not safe to hoist.
       if (
-        path.isJSXIdentifier({ name: "ref" }) &&
+        path.isJSXIdentifier({ name: 'ref' }) &&
         path.parentPath.isJSXAttribute({ name: path.node })
       ) {
         stop();
@@ -147,7 +147,7 @@ export default declare((api, options: Options) => {
         if (
           mutablePropsAllowed ||
           value === null ||
-          (typeof value !== "object" && typeof value !== "function")
+          (typeof value !== 'object' && typeof value !== 'function')
         ) {
           // It evaluated to an immutable value, so we can hoist it.
           skip();
@@ -169,7 +169,7 @@ export default declare((api, options: Options) => {
   const hoistingVisitor = { ...immutabilityVisitor, ...targetScopeVisitor };
 
   return {
-    name: "transform-reblend-constant-elements",
+    name: 'transform-reblend-constant-elements',
 
     visitor: {
       JSXElement(path) {
@@ -226,9 +226,9 @@ export default declare((api, options: Options) => {
           currentScope = currentScope.parent;
           if (!currentScope) {
             throw new Error(
-              "Internal @babel/plugin-transform-reblend-constant-elements error: " +
-                "targetScope must be an ancestor of jsxScope. " +
-                "This is a Babel bug, please report it.",
+              'Internal babel-plugin-transform-reblend-constant-elements error: ' +
+                'targetScope must be an ancestor of jsxScope. ' +
+                'This is a Babel bug, please report it.'
             );
           }
         }

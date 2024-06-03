@@ -1,1 +1,1 @@
-<Foo key={"foo" + "baz"} data-value="bar" />
+<Foo key={'foo' + 'baz'} data-value="bar" />;

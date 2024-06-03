@@ -1,4 +1,4 @@
-import { jsx as _jsx } from "reblend/jsx-runtime";
-/*#__PURE__*/_jsx(Component, {
-  constructor: "foo"
+import { jsx as _jsx } from 'reblend/jsx-runtime';
+/*#__PURE__*/ _jsx(Component, {
+  constructor: 'foo',
 });

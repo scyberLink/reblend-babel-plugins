@@ -1,4 +1,8 @@
-/*#__PURE__*/Reblend.createElement("p", {
-  __proto__: null,
-  class: "bar"
-}, "text");
+/*#__PURE__*/ Reblend.construct(
+  'p',
+  {
+    __proto__: null,
+    class: 'bar',
+  },
+  'text'
+);

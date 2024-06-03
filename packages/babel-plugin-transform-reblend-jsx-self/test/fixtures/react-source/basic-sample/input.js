@@ -1,1 +1,1 @@
-var x = <sometag />
+var x = <sometag />;

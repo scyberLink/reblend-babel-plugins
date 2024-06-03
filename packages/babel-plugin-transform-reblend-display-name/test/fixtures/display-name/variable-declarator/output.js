@@ -1,6 +1,6 @@
 var foo = createReblendClass({
-  displayName: "foo"
+  displayName: 'foo',
 });
 var bar = Reblend.createClass({
-  displayName: "bar"
+  displayName: 'bar',
 });

@@ -4,9 +4,14 @@ const AppItem = () => {
 };
 export default class App extends Reblend.Component {
   render() {
-    return _div2 || (_div2 = <div>
-        <p>Parent</p>
-        <AppItem />
-      </div>);
+    return (
+      _div2 ||
+      (_div2 = (
+        <div>
+          <p>Parent</p>
+          <AppItem />
+        </div>
+      ))
+    );
   }
 }

@@ -4,7 +4,7 @@ function render(text) {
   };
 }
 
-var Foo2 = require("Foo");
+var Foo2 = require('Foo');
 
 function createComponent(text) {
   return function render() {

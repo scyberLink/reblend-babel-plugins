@@ -1,8 +1,8 @@
-function AComponent () {
-  const CComponent = () => <div/>
-  return <BComponent/>
+function AComponent() {
+  const CComponent = () => <div />;
+  return <BComponent />;
 
-  function BComponent () {
-    return <CComponent/>
+  function BComponent() {
+    return <CComponent />;
   }
 }

@@ -1,1 +1,1 @@
-Reblend.createElement(Namespace.Component, null);
+Reblend.construct(Namespace.Component, null);

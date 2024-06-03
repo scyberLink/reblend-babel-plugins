@@ -1,1 +1,1 @@
-/*#__PURE__*/Reblend.createElement("font-face", null);
+/*#__PURE__*/ Reblend.construct('font-face', null);

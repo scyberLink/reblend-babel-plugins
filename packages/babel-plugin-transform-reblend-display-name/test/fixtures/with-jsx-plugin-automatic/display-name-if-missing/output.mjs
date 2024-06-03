@@ -1,12 +1,12 @@
 var Whateva = Reblend.createClass({
-  displayName: "Whatever",
+  displayName: 'Whatever',
   render: function render() {
     return null;
-  }
+  },
 });
 var Bar = Reblend.createClass({
-  "displayName": "Ba",
+  displayName: 'Ba',
   render: function render() {
     return null;
-  }
+  },
 });

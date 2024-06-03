@@ -1,13 +1,11 @@
-var x =
+var x = (
   <div>
     foo
-    {"bar"}
+    {'bar'}
     baz
-    <div>
-      buz
-      bang
-    </div>
+    <div>buz bang</div>
     qux
     {null}
     quack
   </div>
+);

@@ -1,10 +1,9 @@
 function render() {
-    const nodes = [];
+  const nodes = [];
 
-    for(let i = 0; i < 5; i++) {
-        nodes.push(<div>{i}</div>)
-    }
+  for (let i = 0; i < 5; i++) {
+    nodes.push(<div>{i}</div>);
+  }
 
-    return nodes;
+  return nodes;
 }
-  

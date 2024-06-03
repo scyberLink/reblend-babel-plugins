@@ -1,9 +1,9 @@
-/*#__PURE__*/Reblend.createElement("div", {
-  id: "w\xF4w"
+/*#__PURE__*/ Reblend.construct('div', {
+  id: 'w\xF4w',
 });
-/*#__PURE__*/Reblend.createElement("div", {
-  id: "\\w"
+/*#__PURE__*/ Reblend.construct('div', {
+  id: '\\w',
 });
-/*#__PURE__*/Reblend.createElement("div", {
-  id: "w < w"
+/*#__PURE__*/ Reblend.construct('div', {
+  id: 'w < w',
 });

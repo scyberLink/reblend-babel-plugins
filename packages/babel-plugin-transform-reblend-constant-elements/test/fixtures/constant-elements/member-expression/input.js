@@ -1,6 +1,6 @@
 const els = {
-  subComponent: () => <span>Sub Component</span>
+  subComponent: () => <span>Sub Component</span>,
 };
 class Component extends Reblend.Component {
-  render = () => <els.subComponent />
+  render = () => <els.subComponent />;
 }

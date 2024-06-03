@@ -1,6 +1,14 @@
-/*#__PURE__*/Reblend.createElement("p", babelHelpers.extends({
-  __proto__: null
-}), "text");
-/*#__PURE__*/Reblend.createElement("div", babelHelpers.extends({
-  "__proto__": null
-}), contents);
+/*#__PURE__*/ Reblend.construct(
+  'p',
+  babelHelpers.extends({
+    __proto__: null,
+  }),
+  'text'
+);
+/*#__PURE__*/ Reblend.construct(
+  'div',
+  babelHelpers.extends({
+    __proto__: null,
+  }),
+  contents
+);

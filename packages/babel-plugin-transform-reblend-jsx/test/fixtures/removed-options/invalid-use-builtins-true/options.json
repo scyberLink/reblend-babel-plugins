@@ -1,5 +1,5 @@
 {
   "BABEL_8_BREAKING": true,
   "plugins": [["transform-reblend-jsx", { "useBuiltIns": true }]],
-  "throws": "@babel/plugin-transform-reblend-jsx: Since \"useBuiltIns\" is removed in Babel 8, you can remove it from the config."
+  "throws": "babel-plugin-transform-reblend-jsx: Since \"useBuiltIns\" is removed in Babel 8, you can remove it from the config."
 }

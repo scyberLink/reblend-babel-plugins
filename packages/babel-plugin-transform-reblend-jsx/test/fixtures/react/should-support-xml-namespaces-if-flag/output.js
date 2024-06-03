@@ -1,3 +1,3 @@
-h("f:image", {
-  "n:attr": true
+h('f:image', {
+  'n:attr': true,
 });

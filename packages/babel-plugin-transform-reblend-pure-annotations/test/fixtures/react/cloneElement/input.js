@@ -1,3 +1,3 @@
 import Reblend from 'reblend';
 
-Reblend.cloneElement(Reblend.createElement('div'));
+Reblend.cloneElement(Reblend.construct('div'));

@@ -1,6 +1,5 @@
 function fn(Component) {
-
-  var data = "prop";
+  var data = 'prop';
 
   return () => <Component prop={data} />;
 }

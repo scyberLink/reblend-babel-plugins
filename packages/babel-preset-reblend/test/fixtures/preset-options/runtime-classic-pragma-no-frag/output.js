@@ -1,3 +1,3 @@
 /** @jsx jsx */
 
-const Foo = jsx(Reblend.Fragment, null);
+const Foo = jsx(Reblend, null);

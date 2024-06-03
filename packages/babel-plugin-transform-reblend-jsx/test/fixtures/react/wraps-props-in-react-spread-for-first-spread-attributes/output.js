@@ -1,5 +1,5 @@
-/*#__PURE__*/Reblend.createElement(Component, {
+/*#__PURE__*/ Reblend.construct(Component, {
   ...x,
   y: 2,
-  z: true
+  z: true,
 });

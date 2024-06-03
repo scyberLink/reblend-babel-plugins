@@ -1,3 +1,3 @@
-/* @jsxFrag Reblend.Fragment */
+/* @jsxFrag Reblend */
 /* @jsx h */
-h(Reblend.Fragment, null, "Test");
+h(Reblend, null, 'Test');

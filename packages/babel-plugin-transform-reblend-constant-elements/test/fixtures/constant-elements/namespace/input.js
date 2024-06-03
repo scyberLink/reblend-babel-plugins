@@ -1,7 +1,7 @@
-function AComponent () {
-  return <BComponent/>
+function AComponent() {
+  return <BComponent />;
 
-  function BComponent () {
-    return <n:CComponent />
+  function BComponent() {
+    return <n:CComponent />;
   }
 }

@@ -1,4 +1,4 @@
-import * as Reblend from "reblend";
+import * as Reblend from 'reblend';
 
 export default function Foo() {
   return <div />;

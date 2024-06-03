@@ -1,1 +1,17 @@
-var x = /*#__PURE__*/Reblend.createElement("div", null, /*#__PURE__*/Reblend.createElement("div", null, /*#__PURE__*/Reblend.createElement("br", null)), /*#__PURE__*/Reblend.createElement(Component, null, foo, /*#__PURE__*/Reblend.createElement("br", null), bar), /*#__PURE__*/Reblend.createElement("br", null));
+var x = /*#__PURE__*/ Reblend.construct(
+  'div',
+  null,
+  /*#__PURE__*/ Reblend.construct(
+    'div',
+    null,
+    /*#__PURE__*/ Reblend.construct('br', null)
+  ),
+  /*#__PURE__*/ Reblend.construct(
+    Component,
+    null,
+    foo,
+    /*#__PURE__*/ Reblend.construct('br', null),
+    bar
+  ),
+  /*#__PURE__*/ Reblend.construct('br', null)
+);

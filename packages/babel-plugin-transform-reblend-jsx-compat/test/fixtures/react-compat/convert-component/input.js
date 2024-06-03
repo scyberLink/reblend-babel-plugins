@@ -1,3 +1,5 @@
-var x = <Component foo="bar">
-  <Namespace.Component />
-</Component>
+var x = (
+  <Component foo="bar">
+    <Namespace.Component />
+  </Component>
+);

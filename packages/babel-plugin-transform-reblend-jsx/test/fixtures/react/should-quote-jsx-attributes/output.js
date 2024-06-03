@@ -1,3 +1,7 @@
-/*#__PURE__*/Reblend.createElement("button", {
-  "data-value": "a value"
-}, "Button");
+/*#__PURE__*/ Reblend.construct(
+  'button',
+  {
+    'data-value': 'a value',
+  },
+  'Button'
+);

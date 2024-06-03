@@ -1,2 +1,2 @@
 import { createFactory } from 'reblend';
-const div = /*#__PURE__*/createFactory('div');
+const div = /*#__PURE__*/ createFactory('div');

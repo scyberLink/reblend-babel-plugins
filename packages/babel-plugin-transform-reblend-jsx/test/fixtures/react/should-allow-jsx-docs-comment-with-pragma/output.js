@@ -2,4 +2,4 @@
  * @jsx jsx
  */
 
-jsx("foo", null);
+jsx('foo', null);

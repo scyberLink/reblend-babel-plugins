@@ -1,6 +1,6 @@
 export default Reblend.createClass({
-  displayName: "input",
+  displayName: 'input',
   render: function render() {
     return null;
-  }
+  },
 });

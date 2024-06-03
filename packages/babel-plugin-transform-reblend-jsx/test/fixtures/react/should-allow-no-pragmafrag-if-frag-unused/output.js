@@ -1,3 +1,3 @@
 /** @jsx dom */
 
-dom("div", null, "no fragment is used");
+dom('div', null, 'no fragment is used');

@@ -15,5 +15,5 @@
     "allowImportingTsExtensions": true,
     "moduleResolution": "nodenext"
   },
-  "include": ["packages"]
+  "include": ["packages", "lib"]
 }

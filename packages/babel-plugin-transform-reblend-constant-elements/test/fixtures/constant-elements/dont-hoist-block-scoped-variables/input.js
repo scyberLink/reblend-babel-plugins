@@ -1,6 +1,6 @@
 function render(flag) {
   if (flag) {
-    let bar = "bar";
+    let bar = 'bar';
 
     [].map(() => bar);
 

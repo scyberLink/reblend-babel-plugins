@@ -1,10 +1,18 @@
-/*#__PURE__*/Reblend.createElement("p", {
-  ...{
-    __proto__: null
-  }
-}, "text");
-/*#__PURE__*/Reblend.createElement("div", {
-  ...{
-    "__proto__": null
-  }
-}, contents);
+/*#__PURE__*/ Reblend.construct(
+  'p',
+  {
+    ...{
+      __proto__: null,
+    },
+  },
+  'text'
+);
+/*#__PURE__*/ Reblend.construct(
+  'div',
+  {
+    ...{
+      __proto__: null,
+    },
+  },
+  contents
+);

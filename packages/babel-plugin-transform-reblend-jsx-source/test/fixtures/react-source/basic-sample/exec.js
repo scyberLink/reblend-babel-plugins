@@ -1,7 +1,7 @@
 var actualP = transformAsync(
   'var x = <sometag />',
   Object.assign({}, opts, { filename: '/fake/path/mock.js' })
-)
+);
 
 var expected = `
 var _jsxFileName = "/fake/path/mock.js";

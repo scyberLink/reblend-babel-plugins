@@ -1,1 +1,3 @@
-<p __proto__={null} class="bar">text</p>;
+<p __proto__={null} class="bar">
+  text
+</p>;

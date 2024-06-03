@@ -1,3 +1,3 @@
-/* @jsxFrag Reblend.Fragment */
+/* @jsxFrag Reblend */
 /* @jsx h */
 <>Test</>;

@@ -1,21 +1,21 @@
-import { jsx as _jsx } from "reblend/jsx-runtime";
-/*#__PURE__*/_jsx("p", {
+import { jsx as _jsx } from 'reblend/jsx-runtime';
+/*#__PURE__*/ _jsx('p', {
   prop: true,
   prop: true,
-  children: "text"
+  children: 'text',
 });
-/*#__PURE__*/_jsx("p", {
+/*#__PURE__*/ _jsx('p', {
   prop,
   prop,
-  children: "text"
+  children: 'text',
 });
-/*#__PURE__*/_jsx("p", {
+/*#__PURE__*/ _jsx('p', {
   prop: true,
   prop,
-  children: "text"
+  children: 'text',
 });
-/*#__PURE__*/_jsx("p", {
+/*#__PURE__*/ _jsx('p', {
   prop,
   prop: true,
-  children: "text"
+  children: 'text',
 });

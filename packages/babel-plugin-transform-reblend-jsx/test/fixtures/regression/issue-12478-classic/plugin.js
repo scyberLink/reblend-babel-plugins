@@ -3,11 +3,11 @@ module.exports = ({ types: t }) => ({
     NumericLiteral(path) {
       path.replaceWith(
         t.jsxElement(
-          t.jsxOpeningElement(t.jsxIdentifier("p"), []),
-          t.jsxClosingElement(t.jsxIdentifier("p")),
+          t.jsxOpeningElement(t.jsxIdentifier('p'), []),
+          t.jsxClosingElement(t.jsxIdentifier('p')),
           []
         )
       );
-    }
-  }
+    },
+  },
 });

@@ -1,4 +1,4 @@
-var Foo = require("Foo");
+var Foo = require('Foo');
 
 function render() {
   return <Foo />;

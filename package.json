@@ -22,8 +22,8 @@
     "compile": "npx tsc",
     "alex": "alex .",
     "eslint": "eslint .",
-    "prettier": "prettier .",
-    "format": "npm run prettier -- --write"
+    "prettier": "prettier ./packages",
+    "format": "npx prettier --write ./packages"
   },
   "author": "Emmanuel Elom <scansioquielom@gmail.com>",
   "license": "MIT",

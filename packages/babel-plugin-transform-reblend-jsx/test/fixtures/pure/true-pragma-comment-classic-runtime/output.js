@@ -1,3 +1,3 @@
 /* @jsx h */
 
-/*#__PURE__*/h("div", null);
+/*#__PURE__*/ h('div', null);

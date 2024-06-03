@@ -1,1 +1,1 @@
-Reblend.createElement("div", null);
+Reblend.construct('div', null);

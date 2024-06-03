@@ -1,10 +1,15 @@
 var _div, _div2;
 export default class App extends Reblend.Component {
   render() {
-    return _div || (_div = <div>
-        <p>Parent</p>
-        <AppItem />
-      </div>);
+    return (
+      _div ||
+      (_div = (
+        <div>
+          <p>Parent</p>
+          <AppItem />
+        </div>
+      ))
+    );
   }
 }
 const AppItem = () => {

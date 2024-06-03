@@ -1,5 +1,3 @@
-function render(title= '') {
-  return () => (
-    <Component title={title} />
-  );
+function render(title = '') {
+  return () => <Component title={title} />;
 }

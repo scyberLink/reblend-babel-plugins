@@ -1,7 +1,7 @@
 class A {
-    render() {
-        return <B />
-    }
+  render() {
+    return <B />;
+  }
 }
 
 export default class B {}

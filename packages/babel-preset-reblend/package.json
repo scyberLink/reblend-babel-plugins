@@ -18,10 +18,10 @@
   "dependencies": {
     "@babel/helper-plugin-utils": "workspace:^",
     "@babel/helper-validator-option": "workspace:^",
-    "@babel/plugin-transform-reblend-display-name": "workspace:^",
-    "@babel/plugin-transform-reblend-jsx": "workspace:^",
-    "@babel/plugin-transform-reblend-jsx-development": "workspace:^",
-    "@babel/plugin-transform-reblend-pure-annotations": "workspace:^"
+    "babel-plugin-transform-reblend-display-name": "workspace:^",
+    "babel-plugin-transform-reblend-jsx": "workspace:^",
+    "babel-plugin-transform-reblend-jsx-development": "workspace:^",
+    "babel-plugin-transform-reblend-pure-annotations": "workspace:^"
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0-0"

@@ -1,3 +1,6 @@
-/*#__PURE__*/Reblend.createElement(Component, babelHelpers.extends({}, props, {
-  sound: "moo"
-}));
+/*#__PURE__*/ Reblend.construct(
+  Component,
+  babelHelpers.extends({}, props, {
+    sound: 'moo',
+  })
+);

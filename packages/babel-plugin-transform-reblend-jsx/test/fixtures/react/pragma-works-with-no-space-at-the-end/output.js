@@ -1,2 +1,2 @@
 /* @jsx foo*/
-foo("div", null, "Hi");
+foo('div', null, 'Hi');

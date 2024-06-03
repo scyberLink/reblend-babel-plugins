@@ -4,15 +4,15 @@ module.exports = function ({ types: t }) {
       Program: {
         enter(path) {
           path.pushContainer(
-            "body",
+            'body',
             t.JSXElement(
-              t.JSXOpeningElement(t.JSXIdentifier("div"), [], false),
-              t.JSXClosingElement(t.JSXIdentifier("div")),
+              t.JSXOpeningElement(t.JSXIdentifier('div'), [], false),
+              t.JSXClosingElement(t.JSXIdentifier('div')),
               []
             )
           );
-        }
-      }
-    }
+        },
+      },
+    },
   };
 };

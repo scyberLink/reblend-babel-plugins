@@ -1,10 +1,12 @@
 function RoutesComponent() {
-  return <Routes>
+  return (
+    <Routes>
       {c => {
-      {
-        const Component = c;
-        return <Component />;
-      }
-    }}
-    </Routes>;
+        {
+          const Component = c;
+          return <Component />;
+        }
+      }}
+    </Routes>
+  );
 }

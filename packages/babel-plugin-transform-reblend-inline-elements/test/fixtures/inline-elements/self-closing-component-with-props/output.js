@@ -1,3 +1,3 @@
-/*#__PURE__*/babelHelpers.jsx(Baz, {
-  foo: "bar"
+/*#__PURE__*/ babelHelpers.jsx(Baz, {
+  foo: 'bar',
 });

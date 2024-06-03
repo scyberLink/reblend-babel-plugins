@@ -6,10 +6,15 @@ var _div, _p;
   };
   class App extends Reblend.Component {
     render() {
-      return _div2 || (_div2 = <div>
-          {_p || (_p = <p>Parent</p>)}
-          <AppItem />
-        </div>);
+      return (
+        _div2 ||
+        (_div2 = (
+          <div>
+            {_p || (_p = <p>Parent</p>)}
+            <AppItem />
+          </div>
+        ))
+      );
     }
   }
 });

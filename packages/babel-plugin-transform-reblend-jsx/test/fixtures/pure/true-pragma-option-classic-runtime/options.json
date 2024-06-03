@@ -1,5 +1,8 @@
 {
   "plugins": [
-    ["transform-reblend-jsx", { "pragma": "h", "pure": true, "runtime": "classic" }]
+    [
+      "transform-reblend-jsx",
+      { "pragma": "h", "pure": true, "runtime": "classic" }
+    ]
   ]
 }

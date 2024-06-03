@@ -12,11 +12,11 @@
  *
  * <sometag __self={this} />
  */
-import { declare } from "@babel/helper-plugin-utils";
-import { types as t } from "@babel/core";
-import type { Visitor, NodePath } from "@babel/core";
+import { declare } from '@babel/helper-plugin-utils';
+import { types as t } from '@babel/core';
+import type { Visitor, NodePath } from '@babel/core';
 
-const TRACE_ID = "__self";
+const TRACE_ID = '__self';
 
 /**
  * Finds the closest parent function that provides `this`. Specifically, this looks for
@@ -25,7 +25,7 @@ const TRACE_ID = "__self";
  * Derived from `Scope#getFunctionParent`
  */
 function getThisFunctionParent(
-  path: NodePath<t.JSXOpeningElement>,
+  path: NodePath<t.JSXOpeningElement>
 ): NodePath<Exclude<t.FunctionParent, t.ArrowFunctionExpression>> | null {
   let scope = path.scope;
   do {
@@ -59,13 +59,13 @@ function isThisAllowed(path: NodePath<t.JSXOpeningElement>) {
     return true;
   }
   // Current node is within a method, so we need to check if the method is a constructor.
-  if (parentMethodOrFunction.node.kind !== "constructor") {
+  if (parentMethodOrFunction.node.kind !== 'constructor') {
     // We are not in a constructor, therefore it is always fine to use `this`.
     return true;
   }
   // Now we are in a constructor. If it is a derived class, we do not reference `this`.
   return !isDerivedClass(
-    parentMethodOrFunction.parentPath.parentPath as NodePath<t.Class>,
+    parentMethodOrFunction.parentPath.parentPath as NodePath<t.Class>
   );
 }
 
@@ -86,7 +86,7 @@ export default declare(api => {
   };
 
   return {
-    name: "transform-reblend-jsx-self",
+    name: 'transform-reblend-jsx-self',
     visitor: {
       Program(path) {
         path.traverse(visitor);

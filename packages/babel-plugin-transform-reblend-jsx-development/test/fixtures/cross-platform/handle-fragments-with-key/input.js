@@ -1,1 +1,1 @@
-var x = <Reblend.Fragment key="foo"></Reblend.Fragment>;
+var x = <Reblend key="foo"></Reblend>;
