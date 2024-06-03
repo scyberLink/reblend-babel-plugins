@@ -1,0 +1,3 @@
+{
+  "plugins": [["transform-reblend-jsx", { "pragma": "dom", "runtime": "classic" }]]
+}

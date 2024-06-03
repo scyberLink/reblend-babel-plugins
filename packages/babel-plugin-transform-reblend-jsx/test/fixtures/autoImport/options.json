@@ -1,0 +1,4 @@
+{
+  "plugins": [["transform-reblend-jsx", { "runtime": "automatic" }]],
+  "sourceType": "module"
+}

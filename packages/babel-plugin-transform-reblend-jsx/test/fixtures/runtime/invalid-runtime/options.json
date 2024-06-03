@@ -1,0 +1,4 @@
+{
+  "plugins": [["transform-reblend-jsx", { "runtime": "invalidOption" }]],
+  "throws": "Runtime must be either \"classic\" or \"automatic\"."
+}

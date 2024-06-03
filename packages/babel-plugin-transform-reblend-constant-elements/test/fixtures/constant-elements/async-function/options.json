@@ -1,0 +1,7 @@
+{
+  "plugins": [
+    "transform-async-to-generator",
+    "transform-reblend-constant-elements",
+    "syntax-jsx"
+  ]
+}

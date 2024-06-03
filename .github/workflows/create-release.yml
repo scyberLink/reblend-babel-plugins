@@ -1,0 +1,48 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+      - run: npm install
+      - run: npm run compile
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set tag and release names
+        id: set_names
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          CODENAME=$(jq -r '.codename // empty' package.json) # Use empty if codename not found
+          echo "tag_name=v$VERSION" >> $GITHUB_OUTPUT
+          echo "release_name=$CODENAME" >> $GITHUB_OUTPUT
+
+      - name: Create tag
+        run: git tag ${{ steps.set_names.outputs.tag_name }}
+
+      - name: Push tag
+        run: git push origin ${{ steps.set_names.outputs.tag_name }}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.set_names.outputs.tag_name }}
+          release_name: ${{ steps.set_names.outputs.release_name }}

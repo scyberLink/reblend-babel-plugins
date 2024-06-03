@@ -1,0 +1,7 @@
+{
+  "plugins": [
+    "syntax-jsx",
+    "transform-reblend-constant-elements",
+    "transform-object-rest-spread"
+  ]
+}

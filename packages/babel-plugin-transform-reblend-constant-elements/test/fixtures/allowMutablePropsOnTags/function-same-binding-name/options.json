@@ -1,0 +1,9 @@
+{
+  "plugins": [
+    [
+      "transform-reblend-constant-elements",
+      { "allowMutablePropsOnTags": ["Counter"] }
+    ],
+    "syntax-jsx"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "plugins": [
+    [
+      "transform-reblend-jsx",
+      {
+        "autoImport": "namedExports",
+        "runtime": "automatic"
+      }
+    ]
+  ]
+}

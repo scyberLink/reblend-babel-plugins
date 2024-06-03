@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "lib": ["dom", "dom.iterable", "ESNext"],
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "outDir": "./dist",
+    "noImplicitAny": false,
+    "declaration": true,
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "nodenext"
+  },
+  "include": ["packages"]
+}

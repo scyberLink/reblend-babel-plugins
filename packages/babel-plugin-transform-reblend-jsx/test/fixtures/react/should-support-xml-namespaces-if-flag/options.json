@@ -1,0 +1,12 @@
+{
+  "plugins": [
+    [
+      "transform-reblend-jsx",
+      {
+        "pragma": "h",
+        "runtime": "classic",
+        "throwIfNamespace": false
+      }
+    ]
+  ]
+}

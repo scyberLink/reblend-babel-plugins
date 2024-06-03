@@ -1,0 +1,4 @@
+{
+  "BABEL_8_BREAKING": false,
+  "plugins": [["transform-reblend-jsx-development", { "runtime": "classic" }]]
+}

@@ -1,0 +1,7 @@
+{
+  "plugins": [
+    "syntax-jsx",
+    ["transform-reblend-jsx", { "runtime": "classic" }],
+    "transform-arrow-functions"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "plugins": [
+    "syntax-jsx",
+    "transform-reblend-constant-elements",
+    ["transform-class-properties", { "loose": true }]
+  ]
+}

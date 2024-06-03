@@ -1,0 +1,7 @@
+{
+  "plugins": [
+    "syntax-jsx",
+    "transform-reblend-inline-elements",
+    ["transform-reblend-jsx", { "runtime": "classic" }]
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "plugins": [
+    "transform-reblend-jsx-development",
+    "transform-reblend-display-name",
+    "transform-arrow-functions"
+  ]
+}

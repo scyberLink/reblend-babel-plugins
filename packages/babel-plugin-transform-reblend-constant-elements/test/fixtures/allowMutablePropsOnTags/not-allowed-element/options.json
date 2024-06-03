@@ -1,0 +1,9 @@
+{
+  "plugins": [
+    [
+      "transform-reblend-constant-elements",
+      { "allowMutablePropsOnTags": ["FormattedNumber"] }
+    ],
+    "syntax-jsx"
+  ]
+}
