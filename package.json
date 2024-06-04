@@ -51,5 +51,8 @@
   },
   "dependencies": {
     "eslint-config-reblend-app": "^7.0.5"
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
