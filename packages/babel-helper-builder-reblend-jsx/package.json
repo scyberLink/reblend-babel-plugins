@@ -1,6 +1,6 @@
 {
-  "name": "@babel/helper-builder-reblend-jsx",
-  "version": "7.24.7",
+  "name": "babel-helper-builder-reblend-jsx",
+  "version": "7.24.8",
   "description": "Helper function to build reblend jsx",
   "repository": {
     "type": "git",
@@ -55,5 +55,6 @@
     },
     "./package.json": "./package.json"
   },
-  "type": "module"
+  "type": "module",
+  "gitHead": "80fd309c6e52bb86a65fb9c24f8c491a087e3a10"
 }

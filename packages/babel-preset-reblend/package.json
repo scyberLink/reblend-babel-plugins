@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-reblend",
-  "version": "7.24.7",
+  "version": "7.24.8",
   "description": "Babel preset for all Reblend plugins.",
   "author": "Emmanuel Elom <scansioquielom@gmail.com>, The Babel Team (https://babel.dev/team)",
   "homepage": "https://babel.dev/docs/en/next/babel-preset-reblend",
@@ -58,5 +58,6 @@
     },
     "./package.json": "./package.json"
   },
-  "type": "module"
+  "type": "module",
+  "gitHead": "80fd309c6e52bb86a65fb9c24f8c491a087e3a10"
 }

@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-reblend-jsx-source",
-  "version": "7.24.7",
+  "version": "7.24.8",
   "description": "Add a __source prop to all JSX Elements",
   "repository": {
     "type": "git",
@@ -56,5 +56,6 @@
     },
     "./package.json": "./package.json"
   },
-  "type": "module"
+  "type": "module",
+  "gitHead": "80fd309c6e52bb86a65fb9c24f8c491a087e3a10"
 }
