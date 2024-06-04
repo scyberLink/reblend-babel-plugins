@@ -4,7 +4,7 @@
   "description": "Mark top-level Reblend method calls as pure for tree shaking",
   "repository": {
     "type": "git",
-    "url": "https://github.com/babel/babel.git",
+    "url": "https://github.com/scyberLink/reblend-babel-plugins.git",
     "directory": "packages/babel-plugin-transform-reblend-pure-annotations"
   },
   "license": "MIT",
@@ -12,6 +12,9 @@
     "access": "public"
   },
   "main": "./lib/index.js",
+  "scripts": {
+    "build": "npx tsc"
+  },
   "keywords": [
     "babel-plugin"
   ],

@@ -3,12 +3,11 @@
     "composite": true,
     "rootDir": ".",
     "target": "ESNext",
-    "module": "preserve",
+    "module": "ESNext",
     "lib": ["ESNext"],
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": true,
-    "declarationDir": "./dts",
     "moduleResolution": "Bundler",
     "esModuleInterop": true,
     "isolatedModules": true,
@@ -18,9 +17,8 @@
     "noImplicitThis": true,
     "noImplicitAny": false,
     "strictBindCallApply": true,
-    "incremental": true,
-    "outDir": "./dist"
+    "incremental": true
   },
-  "include": ["packages", "lib"],
+  "include": ["packages", "lib", "src"],
   "exclude": ["**/test/**"]
 }

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "codename": "infant",
   "description": "ReblendJs babel plugins",
-  "repository": "https://github.com/scyberLink/reblend-babel-plugins",
+  "repository": "https://github.com/scyberLink/reblend-babel-plugins.git",
   "keywords": [
     "ReblendJs",
     "Reative",
@@ -20,6 +20,8 @@
   "scripts": {
     "changelog": "lerna-changelog",
     "publish": "tasks/publish.sh",
+    "precompile": "node tasks/tsconfig.js",
+    "build": "lerna run build",
     "compile": "npx tsc",
     "alex": "alex .",
     "eslint": "eslint .",

@@ -4,7 +4,7 @@
   "description": "Turn JSX into Reblend Pre-0.12 function calls",
   "repository": {
     "type": "git",
-    "url": "https://github.com/babel/babel.git",
+    "url": "https://github.com/scyberLink/reblend-babel-plugins.git",
     "directory": "packages/babel-plugin-transform-reblend-jsx-compat"
   },
   "homepage": "https://babel.dev/docs/en/next/babel-plugin-transform-reblend-jsx-compat",
@@ -13,6 +13,9 @@
     "access": "public"
   },
   "main": "./lib/index.js",
+  "scripts": {
+    "build": "npx tsc"
+  },
   "keywords": [
     "babel-plugin"
   ],

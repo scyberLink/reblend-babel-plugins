@@ -11,10 +11,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/babel/babel.git",
+    "url": "https://github.com/scyberLink/reblend-babel-plugins.git",
     "directory": "packages/babel-preset-reblend"
   },
   "main": "./lib/index.js",
+  "scripts": {
+    "build": "npx tsc"
+  },
   "dependencies": {
     "@babel/helper-plugin-utils": "^7.24.6",
     "@babel/helper-validator-option": "^7.24.6",
