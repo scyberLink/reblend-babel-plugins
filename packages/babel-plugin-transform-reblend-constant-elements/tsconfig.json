@@ -2,14 +2,9 @@
 {
   "extends": [
     "../../tsconfig.base.json",
-    "../../tsconfig.paths.json"
+    
   ],
   "compilerOptions": {
     "outDir": "./lib"
   },
-  "include": [
-    "../../packages/babel-plugin-transform-reblend-constant-elements/src/**/*.ts",
-    "../../lib/globals.d.ts"
-  ],
-  "references": []
 }

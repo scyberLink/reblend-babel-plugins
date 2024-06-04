@@ -3,12 +3,11 @@
     "composite": true,
     "rootDir": ".",
     "target": "ESNext",
-    "module": "ESNext",
+    "module": "CommonJS",
     "lib": ["ESNext"],
     "declaration": true,
     "declarationMap": true,
     "emitDeclarationOnly": true,
-    "moduleResolution": "Bundler",
     "esModuleInterop": true,
     "isolatedModules": true,
     "allowImportingTsExtensions": true,
@@ -16,8 +15,7 @@
     "resolveJsonModule": true,
     "noImplicitThis": true,
     "noImplicitAny": false,
-    "strictBindCallApply": true,
-    "incremental": true
+    "strictBindCallApply": true
   },
   "include": ["packages", "lib", "src"],
   "exclude": ["**/test/**"]
