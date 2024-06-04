@@ -14,12 +14,13 @@
   },
   "main": "./lib/index.js",
   "dependencies": {
-    "@babel/helper-annotate-as-pure": "workspace:^",
-    "@babel/types": "workspace:^"
+    "@babel/helper-annotate-as-pure": "latest",
+    "@babel/types": "latest",
+    "reblendjs": "^1.1.4"
   },
   "devDependencies": {
-    "@babel/core": "workspace:^",
-    "@babel/traverse": "workspace:^"
+    "@babel/core": "latest",
+    "@babel/traverse": "latest"
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0"

@@ -1,19 +1,25 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
+    "composite": true,
+    "rootDir": ".",
     "target": "ESNext",
-    "lib": ["dom", "dom.iterable", "ESNext"],
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "outDir": "./dist",
-    "noImplicitAny": false,
+    "module": "preserve",
+    "lib": ["ESNext"],
     "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "declarationDir": "./dts",
+    "moduleResolution": "Bundler",
+    "esModuleInterop": true,
+    "isolatedModules": true,
     "allowImportingTsExtensions": true,
-    "moduleResolution": "nodenext"
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "noImplicitThis": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": true,
+    "incremental": true
   },
-  "include": ["packages", "lib"]
+  "include": ["packages", "lib"],
+  "exclude": ["**/test/**"]
 }

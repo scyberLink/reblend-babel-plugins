@@ -17,7 +17,6 @@ import {
   nullLiteral,
   objectExpression,
   objectProperty,
-  reblend,
   spreadElement,
   stringLiteral,
   thisExpression,

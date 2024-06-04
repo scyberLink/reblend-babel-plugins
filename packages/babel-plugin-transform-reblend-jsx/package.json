@@ -17,19 +17,19 @@
     "babel-plugin"
   ],
   "dependencies": {
-    "@babel/helper-annotate-as-pure": "workspace:^",
-    "@babel/helper-module-imports": "workspace:^",
-    "@babel/helper-plugin-utils": "workspace:^",
-    "@babel/plugin-syntax-jsx": "workspace:^",
-    "@babel/types": "workspace:^"
+    "@babel/helper-annotate-as-pure": "latest",
+    "@babel/helper-module-imports": "latest",
+    "@babel/helper-plugin-utils": "latest",
+    "@babel/plugin-syntax-jsx": "latest",
+    "@babel/types": "latest"
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0-0"
   },
   "devDependencies": {
-    "@babel/core": "workspace:^",
-    "@babel/helper-plugin-test-runner": "workspace:^",
-    "@babel/traverse": "workspace:^"
+    "@babel/core": "latest",
+    "@babel/helper-plugin-test-runner": "latest",
+    "@babel/traverse": "latest"
   },
   "engines": {
     "node": ">=6.9.0"

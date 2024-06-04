@@ -16,15 +16,15 @@
     "babel-plugin"
   ],
   "dependencies": {
-    "@babel/helper-annotate-as-pure": "workspace:^",
-    "@babel/helper-plugin-utils": "workspace:^"
+    "@babel/helper-annotate-as-pure": "latest",
+    "@babel/helper-plugin-utils": "latest"
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0-0"
   },
   "devDependencies": {
-    "@babel/core": "workspace:^",
-    "@babel/helper-plugin-test-runner": "workspace:^"
+    "@babel/core": "latest",
+    "@babel/helper-plugin-test-runner": "latest"
   },
   "engines": {
     "node": ">=6.9.0"
