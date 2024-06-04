@@ -19,14 +19,11 @@
   "dependencies": {
     "@babel/helper-annotate-as-pure": "latest",
     "@babel/types": "latest",
-    "reblendjs": "^1.1.4"
+    "reblendjs": "^1.1.4",
+    "@babel/core": "latest"
   },
   "devDependencies": {
-    "@babel/core": "latest",
     "@babel/traverse": "latest"
-  },
-  "peerDependencies": {
-    "@babel/core": "^7.0.0"
   },
   "engines": {
     "node": ">=6.9.0"

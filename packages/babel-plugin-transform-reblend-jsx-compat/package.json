@@ -21,13 +21,10 @@
   ],
   "dependencies": {
     "@babel/helper-plugin-utils": "latest",
+    "@babel/core": "latest",
     "babel-helper-builder-reblend-jsx": "latest"
   },
-  "peerDependencies": {
-    "@babel/core": "^7.0.0-0"
-  },
   "devDependencies": {
-    "@babel/core": "latest",
     "@babel/helper-plugin-test-runner": "latest"
   },
   "engines": {

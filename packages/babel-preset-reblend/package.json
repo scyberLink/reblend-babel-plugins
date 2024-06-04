@@ -26,9 +26,6 @@
     "babel-plugin-transform-reblend-jsx-development": "latest",
     "babel-plugin-transform-reblend-pure-annotations": "latest"
   },
-  "peerDependencies": {
-    "@babel/core": "^7.0.0-0"
-  },
   "devDependencies": {
     "@babel/core": "latest",
     "@babel/helper-plugin-test-runner": "latest"

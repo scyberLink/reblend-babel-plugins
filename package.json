@@ -17,8 +17,10 @@
   "files": [
     "dist"
   ],
+  "private": true,
   "scripts": {
     "changelog": "lerna-changelog",
+    "install:dep": "tasks/npm_install.sh",
     "publish": "tasks/publish.sh",
     "precompile": "node tasks/tsconfig.js",
     "build": "lerna run build",
@@ -52,7 +54,7 @@
     ]
   },
   "dependencies": {
-    "eslint-config-reblend-app": "^7.0.5"
+    "eslint-config-reblend-app": "latest"
   },
   "workspaces": [
     "packages/*"

@@ -20,13 +20,10 @@
     "babel-plugin"
   ],
   "dependencies": {
-    "@babel/helper-plugin-utils": "latest"
-  },
-  "peerDependencies": {
-    "@babel/core": "^7.0.0-0"
+    "@babel/helper-plugin-utils": "latest",
+    "@babel/core": "latest"
   },
   "devDependencies": {
-    "@babel/core": "latest",
     "@babel/helper-plugin-test-runner": "latest"
   },
   "engines": {
