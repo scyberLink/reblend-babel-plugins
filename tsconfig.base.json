@@ -18,7 +18,8 @@
     "noImplicitThis": true,
     "noImplicitAny": false,
     "strictBindCallApply": true,
-    "incremental": true
+    "incremental": true,
+    "outDir": "./dist"
   },
   "include": ["packages", "lib"],
   "exclude": ["**/test/**"]

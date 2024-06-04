@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "codename": "infant",
   "description": "ReblendJs babel plugins",
+  "repository": "https://github.com/scyberLink/reblend-babel-plugins",
   "keywords": [
     "ReblendJs",
     "Reative",
