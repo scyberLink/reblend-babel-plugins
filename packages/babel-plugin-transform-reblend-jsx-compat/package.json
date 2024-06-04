@@ -20,7 +20,7 @@
     "babel-plugin"
   ],
   "dependencies": {
-    "@babel/helper-builder-reblend-jsx": "latest",
+    "babel-helper-builder-reblend-jsx": "latest",
     "@babel/helper-plugin-utils": "latest"
   },
   "peerDependencies": {

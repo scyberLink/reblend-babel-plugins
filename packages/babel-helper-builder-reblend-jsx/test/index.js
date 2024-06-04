@@ -4,7 +4,7 @@ import * as t from "@babel/types";
 
 const helper = _helper.default || _helper;
 
-describe("@babel/helper-builder-reblend-jsx", () => {
+describe("babel-helper-builder-reblend-jsx", () => {
   // The builder-reblend-jsx usage in transform-reblend-jsx 7.9.0
   // https://github.com/babel/babel/blob/v7.9.0/packages/babel-plugin-transform-reblend-jsx/src/transform-classic.js#L43
   it("should pass post with plugin pass", () => {

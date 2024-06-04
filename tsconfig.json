@@ -4,7 +4,6 @@
   "compilerOptions": {
     "skipLibCheck": false
   },
-  "include": ["packages/babel-parser/typings/*.d.ts", "dts/**/*.d.ts"],
   "references": [
     {
       "path": "./packages/babel-helper-builder-reblend-jsx"

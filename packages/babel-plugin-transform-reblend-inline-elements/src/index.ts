@@ -1,5 +1,5 @@
 import { declare } from '@babel/helper-plugin-utils';
-import helper from '@babel/helper-builder-reblend-jsx';
+import helper from 'babel-helper-builder-reblend-jsx';
 import { types as t } from '@babel/core';
 
 export default declare(api => {

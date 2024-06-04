@@ -12,7 +12,7 @@ function getTsPkgs(subRoot) {
     .readdirSync(resolve(rootURL, subRoot))
     .filter(name => name.startsWith('babel-'))
     .map(name => ({
-      name: name/* .replace(/^babel-/, '@babel/') */,
+      name: name /* .replace(/^babel-/, '@babel/') */,
       relative: `./${subRoot}/${name}`,
     }))
     .filter(({ name, relative }) => {
@@ -205,21 +205,16 @@ function buildTSConfig(pkgs, allDeps) {
 
   return {
     extends: ['../../tsconfig.base.json', '../../tsconfig.paths.json'],
+    compilerOptions: {
+      outDir: './lib',
+    },
     include: pkgs
       .map(({ name, relative }) => {
         return name === '@babel/eslint-parser'
           ? `../../${relative.slice(2)}/src/**/*.cts`
           : `../../${relative.slice(2)}/src/**/*.ts`;
       })
-      .concat(
-        [
-          '../../lib/globals.d.ts',
-          '../../scripts/repo-utils/*.d.ts',
-          pkgs.some(p => p.name === '@babel/parser')
-            ? '../../packages/babel-parser/typings/*.d.ts'
-            : null,
-        ].filter(Boolean)
-      ),
+      .concat(['../../lib/globals.d.ts'].filter(Boolean)),
     references: Array.from(referencePaths, path => ({ path })),
   };
 }
@@ -255,7 +250,6 @@ fs.writeFileSync(
         compilerOptions: {
           skipLibCheck: false,
         },
-        include: ['packages/babel-parser/typings/*.d.ts', 'dts/**/*.d.ts'],
         references: Array.from(new Set(projectsFolders.values()))
           .sort()
           .map(path => ({ path })),

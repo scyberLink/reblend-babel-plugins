@@ -1,7 +1,7 @@
 {
   "name": "babel-plugin-transform-reblend-display-name",
   "version": "7.24.9",
-  "description": "Add displayName to Reblend.createClass calls",
+  "description": "Add displayName to Reblend.construct calls",
   "repository": {
     "type": "git",
     "url": "https://github.com/scyberLink/reblend-babel-plugins.git",

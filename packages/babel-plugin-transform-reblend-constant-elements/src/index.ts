@@ -189,7 +189,7 @@ export default declare((api, options: Options) => {
           }
 
           const elementName = lastSegment.name;
-          // @ts-expect-error Fixme: allowMutablePropsOnTags should handle JSXNamespacedName
+          //  Fixme: allowMutablePropsOnTags should handle JSXNamespacedName
           mutablePropsAllowed = allowMutablePropsOnTags.includes(elementName);
         }
 

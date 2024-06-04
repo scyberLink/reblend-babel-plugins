@@ -548,7 +548,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
         }
       }
 
-      const children = t.reblend.buildChildren(path.node);
+      const children = t.react.buildChildren(path.node);
 
       let attribs: t.ObjectExpression;
 
@@ -620,7 +620,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
           children.length > 0
             ? [
                 buildChildrenProperty(
-                  //@ts-expect-error The children here contains JSXSpreadChild,
+                  // The children here contains JSXSpreadChild,
                   // which will be thrown later
                   children
                 ),
@@ -865,7 +865,7 @@ function makeSource(path: NodePath, state: PluginPass) {
     return path.scope.buildUndefinedNode();
   }
 
-  // @ts-expect-error todo: avoid mutating PluginPass
+  //  todo: avoid mutating PluginPass
   if (!state.fileNameIdentifier) {
     const { filename = '' } = state;
 
@@ -874,14 +874,14 @@ function makeSource(path: NodePath, state: PluginPass) {
       id: fileNameIdentifier,
       init: t.stringLiteral(filename),
     });
-    // @ts-expect-error todo: avoid mutating PluginPass
+    //  todo: avoid mutating PluginPass
     state.fileNameIdentifier = fileNameIdentifier;
   }
 
   return makeTrace(
     t.cloneNode(
-      // @ts-expect-error todo: avoid mutating PluginPass
-      state.fileNameIdentifier
+      //  todo: avoid mutating PluginPass
+      state.fileNameIdentifier as any
     ),
     location.start.line,
     location.start.column
