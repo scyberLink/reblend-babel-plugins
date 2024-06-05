@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-reblend-display-name",
-  "version": "7.24.10",
+  "version": "7.24.11",
   "description": "Add displayName to Reblend.construct calls",
   "repository": {
     "type": "git",
@@ -21,8 +21,8 @@
   ],
   "dependencies": {
     "@babel/core": "latest",
-    "@babel/types": "latest",
-    "@babel/helper-plugin-utils": "latest"
+    "@babel/helper-plugin-utils": "latest",
+    "@babel/types": "latest"
   },
   "devDependencies": {
     "@babel/helper-plugin-test-runner": "latest"

@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-reblend-inline-elements",
-  "version": "7.24.10",
+  "version": "7.24.11",
   "description": "Turn JSX elements into exploded Reblend objects",
   "repository": {
     "type": "git",
@@ -20,8 +20,8 @@
     "babel-plugin"
   ],
   "dependencies": {
-    "@babel/helper-plugin-utils": "latest",
     "@babel/core": "latest",
+    "@babel/helper-plugin-utils": "latest",
     "@babel/types": "latest",
     "babel-helper-builder-reblend-jsx": "latest"
   },

@@ -1,6 +1,6 @@
 {
   "name": "babel-helper-builder-reblend-jsx",
-  "version": "7.24.10",
+  "version": "7.24.11",
   "description": "Helper function to build reblend jsx",
   "repository": {
     "type": "git",
@@ -17,8 +17,8 @@
     "build": "npx tsc"
   },
   "dependencies": {
-    "@babel/helper-annotate-as-pure": "latest",
     "@babel/core": "latest",
+    "@babel/helper-annotate-as-pure": "latest",
     "@babel/types": "latest",
     "reblendjs": "^1.1.4"
   },
