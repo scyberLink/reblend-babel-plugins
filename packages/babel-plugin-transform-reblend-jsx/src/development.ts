@@ -1,4 +1,4 @@
-import createPlugin from './create-plugin.ts';
+import createPlugin from './create-plugin';
 
 export default createPlugin({
   name: 'transform-reblend-jsx/development',

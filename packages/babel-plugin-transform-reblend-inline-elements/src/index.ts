@@ -48,7 +48,7 @@ export default declare(api => {
       if (t.isObjectExpression(props)) {
         const keyIndex = props.properties.findIndex(prop =>
           // @ts-expect-error todo(flow->ts) key does not exist on SpreadElement
-          t.isIdentifier(prop.key, { name: 'key' })
+          t.isIdentifier(prop.key, { name: 'key' }),
         );
         if (keyIndex > -1) {
           // @ts-expect-error todo(flow->ts) value does not exist on ObjectMethod

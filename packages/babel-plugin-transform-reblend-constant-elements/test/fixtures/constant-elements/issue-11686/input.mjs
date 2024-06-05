@@ -8,7 +8,7 @@ function outer(arg) {
         <B keyB={valueB}>
           <C keyC={arg} />
         </B>
-      </A>
+      </A>,
     );
   }
 

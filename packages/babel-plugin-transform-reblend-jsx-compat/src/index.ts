@@ -23,9 +23,9 @@ export default declare(api => {
             t.memberExpression(
               t.memberExpression(t.identifier('Reblend'), t.identifier('DOM')),
               state.tagExpr,
-              t.isLiteral(state.tagExpr)
+              t.isLiteral(state.tagExpr),
             ),
-            state.args
+            state.args,
           );
         }
       },

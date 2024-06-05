@@ -43,7 +43,7 @@ function hasProto(node: t.ObjectExpression) {
     value =>
       t.isObjectProperty(value, { computed: false, shorthand: false }) &&
       (t.isIdentifier(value.key, { name: '__proto__' }) ||
-        t.isStringLiteral(value.key, { value: '__proto__' }))
+        t.isStringLiteral(value.key, { value: '__proto__' })),
   );
 }
 
@@ -76,8 +76,8 @@ export default function createPlugin({
       runtime: RUNTIME_DEFAULT = process.env.BABEL_8_BREAKING
         ? 'automatic'
         : development
-        ? 'automatic'
-        : 'classic',
+          ? 'automatic'
+          : 'classic',
 
       importSource: IMPORT_SOURCE_DEFAULT = DEFAULT.importSource,
       pragma: PRAGMA_DEFAULT = DEFAULT.pragma,
@@ -87,7 +87,7 @@ export default function createPlugin({
     if (process.env.BABEL_8_BREAKING) {
       if ('useSpread' in options) {
         throw new Error(
-          'babel-plugin-transform-reblend-jsx: Since Babel 8, an inline object with spread elements is always used, and the "useSpread" option is no longer available. Please remove it from your config.'
+          'babel-plugin-transform-reblend-jsx: Since Babel 8, an inline object with spread elements is always used, and the "useSpread" option is no longer available. Please remove it from your config.',
         );
       }
 
@@ -102,13 +102,13 @@ export default function createPlugin({
     "babel-plugin-transform-reblend-jsx"
     ["@babel/plugin-transform-object-rest-spread", { "loose": true, "useBuiltIns": ${useBuiltInsFormatted} }]
   ]
-}`
+}`,
         );
       }
 
       if (filter != null && RUNTIME_DEFAULT === 'automatic') {
         throw new Error(
-          'babel-plugin-transform-reblend-jsx: "filter" option can not be used with automatic runtime. If you are upgrading from Babel 7, please specify `runtime: "classic"`.'
+          'babel-plugin-transform-reblend-jsx: "filter" option can not be used with automatic runtime. If you are upgrading from Babel 7, please specify `runtime: "classic"`.',
         );
       }
     } else {
@@ -119,21 +119,21 @@ export default function createPlugin({
         if (typeof useSpread !== 'boolean') {
           throw new Error(
             'transform-reblend-jsx currently only accepts a boolean option for ' +
-              'useSpread (defaults to false)'
+              'useSpread (defaults to false)',
           );
         }
 
         if (typeof useBuiltIns !== 'boolean') {
           throw new Error(
             'transform-reblend-jsx currently only accepts a boolean option for ' +
-              'useBuiltIns (defaults to false)'
+              'useBuiltIns (defaults to false)',
           );
         }
 
         if (useSpread && useBuiltIns) {
           throw new Error(
             'transform-reblend-jsx currently only accepts useBuiltIns or useSpread ' +
-              'but not both'
+              'but not both',
           );
         }
       }
@@ -146,15 +146,15 @@ export default function createPlugin({
           attributes.push(
             t.jsxAttribute(
               t.jsxIdentifier('__self'),
-              t.jsxExpressionContainer(t.thisExpression())
-            )
+              t.jsxExpressionContainer(t.thisExpression()),
+            ),
           );
         }
         attributes.push(
           t.jsxAttribute(
             t.jsxIdentifier('__source'),
-            t.jsxExpressionContainer(makeSource(path, state))
-          )
+            t.jsxExpressionContainer(makeSource(path, state)),
+          ),
         );
         path.pushContainer('attributes', attributes);
       },
@@ -168,14 +168,14 @@ export default function createPlugin({
           if (throwIfNamespace) {
             throw path.buildCodeFrameError(
               `Namespace tags are not supported by default. Reblend's JSX doesn't support namespace tags. \
-You can set \`throwIfNamespace: false\` to bypass this warning.`
+You can set \`throwIfNamespace: false\` to bypass this warning.`,
             );
           }
         },
 
         JSXSpreadChild(path) {
           throw path.buildCodeFrameError(
-            'Spread children are not supported in Reblend.'
+            'Spread children are not supported in Reblend.',
           );
         },
 
@@ -195,7 +195,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
             if (file.ast.comments) {
               for (const comment of file.ast.comments) {
                 const sourceMatches = JSX_SOURCE_ANNOTATION_REGEX.exec(
-                  comment.value
+                  comment.value,
                 );
                 if (sourceMatches) {
                   source = sourceMatches[1];
@@ -203,7 +203,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
                 }
 
                 const runtimeMatches = JSX_RUNTIME_ANNOTATION_REGEX.exec(
-                  comment.value
+                  comment.value,
                 );
                 if (runtimeMatches) {
                   runtime = runtimeMatches[1];
@@ -215,7 +215,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
                   pragmaSet = true;
                 }
                 const jsxFragMatches = JSX_FRAG_ANNOTATION_REGEX.exec(
-                  comment.value
+                  comment.value,
                 );
                 if (jsxFragMatches) {
                   pragmaFrag = jsxFragMatches[1];
@@ -228,7 +228,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
             if (runtime === 'classic') {
               if (sourceSet) {
                 throw path.buildCodeFrameError(
-                  `importSource cannot be set when runtime is classic.`
+                  `importSource cannot be set when runtime is classic.`,
                 );
               }
 
@@ -242,7 +242,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
             } else if (runtime === 'automatic') {
               if (pragmaSet || pragmaFragSet) {
                 throw path.buildCodeFrameError(
-                  `pragma and pragmaFrag cannot be set when runtime is automatic.`
+                  `pragma and pragmaFrag cannot be set when runtime is automatic.`,
                 );
               }
 
@@ -257,7 +257,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
               set(state, 'defaultPure', source === DEFAULT.importSource);
             } else {
               throw path.buildCodeFrameError(
-                `Runtime must be either "classic" or "automatic".`
+                `Runtime must be either "classic" or "automatic".`,
               );
             }
 
@@ -356,7 +356,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
     function call(
       pass: PluginPass,
       name: string,
-      args: CallExpression['arguments']
+      args: CallExpression['arguments'],
     ) {
       const node = t.callExpression(get(pass, `id/${name}`)(), args);
       if (PURE_ANNOTATION ?? get(pass, 'defaultPure')) annotateAsPure(node);
@@ -390,7 +390,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
 
     function convertJSXIdentifier(
       node: t.JSXIdentifier | t.JSXMemberExpression | t.JSXNamespacedName,
-      parent: t.JSXOpeningElement | t.JSXMemberExpression
+      parent: t.JSXOpeningElement | t.JSXMemberExpression,
     ): t.ThisExpression | t.StringLiteral | t.MemberExpression | t.Identifier {
       if (t.isJSXIdentifier(node)) {
         if (node.name === 'this' && t.isReferenced(node, parent)) {
@@ -405,7 +405,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
       } else if (t.isJSXMemberExpression(node)) {
         return t.memberExpression(
           convertJSXIdentifier(node.object, node),
-          convertJSXIdentifier(node.property, node)
+          convertJSXIdentifier(node.property, node),
         );
       } else if (t.isJSXNamespacedName(node)) {
         /**
@@ -420,7 +420,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
     }
 
     function convertAttributeValue(
-      node: t.JSXAttribute['value'] | t.BooleanLiteral
+      node: t.JSXAttribute['value'] | t.BooleanLiteral,
     ) {
       if (t.isJSXExpressionContainer(node)) {
         return node.expression;
@@ -431,7 +431,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
 
     function accumulateAttribute(
       array: ObjectExpression['properties'],
-      attribute: NodePath<JSXAttribute | JSXSpreadAttribute>
+      attribute: NodePath<JSXAttribute | JSXSpreadAttribute>,
     ) {
       if (t.isJSXSpreadAttribute(attribute.node)) {
         const arg = attribute.node.argument;
@@ -447,12 +447,12 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
       const value = convertAttributeValue(
         attribute.node.name.name !== 'key'
           ? attribute.node.value || t.booleanLiteral(true)
-          : attribute.node.value
+          : attribute.node.value,
       );
 
       if (attribute.node.name.name === 'key' && value === null) {
         throw attribute.buildCodeFrameError(
-          'Please provide an explicit key value. Using "key" as a shorthand for "key={true}" is not allowed.'
+          'Please provide an explicit key value. Using "key" as a shorthand for "key={true}" is not allowed.',
         );
       }
 
@@ -471,7 +471,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
         attribute.node.name = t.stringLiteral(
           attribute.node.name.namespace.name +
             ':' +
-            attribute.node.name.name.name
+            attribute.node.name.name.name,
         );
       } else if (t.isValidIdentifier(attribute.node.name.name, false)) {
         // @ts-expect-error mutating AST
@@ -486,10 +486,10 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
           t.objectProperty(
             // @ts-expect-error The attribute.node.name is an Identifier now
             attribute.node.name,
-            value
+            value,
           ),
-          attribute.node
-        )
+          attribute.node,
+        ),
       );
       return array;
     }
@@ -533,7 +533,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
               const keyValue = convertAttributeValue(attr.node.value);
               if (keyValue === null) {
                 throw attr.buildCodeFrameError(
-                  'Please provide an explicit key value. Using "key" as a shorthand for "key={true}" is not allowed.'
+                  'Please provide an explicit key value. Using "key" as a shorthand for "key={true}" is not allowed.',
                 );
               }
 
@@ -557,7 +557,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
           attribsArray,
           //@ts-expect-error The children here contains JSXSpreadChild,
           // which will be thrown later
-          children
+          children,
         );
       } else {
         // attributes should never be null
@@ -572,7 +572,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
         // so we can eliminate the need for separate Babel plugins in Babel 8
         args.push(
           extracted.key ?? path.scope.buildUndefinedNode(),
-          t.booleanLiteral(children.length > 1)
+          t.booleanLiteral(children.length > 1),
         );
         if (extracted.__source) {
           args.push(extracted.__source);
@@ -591,7 +591,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
     // and ensures that props is always an object
     function buildJSXOpeningElementAttributes(
       attribs: NodePath<JSXAttribute | JSXSpreadAttribute>[],
-      children: Expression[]
+      children: Expression[],
     ) {
       const props = attribs.reduce(accumulateAttribute, []);
 
@@ -609,7 +609,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
     // Development: Reblend.jsxDEV(type, { children })
     function buildJSXFragmentCall(
       path: NodePath<JSXFragment>,
-      file: PluginPass
+      file: PluginPass,
     ) {
       const args = [get(file, 'id/fragment')()];
 
@@ -622,17 +622,17 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
                 buildChildrenProperty(
                   // The children here contains JSXSpreadChild,
                   // which will be thrown later
-                  children
+                  children,
                 ),
               ]
-            : []
-        )
+            : [],
+        ),
       );
 
       if (development) {
         args.push(
           path.scope.buildUndefinedNode(),
-          t.booleanLiteral(children.length > 1)
+          t.booleanLiteral(children.length > 1),
         );
       }
 
@@ -643,7 +643,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
     // Reblend.construct(Reblend, null, ...children)
     function buildCreateElementFragmentCall(
       path: NodePath<JSXFragment>,
-      file: PluginPass
+      file: PluginPass,
     ) {
       if (filter && !filter(path.node, file)) return;
 
@@ -659,7 +659,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
     // Development: Reblend.construct(type, arguments, children, source, self)
     function buildCreateElementCall(
       path: NodePath<JSXElement>,
-      file: PluginPass
+      file: PluginPass,
     ) {
       const openingPath = path.get('openingElement');
 
@@ -668,7 +668,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
         buildCreateElementOpeningElementAttributes(
           file,
           path,
-          openingPath.get('attributes')
+          openingPath.get('attributes'),
         ),
         // @ts-expect-error JSXSpreadChild has been transformed in convertAttributeValue
         ...t.reblend.buildChildren(path.node),
@@ -678,7 +678,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
     function getTag(openingPath: NodePath<JSXOpeningElement>) {
       const tagExpr = convertJSXIdentifier(
         openingPath.node.name,
-        openingPath.node
+        openingPath.node,
       );
 
       let tagName: string;
@@ -704,7 +704,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
     function buildCreateElementOpeningElementAttributes(
       file: PluginPass,
       path: NodePath<JSXElement>,
-      attribs: NodePath<JSXAttribute | JSXSpreadAttribute>[]
+      attribs: NodePath<JSXAttribute | JSXSpreadAttribute>[],
     ) {
       const runtime = get(file, 'runtime');
       if (!process.env.BABEL_8_BREAKING) {
@@ -792,8 +792,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
         !t.isObjectExpression(props[0].argument)
         ? props[0].argument
         : props.length > 0
-        ? t.objectExpression(props)
-        : t.nullLiteral();
+          ? t.objectExpression(props)
+          : t.nullLiteral();
     }
   });
 
@@ -815,7 +815,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`
     pass: PluginPass,
     path: NodePath<Program>,
     importName: string,
-    source: string
+    source: string,
   ): () => Identifier | MemberExpression {
     return () => {
       const actualSource = getSource(source, importName);
@@ -881,17 +881,17 @@ function makeSource(path: NodePath, state: PluginPass) {
   return makeTrace(
     t.cloneNode(
       //  todo: avoid mutating PluginPass
-      state.fileNameIdentifier as any
+      state.fileNameIdentifier as any,
     ),
     location.start.line,
-    location.start.column
+    location.start.column,
   );
 }
 
 function makeTrace(
   fileNameIdentifier: Identifier,
   lineNumber?: number,
-  column0Based?: number
+  column0Based?: number,
 ) {
   const fileLineLiteral =
     lineNumber != null ? t.numericLiteral(lineNumber) : t.nullLiteral();
@@ -910,6 +910,6 @@ function sourceSelfError(path: NodePath, name: string) {
   const pluginName = `transform-reblend-jsx-${name.slice(2)}`;
 
   return path.buildCodeFrameError(
-    `Duplicate ${name} prop found. You are most likely using the deprecated ${pluginName} Babel plugin. Both __source and __self are automatically set when using the automatic runtime. Please remove transform-reblend-jsx-source and transform-reblend-jsx-self from your Babel config.`
+    `Duplicate ${name} prop found. You are most likely using the deprecated ${pluginName} Babel plugin. Both __source and __self are automatically set when using the automatic runtime. Please remove transform-reblend-jsx-source and transform-reblend-jsx-self from your Babel config.`,
   );
 }

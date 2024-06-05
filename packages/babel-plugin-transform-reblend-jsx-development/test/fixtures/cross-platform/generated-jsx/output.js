@@ -6,5 +6,5 @@ var _reblendJsxDevRuntime = require('reblend/jsx-dev-runtime');
   void 0,
   false,
   void 0,
-  this
+  this,
 );

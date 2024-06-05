@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
-    "composite": true,
-    "rootDir": ".",
+    //"composite": true,
+    //"rootDir": ".",
     "target": "ESNext",
     "module": "CommonJS",
     "lib": ["ESNext"],
     "declaration": true,
     "declarationMap": true,
-    "emitDeclarationOnly": true,
+    "emitDeclarationOnly": false,
     "esModuleInterop": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "allowImportingTsExtensions": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
@@ -17,6 +17,6 @@
     "noImplicitAny": false,
     "strictBindCallApply": true
   },
-  "include": ["packages", "lib", "src"],
-  "exclude": ["**/test/**"]
+  "exclude": ["**/test/**"],
+  "include": ["lib"]
 }

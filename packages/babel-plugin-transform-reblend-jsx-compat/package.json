@@ -22,6 +22,7 @@
   "dependencies": {
     "@babel/helper-plugin-utils": "latest",
     "@babel/core": "latest",
+    "@babel/types": "latest",
     "babel-helper-builder-reblend-jsx": "latest"
   },
   "devDependencies": {

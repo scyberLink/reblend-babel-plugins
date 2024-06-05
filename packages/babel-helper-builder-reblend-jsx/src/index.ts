@@ -20,9 +20,9 @@ import {
   spreadElement,
   stringLiteral,
   thisExpression,
-} from "@babel/types";
-import annotateAsPure from "@babel/helper-annotate-as-pure";
-import type { PluginPass, NodePath, Visitor, types as t } from "@babel/core";
+} from '@babel/types';
+import annotateAsPure from '@babel/helper-annotate-as-pure';
+import type { PluginPass, NodePath, Visitor, types as t } from '@babel/core';
 
 type ElementState = {
   tagExpr: t.Expression; // tag node,
@@ -45,6 +45,7 @@ export interface Options {
 }
 
 export default function (opts: Options) {
+  // @ts-ignore
   const visitor: Visitor<PluginPass<Options>> = {};
 
   visitor.JSXNamespacedName = function (path) {
@@ -58,7 +59,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
 
   visitor.JSXSpreadChild = function (path) {
     throw path.buildCodeFrameError(
-      "Spread children are not supported in Reblend.",
+      'Spread children are not supported in Reblend.',
     );
   };
 
@@ -75,7 +76,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
     exit(path, state) {
       if (opts.compat) {
         throw path.buildCodeFrameError(
-          "Fragment tags are only supported in Reblend 16 and up.",
+          'Fragment tags are only supported in Reblend 16 and up.',
         );
       }
       const callExpr = buildFragmentCall(path, state);
@@ -92,11 +93,11 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
     parent: t.JSXOpeningElement | t.JSXMemberExpression,
   ): t.ThisExpression | t.StringLiteral | t.MemberExpression | t.Identifier {
     if (isJSXIdentifier(node)) {
-      if (node.name === "this" && isReferenced(node, parent)) {
+      if (node.name === 'this' && isReferenced(node, parent)) {
         return thisExpression();
       } else if (isValidIdentifier(node.name, false)) {
-        // @ts-expect-error casting JSXIdentifier to Identifier
-        node.type = "Identifier";
+        // ts-expect-error casting JSXIdentifier to Identifier
+        node.type = 'Identifier' as any;
         return node as unknown as t.Identifier;
       } else {
         return stringLiteral(node.name);
@@ -118,7 +119,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
   }
 
   function convertAttributeValue(
-    node: t.JSXAttribute["value"] | t.BooleanLiteral,
+    node: t.JSXAttribute['value'] | t.BooleanLiteral,
   ) {
     if (isJSXExpressionContainer(node)) {
       return node.expression;
@@ -134,7 +135,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
     const value = convertAttributeValue(node.value || booleanLiteral(true));
 
     if (isStringLiteral(value) && !isJSXExpressionContainer(node.value)) {
-      value.value = value.value.replace(/\n\s+/g, " ");
+      value.value = value.value.replace(/\n\s+/g, ' ');
 
       // "raw" JSXText should not be used from a StringLiteral because it needs to be escaped.
       delete value.extra?.raw;
@@ -143,11 +144,11 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
     if (isJSXNamespacedName(node.name)) {
       // @ts-expect-error Mutating AST nodes
       node.name = stringLiteral(
-        node.name.namespace.name + ":" + node.name.name.name,
+        node.name.namespace.name + ':' + node.name.name.name,
       );
     } else if (isValidIdentifier(node.name.name, false)) {
       // @ts-expect-error Mutating AST nodes
-      node.name.type = "Identifier";
+      node.name.type = 'Identifier';
     } else {
       // @ts-expect-error Mutating AST nodes
       node.name = stringLiteral(node.name.name);
@@ -166,8 +167,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
   function buildElementCall(path: NodePath<t.JSXElement>, pass: PluginPass) {
     if (opts.filter && !opts.filter(path.node, pass)) return;
 
-    const openingPath = path.get("openingElement");
-    // @ts-expect-error mutating AST nodes
+    const openingPath = path.get('openingElement');
+    // ts-expect-error mutating AST nodes
     path.node.children = reblend.buildChildren(path.node);
 
     const tagExpr = convertJSXIdentifier(
@@ -241,31 +242,32 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
 
   function buildOpeningElementAttributes(
     attribs: (t.JSXAttribute | t.JSXSpreadAttribute)[],
+    // @ts-ignore
     pass: PluginPass<Options>,
   ): t.Expression {
     let _props: (t.ObjectProperty | t.SpreadElement)[] = [];
     const objs: t.Expression[] = [];
 
     const { useSpread = false } = pass.opts;
-    if (typeof useSpread !== "boolean") {
+    if (typeof useSpread !== 'boolean') {
       throw new Error(
-        "transform-reblend-jsx currently only accepts a boolean option for " +
-          "useSpread (defaults to false)",
+        'transform-reblend-jsx currently only accepts a boolean option for ' +
+          'useSpread (defaults to false)',
       );
     }
 
     const useBuiltIns = pass.opts.useBuiltIns || false;
-    if (typeof useBuiltIns !== "boolean") {
+    if (typeof useBuiltIns !== 'boolean') {
       throw new Error(
-        "transform-reblend-jsx currently only accepts a boolean option for " +
-          "useBuiltIns (defaults to false)",
+        'transform-reblend-jsx currently only accepts a boolean option for ' +
+          'useBuiltIns (defaults to false)',
       );
     }
 
     if (useSpread && useBuiltIns) {
       throw new Error(
-        "transform-reblend-jsx currently only accepts useBuiltIns or useSpread " +
-          "but not both",
+        'transform-reblend-jsx currently only accepts useBuiltIns or useSpread ' +
+          'but not both',
       );
     }
 
@@ -297,8 +299,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
       }
 
       const helper = useBuiltIns
-        ? memberExpression(identifier("Object"), identifier("assign"))
-        : pass.addHelper("extends");
+        ? memberExpression(identifier('Object'), identifier('assign'))
+        : pass.addHelper('extends');
 
       // spread it
       convertedAttribs = callExpression(helper, objs);
@@ -310,12 +312,12 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
   function buildFragmentCall(path: NodePath<t.JSXFragment>, pass: PluginPass) {
     if (opts.filter && !opts.filter(path.node, pass)) return;
 
-    // @ts-expect-error mutating AST nodes
+    // ts-expect-error mutating AST nodes
     path.node.children = reblend.buildChildren(path.node);
 
     const args: t.Expression[] = [];
     const tagName: null = null;
-    const tagExpr = pass.get("jsxFragIdentifier")();
+    const tagExpr = pass.get('jsxFragIdentifier')();
 
     const state: ElementState = {
       tagExpr: tagExpr,
@@ -339,7 +341,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
       opts.post(state, pass);
     }
 
-    pass.set("usedFragment", true);
+    pass.set('usedFragment', true);
 
     const call = state.call || callExpression(state.callee, args);
     if (state.pure) annotateAsPure(call);

@@ -19,8 +19,8 @@ class B extends A {
           fileName: _jsxFileName,
           lineNumber: 6,
           columnNumber: 11,
-        }
-      )
+        },
+      ),
     );
     /*#__PURE__*/ _reblendJsxDevRuntime.jsxDEV('sometag3', {}, void 0, false, {
       fileName: _jsxFileName,
@@ -41,7 +41,7 @@ class C {
         lineNumber: 13,
         columnNumber: 5,
       },
-      this
+      this,
     );
     class D extends A {
       constructor() {
@@ -67,7 +67,7 @@ class E extends A {
           fileName: _jsxFileName,
           lineNumber: 29,
           columnNumber: 20,
-        }
+        },
       );
     };
     this.y = function () {
@@ -81,7 +81,7 @@ class E extends A {
           lineNumber: 31,
           columnNumber: 14,
         },
-        this
+        this,
       );
     };
     function z() {
@@ -95,7 +95,7 @@ class E extends A {
           lineNumber: 34,
           columnNumber: 14,
         },
-        this
+        this,
       );
     }
     {
@@ -108,7 +108,7 @@ class E extends A {
           fileName: _jsxFileName,
           lineNumber: 36,
           columnNumber: 7,
-        }
+        },
       );
     }
     super();
@@ -126,7 +126,7 @@ class F {
         lineNumber: 43,
         columnNumber: 5,
       },
-      this
+      this,
     );
   }
 }
@@ -141,7 +141,7 @@ class G extends A {
         fileName: _jsxFileName,
         lineNumber: 49,
         columnNumber: 12,
-      }
+      },
     );
   }
 }

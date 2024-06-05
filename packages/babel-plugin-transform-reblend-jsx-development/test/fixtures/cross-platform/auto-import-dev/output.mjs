@@ -22,7 +22,7 @@ var x = /*#__PURE__*/ _jsxDEV(
               lineNumber: 4,
               columnNumber: 7,
             },
-            this
+            this,
           ),
           /*#__PURE__*/ _jsxDEV(
             'div',
@@ -36,7 +36,7 @@ var x = /*#__PURE__*/ _jsxDEV(
               lineNumber: 5,
               columnNumber: 7,
             },
-            this
+            this,
           ),
           /*#__PURE__*/ _jsxDEV(
             'div',
@@ -48,7 +48,7 @@ var x = /*#__PURE__*/ _jsxDEV(
               lineNumber: 6,
               columnNumber: 7,
             },
-            this
+            this,
           ),
           /*#__PURE__*/ _createElement('div', {
             ...props,
@@ -69,9 +69,9 @@ var x = /*#__PURE__*/ _jsxDEV(
         lineNumber: 3,
         columnNumber: 5,
       },
-      this
+      this,
     ),
   },
   void 0,
-  false
+  false,
 );

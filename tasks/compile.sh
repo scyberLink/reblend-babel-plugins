@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ROOT=$(pwd)
+
 # Set the base directory containing your packages
 base_dir="packages"
 
@@ -10,14 +12,12 @@ for dir in "$base_dir"/*; do
     # Change directory to the current package directory
     cd "$dir"
 
-    # Install dependencies using npm install
-    npm install
+    # Install dependencies using npx tsc
+    npx tsc
 
     # Move back to the base directory (optional)
-    cd -/dev/null
+    cd $ROOT
   fi
 done
 
-npm install
-
-echo "Dependencies installed for all packages in ${base_dir}"
+echo "Build successfully"

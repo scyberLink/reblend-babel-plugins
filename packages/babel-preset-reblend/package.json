@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@babel/core": "latest",
+    "@babel/types": "latest",
     "@babel/helper-plugin-test-runner": "latest"
   },
   "engines": {

@@ -5,6 +5,6 @@ function Foo(_ref) {
     rest = babelHelpers.objectWithoutProperties(_ref, _excluded);
   return useMemo(
     () => _div || (_div = <div outsetArrows={outsetArrows} />),
-    [outsetArrows]
+    [outsetArrows],
   );
 }

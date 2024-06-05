@@ -15,7 +15,7 @@ var x = /*#__PURE__*/ _reblendJsxDevRuntime.jsxDEV(
           lineNumber: 3,
           columnNumber: 5,
         },
-        this
+        this,
       ),
       [
         /*#__PURE__*/ _reblendJsxDevRuntime.jsxDEV(
@@ -28,7 +28,7 @@ var x = /*#__PURE__*/ _reblendJsxDevRuntime.jsxDEV(
             lineNumber: 4,
             columnNumber: 7,
           },
-          this
+          this,
         ),
         /*#__PURE__*/ _reblendJsxDevRuntime.jsxDEV(
           'span',
@@ -40,7 +40,7 @@ var x = /*#__PURE__*/ _reblendJsxDevRuntime.jsxDEV(
             lineNumber: 4,
             columnNumber: 27,
           },
-          this
+          this,
         ),
       ],
     ],
@@ -52,5 +52,5 @@ var x = /*#__PURE__*/ _reblendJsxDevRuntime.jsxDEV(
     lineNumber: 2,
     columnNumber: 3,
   },
-  this
+  this,
 );

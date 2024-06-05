@@ -16,7 +16,7 @@ var buildTest = function buildTest(name) {
         MyComponent,
         {
           name: name,
-        }
+        },
       ))
     );
   };

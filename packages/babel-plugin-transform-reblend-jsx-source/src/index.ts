@@ -20,7 +20,7 @@ const FILE_NAME_VAR = '_jsxFileName';
 
 const createNodeFromNullish = <T, N extends t.Node>(
   val: T | null,
-  fn: (val: T) => N
+  fn: (val: T) => N,
 ): N | t.NullLiteral => (val == null ? t.nullLiteral() : fn(val));
 
 type State = {
@@ -31,12 +31,12 @@ export default declare<State>(api => {
 
   function makeTrace(
     fileNameIdentifier: t.Identifier,
-    { line, column }: { line: number; column: number }
+    { line, column }: { line: number; column: number },
   ) {
     const fileLineLiteral = createNodeFromNullish(line, t.numericLiteral);
     const fileColumnLiteral = createNodeFromNullish(column, c =>
       // c + 1 to make it 1-based instead of 0-based.
-      t.numericLiteral(c + 1)
+      t.numericLiteral(c + 1),
     );
 
     return template.expression.ast`{
@@ -77,9 +77,9 @@ export default declare<State>(api => {
           t.jsxAttribute(
             t.jsxIdentifier(TRACE_ID),
             t.jsxExpressionContainer(
-              makeTrace(t.cloneNode(state.fileNameIdentifier), node.loc.start)
-            )
-          )
+              makeTrace(t.cloneNode(state.fileNameIdentifier), node.loc.start),
+            ),
+          ),
         );
       },
     },

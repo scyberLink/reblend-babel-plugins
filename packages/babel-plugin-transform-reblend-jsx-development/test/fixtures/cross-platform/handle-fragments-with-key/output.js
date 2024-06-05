@@ -11,5 +11,5 @@ var x = /*#__PURE__*/ _reblendJsxDevRuntime.jsxDEV(
     lineNumber: 1,
     columnNumber: 9,
   },
-  this
+  this,
 );

@@ -22,7 +22,7 @@ export default declare((api, options: Options) => {
     !Array.isArray(allowMutablePropsOnTags)
   ) {
     throw new Error(
-      '.allowMutablePropsOnTags must be an array, null, or undefined.'
+      '.allowMutablePropsOnTags must be an array, null, or undefined.',
     );
   }
 
@@ -228,7 +228,7 @@ export default declare((api, options: Options) => {
             throw new Error(
               'Internal babel-plugin-transform-reblend-constant-elements error: ' +
                 'targetScope must be an ancestor of jsxScope. ' +
-                'This is a Babel bug, please report it.'
+                'This is a Babel bug, please report it.',
             );
           }
         }

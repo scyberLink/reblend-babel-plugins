@@ -5,5 +5,5 @@
   },
   void 0,
   bar,
-  /*#__PURE__*/ babelHelpers.jsx(Baz, {}, 'baz')
+  /*#__PURE__*/ babelHelpers.jsx(Baz, {}, 'baz'),
 );

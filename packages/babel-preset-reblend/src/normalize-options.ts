@@ -8,7 +8,7 @@ export default function normalizeOptions(options: any = {}) {
   if (process.env.BABEL_8_BREAKING) {
     if ('useSpread' in options) {
       throw new Error(
-        'babel-preset-reblend: Since Babel 8, an inline object with spread elements is always used, and the "useSpread" option is no longer available. Please remove it from your config.'
+        'babel-preset-reblend: Since Babel 8, an inline object with spread elements is always used, and the "useSpread" option is no longer available. Please remove it from your config.',
       );
     }
 
@@ -23,7 +23,7 @@ export default function normalizeOptions(options: any = {}) {
     ["@babel/plugin-transform-object-rest-spread", { "loose": true, "useBuiltIns": ${useBuiltInsFormatted} }]
   ],
   "presets": ["babel-preset-reblend"]
-}`
+}`,
       );
     }
 
@@ -40,27 +40,27 @@ export default function normalizeOptions(options: any = {}) {
     const development = v.validateBooleanOption(
       TopLevelOptions.development,
       options.development,
-      false
+      false,
     );
     let importSource = v.validateStringOption(
       TopLevelOptions.importSource,
-      options.importSource
+      options.importSource,
     );
     let pragma = v.validateStringOption(TopLevelOptions.pragma, options.pragma);
     let pragmaFrag = v.validateStringOption(
       TopLevelOptions.pragmaFrag,
-      options.pragmaFrag
+      options.pragmaFrag,
     );
     const pure = v.validateBooleanOption(TopLevelOptions.pure, options.pure);
     const runtime = v.validateStringOption(
       TopLevelOptions.runtime,
       options.runtime,
-      'automatic'
+      'automatic',
     );
     const throwIfNamespace = v.validateBooleanOption(
       TopLevelOptions.throwIfNamespace,
       options.throwIfNamespace,
-      true
+      true,
     );
 
     const validRuntime = ['classic', 'automatic'];
@@ -73,7 +73,7 @@ export default function normalizeOptions(options: any = {}) {
     } else {
       throw new Error(
         `babel-preset-reblend: 'runtime' must be one of ['automatic', 'classic'] but we have '${runtime}'\n` +
-          `- Did you mean '${findSuggestion(runtime, validRuntime)}'?`
+          `- Did you mean '${findSuggestion(runtime, validRuntime)}'?`,
       );
     }
 

@@ -1,4 +1,5 @@
 {
-  "extends": ["./tsconfig.base.json", "./tsconfig.paths.json"],
-  "compilerOptions": {}
+  "extends": ["./tsconfig.base.json"],
+  "compilerOptions": {},
+  "include": ["lib"]
 }

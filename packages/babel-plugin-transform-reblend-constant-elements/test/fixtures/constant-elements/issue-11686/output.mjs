@@ -11,7 +11,7 @@ function outer(arg) {
               <C keyC={arg} />
             </B>
           </A>
-        ))
+        )),
     );
   }
   inner();

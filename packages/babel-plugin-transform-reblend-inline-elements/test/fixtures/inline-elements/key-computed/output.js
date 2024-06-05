@@ -3,5 +3,5 @@
   {
     'data-value': 'bar',
   },
-  'foo' + 'baz'
+  'foo' + 'baz',
 );

@@ -27,13 +27,13 @@ export default declare(api => {
 
     if (safe) {
       props.unshift(
-        t.objectProperty(t.identifier('displayName'), t.stringLiteral(id))
+        t.objectProperty(t.identifier('displayName'), t.stringLiteral(id)),
       );
     }
   }
 
   const isCreateClassCallExpression = t.buildMatchMemberExpression(
-    'Reblend.createClass'
+    'Reblend.createClass',
   );
   const isCreateClassAddon = (callee: t.CallExpression['callee']) =>
     t.isIdentifier(callee, { name: 'createReblendClass' });

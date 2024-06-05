@@ -18,9 +18,9 @@
   },
   "dependencies": {
     "@babel/helper-annotate-as-pure": "latest",
+    "@babel/core": "latest",
     "@babel/types": "latest",
-    "reblendjs": "^1.1.4",
-    "@babel/core": "latest"
+    "reblendjs": "^1.1.4"
   },
   "devDependencies": {
     "@babel/traverse": "latest"

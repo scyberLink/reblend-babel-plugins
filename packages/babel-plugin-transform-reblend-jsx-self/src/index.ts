@@ -25,7 +25,7 @@ const TRACE_ID = '__self';
  * Derived from `Scope#getFunctionParent`
  */
 function getThisFunctionParent(
-  path: NodePath<t.JSXOpeningElement>
+  path: NodePath<t.JSXOpeningElement>,
 ): NodePath<Exclude<t.FunctionParent, t.ArrowFunctionExpression>> | null {
   let scope = path.scope;
   do {
@@ -65,7 +65,7 @@ function isThisAllowed(path: NodePath<t.JSXOpeningElement>) {
   }
   // Now we are in a constructor. If it is a derived class, we do not reference `this`.
   return !isDerivedClass(
-    parentMethodOrFunction.parentPath.parentPath as NodePath<t.Class>
+    parentMethodOrFunction.parentPath.parentPath as NodePath<t.Class>,
   );
 }
 

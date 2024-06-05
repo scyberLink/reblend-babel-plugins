@@ -13,5 +13,5 @@ var _default =
         _reblendBootstrap.Modal.Header,
         {},
         void 0,
-        'foobar'
+        'foobar',
       ));

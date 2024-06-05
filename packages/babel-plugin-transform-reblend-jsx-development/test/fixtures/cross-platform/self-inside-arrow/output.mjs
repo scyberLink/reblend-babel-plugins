@@ -12,7 +12,7 @@ import { jsxDEV as _jsxDEV } from 'reblend/jsx-dev-runtime';
     lineNumber: 1,
     columnNumber: 1,
   },
-  this
+  this,
 );
 (function () {
   return /*#__PURE__*/ _jsxDEV(
@@ -25,7 +25,7 @@ import { jsxDEV as _jsxDEV } from 'reblend/jsx-dev-runtime';
       lineNumber: 2,
       columnNumber: 7,
     },
-    _this
+    _this,
   );
 });
 function fn() {
@@ -40,7 +40,7 @@ function fn() {
       lineNumber: 5,
       columnNumber: 3,
     },
-    this
+    this,
   );
   (function () {
     return /*#__PURE__*/ _jsxDEV(
@@ -53,7 +53,7 @@ function fn() {
         lineNumber: 6,
         columnNumber: 9,
       },
-      _this2
+      _this2,
     );
   });
 }

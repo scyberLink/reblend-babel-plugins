@@ -20,12 +20,12 @@
     "babel-plugin"
   ],
   "dependencies": {
-    "@babel/helper-annotate-as-pure": "latest",
+    "@babel/core": "latest",
+    "@babel/types": "latest",
+    "@babel/helper-annotate-as-pure": "^7.24.6",
     "@babel/helper-module-imports": "latest",
     "@babel/helper-plugin-utils": "latest",
-    "@babel/plugin-syntax-jsx": "latest",
-    "@babel/core": "latest",
-    "@babel/types": "latest"
+    "@babel/plugin-syntax-jsx": "latest"
   },
   "devDependencies": {
     "@babel/helper-plugin-test-runner": "latest",

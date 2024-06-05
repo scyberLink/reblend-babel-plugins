@@ -50,6 +50,6 @@ var x = /*#__PURE__*/ Reblend.construct(
         lineNumber: 7,
         columnNumber: 9,
       },
-    })
-  )
+    }),
+  ),
 );

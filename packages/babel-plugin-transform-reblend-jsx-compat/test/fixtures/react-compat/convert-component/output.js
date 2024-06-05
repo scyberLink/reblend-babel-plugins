@@ -2,5 +2,5 @@ var x = Component(
   {
     foo: 'bar',
   },
-  Namespace.Component(null)
+  Namespace.Component(null),
 );

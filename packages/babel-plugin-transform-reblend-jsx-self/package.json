@@ -21,6 +21,7 @@
   ],
   "dependencies": {
     "@babel/core": "latest",
+    "@babel/types": "latest",
     "@babel/helper-plugin-utils": "latest"
   },
   "devDependencies": {
