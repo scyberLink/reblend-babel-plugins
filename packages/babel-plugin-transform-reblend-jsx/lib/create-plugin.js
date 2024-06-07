@@ -1,19 +1,8 @@
-'use strict';
-var __importDefault =
-  (this && this.__importDefault) ||
-  function (mod) {
-    return mod && mod.__esModule ? mod : { default: mod };
-  };
-Object.defineProperty(exports, '__esModule', { value: true });
-const plugin_syntax_jsx_1 = __importDefault(
-  require('@babel/plugin-syntax-jsx'),
-);
-const helper_plugin_utils_1 = require('@babel/helper-plugin-utils');
-const core_1 = require('@babel/core');
-const helper_module_imports_1 = require('@babel/helper-module-imports');
-const helper_annotate_as_pure_1 = __importDefault(
-  require('@babel/helper-annotate-as-pure'),
-);
+import jsx from '@babel/plugin-syntax-jsx';
+import { declare } from '@babel/helper-plugin-utils';
+import { template, types as t } from '@babel/core';
+import { addNamed, addNamespace, isModule } from '@babel/helper-module-imports';
+import annotateAsPure from '@babel/helper-annotate-as-pure';
 const DEFAULT = {
   importSource: 'reblend',
   runtime: 'automatic',
@@ -30,16 +19,13 @@ const set = (pass, name, v) => pass.set(`babel-plugin-reblend-jsx/${name}`, v);
 function hasProto(node) {
   return node.properties.some(
     value =>
-      core_1.types.isObjectProperty(value, {
-        computed: false,
-        shorthand: false,
-      }) &&
-      (core_1.types.isIdentifier(value.key, { name: '__proto__' }) ||
-        core_1.types.isStringLiteral(value.key, { value: '__proto__' })),
+      t.isObjectProperty(value, { computed: false, shorthand: false }) &&
+      (t.isIdentifier(value.key, { name: '__proto__' }) ||
+        t.isStringLiteral(value.key, { value: '__proto__' })),
   );
 }
-function createPlugin({ name, development }) {
-  return (0, helper_plugin_utils_1.declare)((_, options) => {
+export default function createPlugin({ name, development }) {
+  return declare((_, options) => {
     const {
       pure: PURE_ANNOTATION,
       throwIfNamespace = true,
@@ -105,18 +91,16 @@ function createPlugin({ name, development }) {
         const attributes = [];
         if (isThisAllowed(path.scope)) {
           attributes.push(
-            core_1.types.jsxAttribute(
-              core_1.types.jsxIdentifier('__self'),
-              core_1.types.jsxExpressionContainer(
-                core_1.types.thisExpression(),
-              ),
+            t.jsxAttribute(
+              t.jsxIdentifier('__self'),
+              t.jsxExpressionContainer(t.thisExpression()),
             ),
           );
         }
         attributes.push(
-          core_1.types.jsxAttribute(
-            core_1.types.jsxIdentifier('__source'),
-            core_1.types.jsxExpressionContainer(makeSource(path, state)),
+          t.jsxAttribute(
+            t.jsxIdentifier('__source'),
+            t.jsxExpressionContainer(makeSource(path, state)),
           ),
         );
         path.pushContainer('attributes', attributes);
@@ -124,7 +108,7 @@ function createPlugin({ name, development }) {
     };
     return {
       name,
-      inherits: plugin_syntax_jsx_1.default,
+      inherits: jsx,
       visitor: {
         JSXNamespacedName(path) {
           if (throwIfNamespace) {
@@ -185,10 +169,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
               }
               const createElement = toMemberExpression(pragma);
               const fragment = toMemberExpression(pragmaFrag);
-              set(state, 'id/createElement', () =>
-                core_1.types.cloneNode(createElement),
-              );
-              set(state, 'id/fragment', () => core_1.types.cloneNode(fragment));
+              set(state, 'id/createElement', () => t.cloneNode(createElement));
+              set(state, 'id/fragment', () => t.cloneNode(fragment));
               set(state, 'defaultPure', pragma === DEFAULT.pragma);
             } else if (runtime === 'automatic') {
               if (pragmaSet || pragmaFragSet) {
@@ -237,7 +219,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
             } else {
               callExpr = buildJSXFragmentCall(path, file);
             }
-            path.replaceWith(core_1.types.inherits(callExpr, path.node));
+            path.replaceWith(t.inherits(callExpr, path.node));
           },
         },
         JSXElement: {
@@ -251,14 +233,12 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
             } else {
               callExpr = buildJSXElementCall(path, file);
             }
-            path.replaceWith(core_1.types.inherits(callExpr, path.node));
+            path.replaceWith(t.inherits(callExpr, path.node));
           },
         },
         JSXAttribute(path) {
-          if (core_1.types.isJSXElement(path.node.value)) {
-            path.node.value = core_1.types.jsxExpressionContainer(
-              path.node.value,
-            );
+          if (t.isJSXElement(path.node.value)) {
+            path.node.value = t.jsxExpressionContainer(path.node.value);
           }
         },
       },
@@ -294,9 +274,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
       return true;
     }
     function call(pass, name, args) {
-      const node = core_1.types.callExpression(get(pass, `id/${name}`)(), args);
-      if (PURE_ANNOTATION ?? get(pass, 'defaultPure'))
-        (0, helper_annotate_as_pure_1.default)(node);
+      const node = t.callExpression(get(pass, `id/${name}`)(), args);
+      if (PURE_ANNOTATION ?? get(pass, 'defaultPure')) annotateAsPure(node);
       return node;
     }
     // We want to use Reblend.construct, even in the case of
@@ -312,65 +291,63 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
         const attr = attributes[i];
         if (
           seenPropsSpread &&
-          core_1.types.isJSXAttribute(attr) &&
+          t.isJSXAttribute(attr) &&
           attr.name.name === 'key'
         ) {
           return true;
-        } else if (core_1.types.isJSXSpreadAttribute(attr)) {
+        } else if (t.isJSXSpreadAttribute(attr)) {
           seenPropsSpread = true;
         }
       }
       return false;
     }
     function convertJSXIdentifier(node, parent) {
-      if (core_1.types.isJSXIdentifier(node)) {
-        if (node.name === 'this' && core_1.types.isReferenced(node, parent)) {
-          return core_1.types.thisExpression();
-        } else if (core_1.types.isValidIdentifier(node.name, false)) {
+      if (t.isJSXIdentifier(node)) {
+        if (node.name === 'this' && t.isReferenced(node, parent)) {
+          return t.thisExpression();
+        } else if (t.isValidIdentifier(node.name, false)) {
           // @ts-expect-error cast AST type to Identifier
           node.type = 'Identifier';
           return node;
         } else {
-          return core_1.types.stringLiteral(node.name);
+          return t.stringLiteral(node.name);
         }
-      } else if (core_1.types.isJSXMemberExpression(node)) {
-        return core_1.types.memberExpression(
+      } else if (t.isJSXMemberExpression(node)) {
+        return t.memberExpression(
           convertJSXIdentifier(node.object, node),
           convertJSXIdentifier(node.property, node),
         );
-      } else if (core_1.types.isJSXNamespacedName(node)) {
+      } else if (t.isJSXNamespacedName(node)) {
         /**
          * If the flag "throwIfNamespace" is false
          * print XMLNamespace like string literal
          */
-        return core_1.types.stringLiteral(
-          `${node.namespace.name}:${node.name.name}`,
-        );
+        return t.stringLiteral(`${node.namespace.name}:${node.name.name}`);
       }
       // todo: this branch should be unreachable
       return node;
     }
     function convertAttributeValue(node) {
-      if (core_1.types.isJSXExpressionContainer(node)) {
+      if (t.isJSXExpressionContainer(node)) {
         return node.expression;
       } else {
         return node;
       }
     }
     function accumulateAttribute(array, attribute) {
-      if (core_1.types.isJSXSpreadAttribute(attribute.node)) {
+      if (t.isJSXSpreadAttribute(attribute.node)) {
         const arg = attribute.node.argument;
         // Collect properties into props array if spreading object expression
-        if (core_1.types.isObjectExpression(arg) && !hasProto(arg)) {
+        if (t.isObjectExpression(arg) && !hasProto(arg)) {
           array.push(...arg.properties);
         } else {
-          array.push(core_1.types.spreadElement(arg));
+          array.push(t.spreadElement(arg));
         }
         return array;
       }
       const value = convertAttributeValue(
         attribute.node.name.name !== 'key'
-          ? attribute.node.value || core_1.types.booleanLiteral(true)
+          ? attribute.node.value || t.booleanLiteral(true)
           : attribute.node.value,
       );
       if (attribute.node.name.name === 'key' && value === null) {
@@ -379,34 +356,30 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
         );
       }
       if (
-        core_1.types.isStringLiteral(value) &&
-        !core_1.types.isJSXExpressionContainer(attribute.node.value)
+        t.isStringLiteral(value) &&
+        !t.isJSXExpressionContainer(attribute.node.value)
       ) {
         value.value = value.value.replace(/\n\s+/g, ' ');
         // "raw" JSXText should not be used from a StringLiteral because it needs to be escaped.
         delete value.extra?.raw;
       }
-      if (core_1.types.isJSXNamespacedName(attribute.node.name)) {
+      if (t.isJSXNamespacedName(attribute.node.name)) {
         // @ts-expect-error mutating AST
-        attribute.node.name = core_1.types.stringLiteral(
+        attribute.node.name = t.stringLiteral(
           attribute.node.name.namespace.name +
             ':' +
             attribute.node.name.name.name,
         );
-      } else if (
-        core_1.types.isValidIdentifier(attribute.node.name.name, false)
-      ) {
+      } else if (t.isValidIdentifier(attribute.node.name.name, false)) {
         // @ts-expect-error mutating AST
         attribute.node.name.type = 'Identifier';
       } else {
         // @ts-expect-error mutating AST
-        attribute.node.name = core_1.types.stringLiteral(
-          attribute.node.name.name,
-        );
+        attribute.node.name = t.stringLiteral(attribute.node.name.name);
       }
       array.push(
-        core_1.types.inherits(
-          core_1.types.objectProperty(
+        t.inherits(
+          t.objectProperty(
             // @ts-expect-error The attribute.node.name is an Identifier now
             attribute.node.name,
             value,
@@ -421,14 +394,11 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
       if (children.length === 1) {
         childrenNode = children[0];
       } else if (children.length > 1) {
-        childrenNode = core_1.types.arrayExpression(children);
+        childrenNode = t.arrayExpression(children);
       } else {
         return undefined;
       }
-      return core_1.types.objectProperty(
-        core_1.types.identifier('children'),
-        childrenNode,
-      );
+      return t.objectProperty(t.identifier('children'), childrenNode);
     }
     // Builds JSX into:
     // Production: Reblend.jsx(type, arguments, key)
@@ -443,10 +413,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
       // props and filter out these three keywords so we can pass them in
       // as separate arguments later
       for (const attr of openingPath.get('attributes')) {
-        if (
-          attr.isJSXAttribute() &&
-          core_1.types.isJSXIdentifier(attr.node.name)
-        ) {
+        if (attr.isJSXAttribute() && t.isJSXIdentifier(attr.node.name)) {
           const { name } = attr.node.name;
           switch (name) {
             case '__source':
@@ -470,7 +437,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
           attribsArray.push(attr);
         }
       }
-      const children = core_1.types.reblend.buildChildren(path.node);
+      const children = t.react.buildChildren(path.node);
       let attribs;
       if (attribsArray.length || children.length) {
         attribs = buildJSXOpeningElementAttributes(
@@ -481,7 +448,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
         );
       } else {
         // attributes should never be null
-        attribs = core_1.types.objectExpression([]);
+        attribs = t.objectExpression([]);
       }
       args.push(attribs);
       if (development) {
@@ -490,7 +457,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
         // so we can eliminate the need for separate Babel plugins in Babel 8
         args.push(
           extracted.key ?? path.scope.buildUndefinedNode(),
-          core_1.types.booleanLiteral(children.length > 1),
+          t.booleanLiteral(children.length > 1),
         );
         if (extracted.__source) {
           args.push(extracted.__source);
@@ -512,21 +479,22 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
       if (children?.length > 0) {
         props.push(buildChildrenProperty(children));
       }
-      return core_1.types.objectExpression(props);
+      return t.objectExpression(props);
     }
     // Builds JSX Fragment <></> into
     // Production: Reblend.jsx(type, arguments)
     // Development: Reblend.jsxDEV(type, { children })
     function buildJSXFragmentCall(path, file) {
       const args = [get(file, 'id/fragment')()];
-      const children = core_1.types.reblend.buildChildren(path.node);
+      const children = t.react.buildChildren(path.node);
       args.push(
-        core_1.types.objectExpression(
+        t.objectExpression(
           children.length > 0
             ? [
                 buildChildrenProperty(
                   // The children here contains JSXSpreadChild,
                   // which will be thrown later
+                  //@ts-ignore
                   children,
                 ),
               ]
@@ -536,7 +504,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
       if (development) {
         args.push(
           path.scope.buildUndefinedNode(),
-          core_1.types.booleanLiteral(children.length > 1),
+          t.booleanLiteral(children.length > 1),
         );
       }
       return call(file, children.length > 1 ? 'jsxs' : 'jsx', args);
@@ -547,8 +515,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
       if (filter && !filter(path.node, file)) return;
       return call(file, 'createElement', [
         get(file, 'id/fragment')(),
-        core_1.types.nullLiteral(),
-        ...core_1.types.reblend.buildChildren(path.node),
+        t.nullLiteral(),
+        ...t.react.buildChildren(path.node),
       ]);
     }
     // Builder
@@ -565,8 +533,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
           path,
           openingPath.get('attributes'),
         ),
-        // @ts-expect-error JSXSpreadChild has been transformed in convertAttributeValue
-        ...core_1.types.reblend.buildChildren(path.node),
+        // ts-expect-error JSXSpreadChild has been transformed in convertAttributeValue
+        ...t.react.buildChildren(path.node),
       ]);
     }
     function getTag(openingPath) {
@@ -575,13 +543,13 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
         openingPath.node,
       );
       let tagName;
-      if (core_1.types.isIdentifier(tagExpr)) {
+      if (t.isIdentifier(tagExpr)) {
         tagName = tagExpr.name;
-      } else if (core_1.types.isStringLiteral(tagExpr)) {
+      } else if (t.isStringLiteral(tagExpr)) {
         tagName = tagExpr.value;
       }
-      if (core_1.types.reblend.isCompatTag(tagName)) {
-        return core_1.types.stringLiteral(tagName);
+      if (t.react.isCompatTag(tagName)) {
+        return t.stringLiteral(tagName);
       } else {
         return tagExpr;
       }
@@ -602,50 +570,46 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
             // Convert syntax to use multiple objects instead of spread
             let start = 0;
             props.forEach((prop, i) => {
-              if (core_1.types.isSpreadElement(prop)) {
+              if (t.isSpreadElement(prop)) {
                 if (i > start) {
-                  objs.push(
-                    core_1.types.objectExpression(props.slice(start, i)),
-                  );
+                  objs.push(t.objectExpression(props.slice(start, i)));
                 }
                 objs.push(prop.argument);
                 start = i + 1;
               }
             });
             if (props.length > start) {
-              objs.push(core_1.types.objectExpression(props.slice(start)));
+              objs.push(t.objectExpression(props.slice(start)));
             }
           } else if (props.length) {
-            objs.push(core_1.types.objectExpression(props));
+            objs.push(t.objectExpression(props));
           }
           if (!objs.length) {
-            return core_1.types.nullLiteral();
+            return t.nullLiteral();
           }
           if (objs.length === 1) {
             if (
               !(
-                core_1.types.isSpreadElement(props[0]) &&
+                t.isSpreadElement(props[0]) &&
                 // If an object expression is spread element's argument
                 // it is very likely to contain __proto__ and we should stop
                 // optimizing spread element
-                core_1.types.isObjectExpression(props[0].argument)
+                t.isObjectExpression(props[0].argument)
               )
             ) {
               return objs[0];
             }
           }
           // looks like we have multiple objects
-          if (!core_1.types.isObjectExpression(objs[0])) {
-            objs.unshift(core_1.types.objectExpression([]));
+          if (!t.isObjectExpression(objs[0])) {
+            objs.unshift(t.objectExpression([]));
           }
           const helper = useBuiltIns
-            ? core_1.types.memberExpression(
-                core_1.types.identifier('Object'),
-                core_1.types.identifier('assign'),
-              )
-            : file.addHelper('extends');
+            ? t.memberExpression(t.identifier('Object'), t.identifier('assign'))
+            : //@ts-ignore
+              file.addHelper('extends');
           // spread it
-          return core_1.types.callExpression(helper, objs);
+          return t.callExpression(helper, objs);
         }
       }
       const props = [];
@@ -653,8 +617,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
       for (const attr of attribs) {
         const { node } = attr;
         const name =
-          core_1.types.isJSXAttribute(node) &&
-          core_1.types.isJSXIdentifier(node.name) &&
+          t.isJSXAttribute(node) &&
+          t.isJSXIdentifier(node.name) &&
           node.name.name;
         if (
           runtime === 'automatic' &&
@@ -666,15 +630,15 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
         accumulateAttribute(props, attr);
       }
       return props.length === 1 &&
-        core_1.types.isSpreadElement(props[0]) &&
+        t.isSpreadElement(props[0]) &&
         // If an object expression is spread element's argument
         // it is very likely to contain __proto__ and we should stop
         // optimizing spread element
-        !core_1.types.isObjectExpression(props[0].argument)
+        !t.isObjectExpression(props[0].argument)
         ? props[0].argument
         : props.length > 0
-          ? core_1.types.objectExpression(props)
-          : core_1.types.nullLiteral();
+          ? t.objectExpression(props)
+          : t.nullLiteral();
     }
   });
   function getSource(source, importName) {
@@ -693,53 +657,38 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
   function createImportLazily(pass, path, importName, source) {
     return () => {
       const actualSource = getSource(source, importName);
-      if ((0, helper_module_imports_1.isModule)(path)) {
+      if (isModule(path)) {
         let reference = get(pass, `imports/${importName}`);
-        if (reference) return core_1.types.cloneNode(reference);
-        reference = (0, helper_module_imports_1.addNamed)(
-          path,
-          importName,
-          actualSource,
-          {
-            importedInterop: 'uncompiled',
-            importPosition: 'after',
-          },
-        );
+        if (reference) return t.cloneNode(reference);
+        reference = addNamed(path, importName, actualSource, {
+          importedInterop: 'uncompiled',
+          importPosition: 'after',
+        });
         set(pass, `imports/${importName}`, reference);
         return reference;
       } else {
         let reference = get(pass, `requires/${actualSource}`);
         if (reference) {
-          reference = core_1.types.cloneNode(reference);
+          reference = t.cloneNode(reference);
         } else {
-          reference = (0, helper_module_imports_1.addNamespace)(
-            path,
-            actualSource,
-            {
-              importedInterop: 'uncompiled',
-            },
-          );
+          reference = addNamespace(path, actualSource, {
+            importedInterop: 'uncompiled',
+          });
           set(pass, `requires/${actualSource}`, reference);
         }
-        return core_1.types.memberExpression(
-          reference,
-          core_1.types.identifier(importName),
-        );
+        return t.memberExpression(reference, t.identifier(importName));
       }
     };
   }
 }
-exports.default = createPlugin;
 function toMemberExpression(id) {
   return (
     id
       .split('.')
-      .map(name => core_1.types.identifier(name))
+      .map(name => t.identifier(name))
       // @ts-expect-error - The Array#reduce does not have a signature
       // where the type of initial value differs from callback return type
-      .reduce((object, property) =>
-        core_1.types.memberExpression(object, property),
-      )
+      .reduce((object, property) => t.memberExpression(object, property))
   );
 }
 function makeSource(path, state) {
@@ -754,13 +703,13 @@ function makeSource(path, state) {
     const fileNameIdentifier = path.scope.generateUidIdentifier('_jsxFileName');
     path.scope.getProgramParent().push({
       id: fileNameIdentifier,
-      init: core_1.types.stringLiteral(filename),
+      init: t.stringLiteral(filename),
     });
     //  todo: avoid mutating PluginPass
     state.fileNameIdentifier = fileNameIdentifier;
   }
   return makeTrace(
-    core_1.types.cloneNode(
+    t.cloneNode(
       //  todo: avoid mutating PluginPass
       state.fileNameIdentifier,
     ),
@@ -770,14 +719,10 @@ function makeSource(path, state) {
 }
 function makeTrace(fileNameIdentifier, lineNumber, column0Based) {
   const fileLineLiteral =
-    lineNumber != null
-      ? core_1.types.numericLiteral(lineNumber)
-      : core_1.types.nullLiteral();
+    lineNumber != null ? t.numericLiteral(lineNumber) : t.nullLiteral();
   const fileColumnLiteral =
-    column0Based != null
-      ? core_1.types.numericLiteral(column0Based + 1)
-      : core_1.types.nullLiteral();
-  return core_1.template.expression.ast`{
+    column0Based != null ? t.numericLiteral(column0Based + 1) : t.nullLiteral();
+  return template.expression.ast`{
     fileName: ${fileNameIdentifier},
     lineNumber: ${fileLineLiteral},
     columnNumber: ${fileColumnLiteral},

@@ -30,13 +30,14 @@ export default declare(api => {
     pre(state) {
       const tagName = state.tagName;
       const args = state.args;
-      if (t.reblend.isCompatTag(tagName)) {
+      if (t.react.isCompatTag(tagName)) {
         args.push(t.stringLiteral(tagName));
       } else {
         args.push(state.tagExpr);
       }
     },
     post(state, pass) {
+      //@ts-ignore
       state.callee = pass.addHelper('jsx');
       // NOTE: The arguments passed to the "jsx" helper are:
       //   (element, props, key, ...children) or (element, props)

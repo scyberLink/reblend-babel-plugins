@@ -16,6 +16,7 @@ import {
   memberExpression,
   nullLiteral,
   objectExpression,
+  react,
   objectProperty,
   spreadElement,
   stringLiteral,
@@ -168,8 +169,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
     if (opts.filter && !opts.filter(path.node, pass)) return;
 
     const openingPath = path.get('openingElement');
-    // ts-expect-error mutating AST nodes
-    path.node.children = reblend.buildChildren(path.node);
+    // @ts-expect-error mutating AST nodes
+    path.node.children = react.buildChildren(path.node);
 
     const tagExpr = convertJSXIdentifier(
       openingPath.node.name,
@@ -312,8 +313,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
   function buildFragmentCall(path: NodePath<t.JSXFragment>, pass: PluginPass) {
     if (opts.filter && !opts.filter(path.node, pass)) return;
 
-    // ts-expect-error mutating AST nodes
-    path.node.children = reblend.buildChildren(path.node);
+    // @ts-expect-error mutating AST nodes
+    path.node.children = react.buildChildren(path.node);
 
     const args: t.Expression[] = [];
     const tagName: null = null;

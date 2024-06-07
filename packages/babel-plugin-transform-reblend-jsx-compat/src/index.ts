@@ -18,7 +18,7 @@ export default declare(api => {
       },
 
       post(state) {
-        if (t.reblend.isCompatTag(state.tagName)) {
+        if (t.react.isCompatTag(state.tagName)) {
           state.call = t.callExpression(
             t.memberExpression(
               t.memberExpression(t.identifier('Reblend'), t.identifier('DOM')),

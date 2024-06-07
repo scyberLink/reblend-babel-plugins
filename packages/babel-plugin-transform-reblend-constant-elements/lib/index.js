@@ -1,8 +1,6 @@
-'use strict';
-Object.defineProperty(exports, '__esModule', { value: true });
-const helper_plugin_utils_1 = require('@babel/helper-plugin-utils');
-const core_1 = require('@babel/core');
-exports.default = (0, helper_plugin_utils_1.declare)((api, options) => {
+import { declare } from '@babel/helper-plugin-utils';
+import { types as t, template } from '@babel/core';
+export default declare((api, options) => {
   api.assertVersion(REQUIRED_VERSION(7));
   const { allowMutablePropsOnTags } = options;
   if (
@@ -17,10 +15,10 @@ exports.default = (0, helper_plugin_utils_1.declare)((api, options) => {
   const HOISTED = new WeakMap();
   function declares(node, scope) {
     if (
-      core_1.types.isJSXIdentifier(node, { name: 'this' }) ||
-      core_1.types.isJSXIdentifier(node, { name: 'arguments' }) ||
-      core_1.types.isJSXIdentifier(node, { name: 'super' }) ||
-      core_1.types.isJSXIdentifier(node, { name: 'new' })
+      t.isJSXIdentifier(node, { name: 'this' }) ||
+      t.isJSXIdentifier(node, { name: 'arguments' }) ||
+      t.isJSXIdentifier(node, { name: 'super' }) ||
+      t.isJSXIdentifier(node, { name: 'new' })
     ) {
       const { path } = scope;
       return path.isFunctionParent() && !path.isArrowFunctionExpression();
@@ -146,7 +144,7 @@ exports.default = (0, helper_plugin_utils_1.declare)((api, options) => {
           // Get the element's name. If it's a member expression, we use the last part of the path.
           // So the option ["FormattedMessage"] would match "Intl.FormattedMessage".
           let lastSegment = name;
-          while (core_1.types.isJSXMemberExpression(lastSegment)) {
+          while (t.isJSXMemberExpression(lastSegment)) {
             lastSegment = lastSegment.property;
           }
           const elementName = lastSegment.name;
@@ -190,17 +188,17 @@ exports.default = (0, helper_plugin_utils_1.declare)((api, options) => {
           }
         }
         const id = path.scope.generateUidBasedOnNode(name);
-        targetScope.push({ id: core_1.types.identifier(id) });
+        targetScope.push({ id: t.identifier(id) });
         // If the element is to be hoisted, update HOISTED to be the target scope
         HOISTED.set(path.node, targetScope);
-        let replacement = core_1.template.expression.ast`
-          ${core_1.types.identifier(id)} || (${core_1.types.identifier(id)} = ${path.node})
+        let replacement = template.expression.ast`
+          ${t.identifier(id)} || (${t.identifier(id)} = ${path.node})
         `;
         if (
           path.parentPath.isJSXElement() ||
           path.parentPath.isJSXAttribute()
         ) {
-          replacement = core_1.types.jsxExpressionContainer(replacement);
+          replacement = t.jsxExpressionContainer(replacement);
         }
         path.replaceWith(replacement);
       },

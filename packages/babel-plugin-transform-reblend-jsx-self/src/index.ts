@@ -31,6 +31,7 @@ function getThisFunctionParent(
   do {
     const { path } = scope;
     if (path.isFunctionParent() && !path.isArrowFunctionExpression()) {
+      //@ts-ignore
       return path;
     }
   } while ((scope = scope.parent));

@@ -1,5 +1,6 @@
 import { declare } from '@babel/helper-plugin-utils';
 import { types as t, template } from '@babel/core';
+// @ts-ignore
 import type { Visitor, Scope, NodePath } from '@babel/core';
 
 export interface Options {

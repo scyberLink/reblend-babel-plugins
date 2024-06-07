@@ -1,32 +1,22 @@
-'use strict';
-var __importDefault =
-  (this && this.__importDefault) ||
-  function (mod) {
-    return mod && mod.__esModule ? mod : { default: mod };
-  };
-Object.defineProperty(exports, '__esModule', { value: true });
-const helper_plugin_utils_1 = require('@babel/helper-plugin-utils');
-const babel_helper_builder_reblend_jsx_1 = __importDefault(
-  require('babel-helper-builder-reblend-jsx'),
-);
-const core_1 = require('@babel/core');
-exports.default = (0, helper_plugin_utils_1.declare)(api => {
+import { declare } from '@babel/helper-plugin-utils';
+import helper from 'babel-helper-builder-reblend-jsx';
+import { types as t } from '@babel/core';
+export default declare(api => {
   api.assertVersion(REQUIRED_VERSION(7));
   function hasRefOrSpread(attrs) {
     for (let i = 0; i < attrs.length; i++) {
       const attr = attrs[i];
-      if (core_1.types.isJSXSpreadAttribute(attr)) return true;
+      if (t.isJSXSpreadAttribute(attr)) return true;
       if (isJSXAttributeOfName(attr, 'ref')) return true;
     }
     return false;
   }
   function isJSXAttributeOfName(attr, name) {
     return (
-      core_1.types.isJSXAttribute(attr) &&
-      core_1.types.isJSXIdentifier(attr.name, { name: name })
+      t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.name, { name: name })
     );
   }
-  const visitor = (0, babel_helper_builder_reblend_jsx_1.default)({
+  const visitor = helper({
     filter(node) {
       return (
         node.type === 'JSXElement' &&
@@ -36,13 +26,14 @@ exports.default = (0, helper_plugin_utils_1.declare)(api => {
     pre(state) {
       const tagName = state.tagName;
       const args = state.args;
-      if (core_1.types.reblend.isCompatTag(tagName)) {
-        args.push(core_1.types.stringLiteral(tagName));
+      if (t.react.isCompatTag(tagName)) {
+        args.push(t.stringLiteral(tagName));
       } else {
         args.push(state.tagExpr);
       }
     },
     post(state, pass) {
+      //@ts-ignore
       state.callee = pass.addHelper('jsx');
       // NOTE: The arguments passed to the "jsx" helper are:
       //   (element, props, key, ...children) or (element, props)
@@ -50,10 +41,10 @@ exports.default = (0, helper_plugin_utils_1.declare)(api => {
       //   (element, { ...props, key }, ...children)
       const props = state.args[1];
       let hasKey = false;
-      if (core_1.types.isObjectExpression(props)) {
+      if (t.isObjectExpression(props)) {
         const keyIndex = props.properties.findIndex(prop =>
           // @ts-expect-error todo(flow->ts) key does not exist on SpreadElement
-          core_1.types.isIdentifier(prop.key, { name: 'key' }),
+          t.isIdentifier(prop.key, { name: 'key' }),
         );
         if (keyIndex > -1) {
           // @ts-expect-error todo(flow->ts) value does not exist on ObjectMethod
@@ -61,15 +52,11 @@ exports.default = (0, helper_plugin_utils_1.declare)(api => {
           props.properties.splice(keyIndex, 1);
           hasKey = true;
         }
-      } else if (core_1.types.isNullLiteral(props)) {
-        state.args.splice(1, 1, core_1.types.objectExpression([]));
+      } else if (t.isNullLiteral(props)) {
+        state.args.splice(1, 1, t.objectExpression([]));
       }
       if (!hasKey && state.args.length > 2) {
-        state.args.splice(
-          2,
-          0,
-          core_1.types.unaryExpression('void', core_1.types.numericLiteral(0)),
-        );
+        state.args.splice(2, 0, t.unaryExpression('void', t.numericLiteral(0)));
       }
       state.pure = true;
     },

@@ -1,15 +1,6 @@
-'use strict';
-var __importDefault =
-  (this && this.__importDefault) ||
-  function (mod) {
-    return mod && mod.__esModule ? mod : { default: mod };
-  };
-Object.defineProperty(exports, '__esModule', { value: true });
-const helper_plugin_utils_1 = require('@babel/helper-plugin-utils');
-const helper_annotate_as_pure_1 = __importDefault(
-  require('@babel/helper-annotate-as-pure'),
-);
-const core_1 = require('@babel/core');
+import { declare } from '@babel/helper-plugin-utils';
+import annotateAsPure from '@babel/helper-annotate-as-pure';
+import { types as t } from '@babel/core';
 // Mapping of Reblend top-level methods that are pure.
 // This plugin adds a /*#__PURE__#/ annotation to calls to these methods,
 // so that terser and other minifiers can safely remove them during dead
@@ -32,14 +23,14 @@ const PURE_CALLS = [
   ],
   ['reblend-dom', new Set(['createPortal'])],
 ];
-exports.default = (0, helper_plugin_utils_1.declare)(api => {
+export default declare(api => {
   api.assertVersion(REQUIRED_VERSION(7));
   return {
     name: 'transform-reblend-pure-annotations',
     visitor: {
       CallExpression(path) {
         if (isReblendCall(path)) {
-          (0, helper_annotate_as_pure_1.default)(path);
+          annotateAsPure(path);
         }
       },
     },
@@ -65,7 +56,7 @@ function isReblendCall(path) {
   // property matches one of the pure methods.
   const object = calleePath.get('object');
   const callee = calleePath.node;
-  if (!callee.computed && core_1.types.isIdentifier(callee.property)) {
+  if (!callee.computed && t.isIdentifier(callee.property)) {
     const propertyName = callee.property.name;
     for (const [module, methods] of PURE_CALLS) {
       if (

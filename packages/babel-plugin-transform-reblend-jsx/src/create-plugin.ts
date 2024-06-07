@@ -1,6 +1,7 @@
 import jsx from '@babel/plugin-syntax-jsx';
 import { declare } from '@babel/helper-plugin-utils';
 import { template, types as t } from '@babel/core';
+//@ts-ignore
 import type { PluginPass, NodePath, Scope, Visitor } from '@babel/core';
 import { addNamed, addNamespace, isModule } from '@babel/helper-module-imports';
 import annotateAsPure from '@babel/helper-annotate-as-pure';
@@ -548,7 +549,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
         }
       }
 
-      const children = t.reblend.buildChildren(path.node);
+      const children = t.react.buildChildren(path.node);
 
       let attribs: t.ObjectExpression;
 
@@ -612,8 +613,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
       file: PluginPass,
     ) {
       const args = [get(file, 'id/fragment')()];
-
-      const children = t.reblend.buildChildren(path.node);
+      const children = t.react.buildChildren(path.node);
 
       args.push(
         t.objectExpression(
@@ -622,6 +622,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
                 buildChildrenProperty(
                   // The children here contains JSXSpreadChild,
                   // which will be thrown later
+                  //@ts-ignore
                   children,
                 ),
               ]
@@ -650,7 +651,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
       return call(file, 'createElement', [
         get(file, 'id/fragment')(),
         t.nullLiteral(),
-        ...t.reblend.buildChildren(path.node),
+        ...t.react.buildChildren(path.node),
       ]);
     }
 
@@ -672,8 +673,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
           path,
           openingPath.get('attributes'),
         ),
-        // @ts-expect-error JSXSpreadChild has been transformed in convertAttributeValue
-        ...t.reblend.buildChildren(path.node),
+        // ts-expect-error JSXSpreadChild has been transformed in convertAttributeValue
+        ...t.react.buildChildren(path.node),
       ]);
     }
 
@@ -690,7 +691,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
         tagName = tagExpr.value;
       }
 
-      if (t.reblend.isCompatTag(tagName)) {
+      if (t.react.isCompatTag(tagName)) {
         return t.stringLiteral(tagName);
       } else {
         return tagExpr;
@@ -758,7 +759,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
 
           const helper = useBuiltIns
             ? t.memberExpression(t.identifier('Object'), t.identifier('assign'))
-            : file.addHelper('extends');
+            : //@ts-ignore
+              file.addHelper('extends');
 
           // spread it
           return t.callExpression(helper, objs);
