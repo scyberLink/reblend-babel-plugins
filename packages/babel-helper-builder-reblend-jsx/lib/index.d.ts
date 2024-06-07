@@ -1,4 +1,4 @@
-import type { PluginPass, types as t } from '@babel/core';
+import type { PluginPass, Visitor, types as t } from '@babel/core';
 type ElementState = {
   tagExpr: t.Expression;
   tagName: string | undefined | null;
@@ -17,6 +17,6 @@ export interface Options {
   useSpread?: boolean;
   useBuiltIns?: boolean;
 }
-export default function (opts: Options): Visitor<PluginPass<Options>>;
+export default function (opts: Options): Visitor<any>;
 export {};
 //# sourceMappingURL=index.d.ts.map

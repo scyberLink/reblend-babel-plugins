@@ -17,6 +17,5 @@
     "noImplicitAny": false,
     "strictBindCallApply": true
   },
-  "exclude": ["**/test/**"],
-  "include": ["lib"]
+  "exclude": ["**/test/**"]
 }

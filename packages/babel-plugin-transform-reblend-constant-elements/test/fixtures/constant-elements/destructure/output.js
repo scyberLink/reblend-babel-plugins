@@ -1,4 +1,4 @@
-class AnchorLink extends Component {
+class AnchorLink extends Reblend {
   render() {
     const _this$props = this.props,
       isExternal = _this$props.isExternal,

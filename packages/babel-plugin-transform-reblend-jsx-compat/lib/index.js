@@ -22,7 +22,7 @@ exports.default = (0, helper_plugin_utils_1.declare)(api => {
         state.callee = state.tagExpr;
       },
       post(state) {
-        if (core_1.types.react.isCompatTag(state.tagName)) {
+        if (core_1.types.reblend.isCompatTag(state.tagName)) {
           state.call = core_1.types.callExpression(
             core_1.types.memberExpression(
               core_1.types.memberExpression(

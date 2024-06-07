@@ -21,10 +21,10 @@
   ],
   "dependencies": {
     "@babel/core": "latest",
-    "@babel/helper-annotate-as-pure": "^7.24.6",
+    "@babel/helper-annotate-as-pure": "^7.24.7",
     "@babel/helper-module-imports": "latest",
     "@babel/helper-plugin-utils": "latest",
-    "@babel/plugin-syntax-jsx": "latest",
+    "@babel/plugin-syntax-jsx": "^7.24.7",
     "@babel/types": "latest"
   },
   "devDependencies": {

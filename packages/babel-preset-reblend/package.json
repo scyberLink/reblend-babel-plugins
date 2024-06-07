@@ -19,17 +19,17 @@
     "build": "npx tsc"
   },
   "dependencies": {
-    "@babel/helper-plugin-utils": "^7.24.6",
-    "@babel/helper-validator-option": "^7.24.6",
+    "@babel/helper-plugin-utils": "^7.24.7",
+    "@babel/helper-validator-option": "^7.24.7",
     "babel-plugin-transform-reblend-display-name": "latest",
     "babel-plugin-transform-reblend-jsx": "latest",
     "babel-plugin-transform-reblend-jsx-development": "latest",
     "babel-plugin-transform-reblend-pure-annotations": "latest"
   },
   "devDependencies": {
-    "@babel/core": "latest",
+    "@babel/core": "^7.24.7",
     "@babel/helper-plugin-test-runner": "latest",
-    "@babel/types": "latest"
+    "@babel/types": "^7.24.7"
   },
   "engines": {
     "node": ">=6.9.0"

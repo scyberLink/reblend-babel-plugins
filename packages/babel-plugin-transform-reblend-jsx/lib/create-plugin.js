@@ -25,8 +25,8 @@ const JSX_SOURCE_ANNOTATION_REGEX =
 const JSX_RUNTIME_ANNOTATION_REGEX = /^\s*\*?\s*@jsxRuntime\s+([^\s]+)\s*$/m;
 const JSX_ANNOTATION_REGEX = /^\s*\*?\s*@jsx\s+([^\s]+)\s*$/m;
 const JSX_FRAG_ANNOTATION_REGEX = /^\s*\*?\s*@jsxFrag\s+([^\s]+)\s*$/m;
-const get = (pass, name) => pass.get(`@babel/plugin-reblend-jsx/${name}`);
-const set = (pass, name, v) => pass.set(`@babel/plugin-reblend-jsx/${name}`, v);
+const get = (pass, name) => pass.get(`babel-plugin-reblend-jsx/${name}`);
+const set = (pass, name, v) => pass.set(`babel-plugin-reblend-jsx/${name}`, v);
 function hasProto(node) {
   return node.properties.some(
     value =>
@@ -470,7 +470,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
           attribsArray.push(attr);
         }
       }
-      const children = core_1.types.react.buildChildren(path.node);
+      const children = core_1.types.reblend.buildChildren(path.node);
       let attribs;
       if (attribsArray.length || children.length) {
         attribs = buildJSXOpeningElementAttributes(
@@ -551,12 +551,14 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
         ...core_1.types.reblend.buildChildren(path.node),
       ]);
     }
+    // Builder
     // Builds JSX into:
     // Production: Reblend.construct(type, arguments, children)
     // Development: Reblend.construct(type, arguments, children, source, self)
     function buildCreateElementCall(path, file) {
       const openingPath = path.get('openingElement');
       return call(file, 'createElement', [
+        'this',
         getTag(openingPath),
         buildCreateElementOpeningElementAttributes(
           file,

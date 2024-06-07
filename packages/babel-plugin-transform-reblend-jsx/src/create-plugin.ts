@@ -34,9 +34,9 @@ const JSX_ANNOTATION_REGEX = /^\s*\*?\s*@jsx\s+([^\s]+)\s*$/m;
 const JSX_FRAG_ANNOTATION_REGEX = /^\s*\*?\s*@jsxFrag\s+([^\s]+)\s*$/m;
 
 const get = (pass: PluginPass, name: string) =>
-  pass.get(`@babel/plugin-reblend-jsx/${name}`);
+  pass.get(`babel-plugin-reblend-jsx/${name}`);
 const set = (pass: PluginPass, name: string, v: any) =>
-  pass.set(`@babel/plugin-reblend-jsx/${name}`, v);
+  pass.set(`babel-plugin-reblend-jsx/${name}`, v);
 
 function hasProto(node: t.ObjectExpression) {
   return node.properties.some(
@@ -548,7 +548,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
         }
       }
 
-      const children = t.react.buildChildren(path.node);
+      const children = t.reblend.buildChildren(path.node);
 
       let attribs: t.ObjectExpression;
 
@@ -654,6 +654,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
       ]);
     }
 
+    // Builder
     // Builds JSX into:
     // Production: Reblend.construct(type, arguments, children)
     // Development: Reblend.construct(type, arguments, children, source, self)
@@ -664,6 +665,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
       const openingPath = path.get('openingElement');
 
       return call(file, 'createElement', [
+        'this',
         getTag(openingPath),
         buildCreateElementOpeningElementAttributes(
           file,

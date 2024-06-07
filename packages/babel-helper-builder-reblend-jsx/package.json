@@ -17,13 +17,13 @@
     "build": "npx tsc"
   },
   "dependencies": {
-    "@babel/core": "latest",
-    "@babel/helper-annotate-as-pure": "latest",
-    "@babel/types": "latest",
+    "@babel/core": "^7.24.7",
+    "@babel/helper-annotate-as-pure": "^7.24.7",
+    "@babel/types": "^7.24.7",
     "reblendjs": "^1.1.4"
   },
   "devDependencies": {
-    "@babel/traverse": "latest"
+    "@babel/traverse": "^7.24.7"
   },
   "engines": {
     "node": ">=6.9.0"
