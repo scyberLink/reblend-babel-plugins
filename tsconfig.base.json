@@ -3,7 +3,7 @@
     //"composite": true,
     //"rootDir": ".",
     "target": "ESNext",
-    "module": "CommonJS",
+    "module": "preserve",
     "lib": ["ESNext"],
     "declaration": true,
     "declarationMap": true,
