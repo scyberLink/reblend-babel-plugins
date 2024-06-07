@@ -1,9 +1,8 @@
-import {
-  OptionValidator,
-  findSuggestion,
-} from '@babel/helper-validator-option';
-const v = new OptionValidator('babel-preset-reblend');
-export default function normalizeOptions(options = {}) {
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const helper_validator_option_1 = require('@babel/helper-validator-option');
+const v = new helper_validator_option_1.OptionValidator('babel-preset-reblend');
+function normalizeOptions(options = {}) {
   if (process.env.BABEL_8_BREAKING) {
     if ('useSpread' in options) {
       throw new Error(
@@ -66,7 +65,7 @@ export default function normalizeOptions(options = {}) {
     } else {
       throw new Error(
         `babel-preset-reblend: 'runtime' must be one of ['automatic', 'classic'] but we have '${runtime}'\n` +
-          `- Did you mean '${findSuggestion(runtime, validRuntime)}'?`,
+          `- Did you mean '${(0, helper_validator_option_1.findSuggestion)(runtime, validRuntime)}'?`,
       );
     }
     return {
@@ -106,3 +105,4 @@ export default function normalizeOptions(options = {}) {
     };
   }
 }
+exports.default = normalizeOptions;

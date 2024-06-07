@@ -1,3 +1,5 @@
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 /**
  * This adds a __self={this} JSX attribute to all JSX elements, which Reblend will use
  * to generate some runtime warnings. However, if the JSX element appears within a
@@ -12,8 +14,8 @@
  *
  * <sometag __self={this} />
  */
-import { declare } from '@babel/helper-plugin-utils';
-import { types as t } from '@babel/core';
+const helper_plugin_utils_1 = require('@babel/helper-plugin-utils');
+const core_1 = require('@babel/core');
 const TRACE_ID = '__self';
 /**
  * Finds the closest parent function that provides `this`. Specifically, this looks for
@@ -60,7 +62,7 @@ function isThisAllowed(path) {
   // Now we are in a constructor. If it is a derived class, we do not reference `this`.
   return !isDerivedClass(parentMethodOrFunction.parentPath.parentPath);
 }
-export default declare(api => {
+exports.default = (0, helper_plugin_utils_1.declare)(api => {
   api.assertVersion(REQUIRED_VERSION(7));
   const visitor = {
     JSXOpeningElement(path) {
@@ -68,9 +70,14 @@ export default declare(api => {
         return;
       }
       const node = path.node;
-      const id = t.jsxIdentifier(TRACE_ID);
-      const trace = t.thisExpression();
-      node.attributes.push(t.jsxAttribute(id, t.jsxExpressionContainer(trace)));
+      const id = core_1.types.jsxIdentifier(TRACE_ID);
+      const trace = core_1.types.thisExpression();
+      node.attributes.push(
+        core_1.types.jsxAttribute(
+          id,
+          core_1.types.jsxExpressionContainer(trace),
+        ),
+      );
     },
   };
   return {

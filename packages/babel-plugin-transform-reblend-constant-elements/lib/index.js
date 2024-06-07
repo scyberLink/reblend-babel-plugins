@@ -1,6 +1,8 @@
-import { declare } from '@babel/helper-plugin-utils';
-import { types as t, template } from '@babel/core';
-export default declare((api, options) => {
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const helper_plugin_utils_1 = require('@babel/helper-plugin-utils');
+const core_1 = require('@babel/core');
+exports.default = (0, helper_plugin_utils_1.declare)((api, options) => {
   api.assertVersion(REQUIRED_VERSION(7));
   const { allowMutablePropsOnTags } = options;
   if (
@@ -15,10 +17,10 @@ export default declare((api, options) => {
   const HOISTED = new WeakMap();
   function declares(node, scope) {
     if (
-      t.isJSXIdentifier(node, { name: 'this' }) ||
-      t.isJSXIdentifier(node, { name: 'arguments' }) ||
-      t.isJSXIdentifier(node, { name: 'super' }) ||
-      t.isJSXIdentifier(node, { name: 'new' })
+      core_1.types.isJSXIdentifier(node, { name: 'this' }) ||
+      core_1.types.isJSXIdentifier(node, { name: 'arguments' }) ||
+      core_1.types.isJSXIdentifier(node, { name: 'super' }) ||
+      core_1.types.isJSXIdentifier(node, { name: 'new' })
     ) {
       const { path } = scope;
       return path.isFunctionParent() && !path.isArrowFunctionExpression();
@@ -56,6 +58,7 @@ export default declare((api, options) => {
   };
   const immutabilityVisitor = {
     enter(path, state) {
+      var _a;
       const stop = () => {
         state.isImmutable = false;
         path.stop();
@@ -87,7 +90,8 @@ export default declare((api, options) => {
       // Ignore constant bindings.
       if (path.isIdentifier()) {
         const binding = path.scope.getBinding(path.node.name);
-        if (binding?.constant) return;
+        if (binding === null || binding === void 0 ? void 0 : binding.constant)
+          return;
       }
       // If we allow mutable props, tags with function expressions can be
       // safely hoisted.
@@ -118,7 +122,11 @@ export default declare((api, options) => {
           skip();
           return;
         }
-      } else if (expressionResult.deopt?.isIdentifier()) {
+      } else if (
+        (_a = expressionResult.deopt) === null || _a === void 0
+          ? void 0
+          : _a.isIdentifier()
+      ) {
         // It's safe to hoist here if the deopt reason is an identifier (e.g. func param).
         // The hoister will take care of how high up it can be hoisted.
         return;
@@ -129,7 +137,10 @@ export default declare((api, options) => {
   // We cannot use traverse.visitors.merge because it doesn't support
   // immutabilityVisitor's bare `enter` visitor.
   // It's safe to just use ... because the two visitors don't share any key.
-  const hoistingVisitor = { ...immutabilityVisitor, ...targetScopeVisitor };
+  const hoistingVisitor = Object.assign(
+    Object.assign({}, immutabilityVisitor),
+    targetScopeVisitor,
+  );
   return {
     name: 'transform-reblend-constant-elements',
     visitor: {
@@ -144,7 +155,7 @@ export default declare((api, options) => {
           // Get the element's name. If it's a member expression, we use the last part of the path.
           // So the option ["FormattedMessage"] would match "Intl.FormattedMessage".
           let lastSegment = name;
-          while (t.isJSXMemberExpression(lastSegment)) {
+          while (core_1.types.isJSXMemberExpression(lastSegment)) {
             lastSegment = lastSegment.property;
           }
           const elementName = lastSegment.name;
@@ -161,7 +172,9 @@ export default declare((api, options) => {
           current = current.parentPath;
           jsxScope = HOISTED.get(current.node);
         }
-        jsxScope ??= path.scope;
+        jsxScope !== null && jsxScope !== void 0
+          ? jsxScope
+          : (jsxScope = path.scope);
         // The initial HOISTED is set to jsxScope, s.t.
         // if the element's JSX ancestor has been hoisted, it will be skipped
         HOISTED.set(path.node, jsxScope);
@@ -188,17 +201,17 @@ export default declare((api, options) => {
           }
         }
         const id = path.scope.generateUidBasedOnNode(name);
-        targetScope.push({ id: t.identifier(id) });
+        targetScope.push({ id: core_1.types.identifier(id) });
         // If the element is to be hoisted, update HOISTED to be the target scope
         HOISTED.set(path.node, targetScope);
-        let replacement = template.expression.ast`
-          ${t.identifier(id)} || (${t.identifier(id)} = ${path.node})
+        let replacement = core_1.template.expression.ast`
+          ${core_1.types.identifier(id)} || (${core_1.types.identifier(id)} = ${path.node})
         `;
         if (
           path.parentPath.isJSXElement() ||
           path.parentPath.isJSXAttribute()
         ) {
-          replacement = t.jsxExpressionContainer(replacement);
+          replacement = core_1.types.jsxExpressionContainer(replacement);
         }
         path.replaceWith(replacement);
       },

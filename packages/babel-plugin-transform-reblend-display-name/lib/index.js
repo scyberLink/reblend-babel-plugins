@@ -1,35 +1,45 @@
-import { declare } from '@babel/helper-plugin-utils';
-import path from 'path';
-import { types as t } from '@babel/core';
-export default declare(api => {
+'use strict';
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
+Object.defineProperty(exports, '__esModule', { value: true });
+const helper_plugin_utils_1 = require('@babel/helper-plugin-utils');
+const path_1 = __importDefault(require('path'));
+const core_1 = require('@babel/core');
+exports.default = (0, helper_plugin_utils_1.declare)(api => {
   api.assertVersion(REQUIRED_VERSION(7));
   function addDisplayName(id, call) {
     const props = call.arguments[0].properties;
     let safe = true;
     for (let i = 0; i < props.length; i++) {
       const prop = props[i];
-      if (t.isSpreadElement(prop)) {
+      if (core_1.types.isSpreadElement(prop)) {
         continue;
       }
-      const key = t.toComputedKey(prop);
-      if (t.isStringLiteral(key, { value: 'displayName' })) {
+      const key = core_1.types.toComputedKey(prop);
+      if (core_1.types.isStringLiteral(key, { value: 'displayName' })) {
         safe = false;
         break;
       }
     }
     if (safe) {
       props.unshift(
-        t.objectProperty(t.identifier('displayName'), t.stringLiteral(id)),
+        core_1.types.objectProperty(
+          core_1.types.identifier('displayName'),
+          core_1.types.stringLiteral(id),
+        ),
       );
     }
   }
-  const isCreateClassCallExpression = t.buildMatchMemberExpression(
+  const isCreateClassCallExpression = core_1.types.buildMatchMemberExpression(
     'Reblend.createClass',
   );
   const isCreateClassAddon = callee =>
-    t.isIdentifier(callee, { name: 'createReblendClass' });
+    core_1.types.isIdentifier(callee, { name: 'createReblendClass' });
   function isCreateClass(node) {
-    if (!node || !t.isCallExpression(node)) return false;
+    if (!node || !core_1.types.isCallExpression(node)) return false;
     // not createReblendClass nor Reblend.createClass call member object
     if (
       !isCreateClassCallExpression(node.callee) &&
@@ -42,7 +52,7 @@ export default declare(api => {
     if (args.length !== 1) return false;
     // first node arg is not an object
     const first = args[0];
-    if (!t.isObjectExpression(first)) return false;
+    if (!core_1.types.isObjectExpression(first)) return false;
     return true;
   }
   return {
@@ -51,10 +61,15 @@ export default declare(api => {
       ExportDefaultDeclaration({ node }, state) {
         if (isCreateClass(node.declaration)) {
           const filename = state.filename || 'unknown';
-          let displayName = path.basename(filename, path.extname(filename));
+          let displayName = path_1.default.basename(
+            filename,
+            path_1.default.extname(filename),
+          );
           // ./{module name}/index.js
           if (displayName === 'index') {
-            displayName = path.basename(path.dirname(filename));
+            displayName = path_1.default.basename(
+              path_1.default.dirname(filename),
+            );
           }
           addDisplayName(displayName, node.declaration);
         }
@@ -81,11 +96,11 @@ export default declare(api => {
         // ensure that we have an identifier we can inherit from
         if (!id) return;
         // foo.bar -> bar
-        if (t.isMemberExpression(id)) {
+        if (core_1.types.isMemberExpression(id)) {
           id = id.property;
         }
         // identifiers are the only thing we can reliably get a name from
-        if (t.isIdentifier(id)) {
+        if (core_1.types.isIdentifier(id)) {
           addDisplayName(id.name, node);
         }
       },

@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "lib": ["ESNext"],
+    "target": "ES2015",
+    "module": "CommonJS",
+    //"lib": ["ESNext"],
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
