@@ -1,8 +1,0 @@
-{
-  "plugins": [
-    ["babel-plugin-flow-reblend-proptypes", {
-      "omitRuntimeTypeExport": true
-    }],
-    "@babel/plugin-transform-flow-strip-types"
-  ]
-}

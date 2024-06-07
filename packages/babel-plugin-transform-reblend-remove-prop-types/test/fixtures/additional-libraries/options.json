@@ -1,4 +1,0 @@
-{
-  "additionalLibraries": ["reblend-immutable-proptypes"],
-  "removeImport": true
-}
