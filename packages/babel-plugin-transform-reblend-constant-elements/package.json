@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-reblend-constant-elements",
-  "version": "7.24.16",
+  "version": "7.24.17",
   "description": "Treat Reblend JSX elements as value types and hoist them to the highest scope",
   "repository": {
     "type": "git",
