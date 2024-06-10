@@ -12,6 +12,7 @@ for dir in "$base_dir"/*; do
     # Change directory to the current package directory
     cd "$dir"
 
+    rm -rf lib
     # Install dependencies using npx tsc
     npx tsc
 
