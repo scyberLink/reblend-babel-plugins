@@ -21,7 +21,7 @@
   "scripts": {
     "changelog": "lerna-changelog",
     "npm": "tasks/npm.sh",
-    "publish": "tasks/publish.sh",
+    "publish": "npm run build; tasks/publish.sh",
     "build": "lerna run build",
     "compile": "npx tsc",
     "compile:packages": "tasks/compile.sh",

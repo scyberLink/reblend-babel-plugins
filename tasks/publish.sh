@@ -31,9 +31,6 @@ if [ -n "$(git status --porcelain)" ]; then
   exit 1;
 fi
 
-# Compile
-npm run build
-
 # Get 2FA when not CI
 otp=""
 if [ -z $CI ]; then
