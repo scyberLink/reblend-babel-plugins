@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-reblend-pure-annotations",
-  "version": "7.24.19",
+  "version": "7.24.20",
   "description": "Mark top-level Reblend method calls as pure for tree shaking",
   "repository": {
     "type": "git",
