@@ -3,7 +3,7 @@ import helper from 'babel-helper-builder-reblend-jsx';
 import { types as t } from '@babel/core';
 
 export default declare(api => {
-  api.assertVersion(REQUIRED_VERSION(7));
+  //api.assertVersion(REQUIRED_VERSION(7));
 
   return {
     name: 'transform-reblend-jsx-compat',

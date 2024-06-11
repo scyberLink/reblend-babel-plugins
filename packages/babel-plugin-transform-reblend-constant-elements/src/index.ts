@@ -14,7 +14,7 @@ interface VisitorState {
   targetScope: Scope;
 }
 export default declare((api, options: Options) => {
-  api.assertVersion(REQUIRED_VERSION(7));
+  //api.assertVersion(REQUIRED_VERSION(7));
 
   const { allowMutablePropsOnTags } = options;
 

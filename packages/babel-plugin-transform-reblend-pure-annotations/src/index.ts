@@ -22,11 +22,10 @@ const PURE_CALLS: [string, Set<string>][] = [
       'lazy',
     ]),
   ],
-  ['reblend-dom', new Set(['createPortal'])],
 ];
 
 export default declare(api => {
-  api.assertVersion(REQUIRED_VERSION(7));
+  //api.assertVersion(REQUIRED_VERSION(7));
 
   return {
     name: 'transform-reblend-pure-annotations',
