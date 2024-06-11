@@ -40,7 +40,7 @@
   (5:4-9)     <div clas           <--  (3:27-28) eact.crea
               ^^^^^                                  ^
 
-  (5:4-9)     <div clas           <--  (3:28-41) act.createElement("di
+  (5:4-9)     <div clas           <--  (3:28-41) act.construct("di
               ^^^^^                                  ^^^^^^^^^^^^^
 
   (5:4-9)     <div clas           <--  (3:41-50) ment("div", {
@@ -64,7 +64,7 @@
  (6:6-10)     <h1>Welc            <--  (5:23-24) eact.crea
               ^^^^                                   ^
 
- (6:6-10)     <h1>Welc            <--  (5:24-37) act.createElement("h1
+ (6:6-10)     <h1>Welc            <--  (5:24-37) act.construct("h1
               ^^^^                                   ^^^^^^^^^^^^^
 
  (6:6-10)     <h1>Welc            <--  (5:37-50) ment("h1", null, "Wel
@@ -88,7 +88,7 @@
  (8:6-14)     <strong>MINE        <--  (5:118-119) eact.crea
               ^^^^^^^^                                 ^
 
- (8:6-14)     <strong>MINE        <--  (5:119-132) act.createElement("st
+ (8:6-14)     <strong>MINE        <--  (5:119-132) act.construct("st
               ^^^^^^^^                                 ^^^^^^^^^^^^^
 
  (8:6-14)     <strong>MINE        <--  (5:132-149) ment("strong", null, "MIN

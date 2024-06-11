@@ -233,10 +233,10 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
                 );
               }
 
-              const createElement = toMemberExpression(pragma);
+              const construct = toMemberExpression(pragma);
               const fragment = toMemberExpression(pragmaFrag);
 
-              set(state, 'id/createElement', () => t.cloneNode(createElement));
+              set(state, 'id/construct', () => t.cloneNode(construct));
               set(state, 'id/fragment', () => t.cloneNode(fragment));
 
               set(state, 'defaultPure', pragma === DEFAULT.pragma);
@@ -252,7 +252,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
 
               define('id/jsx', development ? 'jsxDEV' : 'jsx');
               define('id/jsxs', development ? 'jsxDEV' : 'jsxs');
-              define('id/createElement', 'createElement');
+              define('id/construct', 'construct');
               define('id/fragment', 'Fragment');
 
               set(state, 'defaultPure', source === DEFAULT.importSource);
@@ -289,7 +289,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
           exit(path, file) {
             let callExpr;
             if (get(file, 'runtime') === 'classic') {
-              callExpr = buildCreateElementFragmentCall(path, file);
+              callExpr = buildConstructFragmentCall(path, file);
             } else {
               callExpr = buildJSXFragmentCall(path, file);
             }
@@ -303,9 +303,9 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
             let callExpr;
             if (
               get(file, 'runtime') === 'classic' ||
-              shouldUseCreateElement(path)
+              shouldUseConstruct(path)
             ) {
-              callExpr = buildCreateElementCall(path, file);
+              callExpr = buildConstructCall(path, file);
             } else {
               callExpr = buildJSXElementCall(path, file);
             }
@@ -368,8 +368,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
     // jsx, for <div {...props} key={key} /> to distinguish it
     // from <div key={key} {...props} />. This is an intermediary
     // step while we deprecate key spread from props. Afterwards,
-    // we will stop using createElement in the transform.
-    function shouldUseCreateElement(path: NodePath<JSXElement>) {
+    // we will stop using construct in the transform.
+    function shouldUseConstruct(path: NodePath<JSXElement>) {
       const openingPath = path.get('openingElement');
       const attributes = openingPath.node.attributes;
 
@@ -642,13 +642,13 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
 
     // Builds JSX Fragment <></> into
     // Reblend.construct(Reblend, null, ...children)
-    function buildCreateElementFragmentCall(
+    function buildConstructFragmentCall(
       path: NodePath<JSXFragment>,
       file: PluginPass,
     ) {
       if (filter && !filter(path.node, file)) return;
 
-      return call(file, 'createElement', [
+      return call(file, 'construct', [
         get(file, 'id/fragment')(),
         t.nullLiteral(),
         ...t.react.buildChildren(path.node),
@@ -659,16 +659,12 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
     // Builds JSX into:
     // Production: Reblend.construct(type, arguments, children)
     // Development: Reblend.construct(type, arguments, children, source, self)
-    function buildCreateElementCall(
-      path: NodePath<JSXElement>,
-      file: PluginPass,
-    ) {
+    function buildConstructCall(path: NodePath<JSXElement>, file: PluginPass) {
       const openingPath = path.get('openingElement');
 
-      return call(file, 'createElement', [
-        'this',
+      return call(file, 'construct', [
         getTag(openingPath),
-        buildCreateElementOpeningElementAttributes(
+        buildConstructOpeningElementAttributes(
           file,
           path,
           openingPath.get('attributes'),
@@ -704,7 +700,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
      * breaking on spreads, we then push a new object containing
      * all prior attributes to an array for later processing.
      */
-    function buildCreateElementOpeningElementAttributes(
+    function buildConstructOpeningElementAttributes(
       file: PluginPass,
       path: NodePath<JSXElement>,
       attribs: NodePath<JSXAttribute | JSXSpreadAttribute>[],
@@ -810,7 +806,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
       case 'jsx':
       case 'jsxs':
         return `${source}/jsx-runtime`;
-      case 'createElement':
+      case 'construct':
         return source;
     }
   }

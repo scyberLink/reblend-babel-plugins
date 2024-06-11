@@ -13,7 +13,7 @@ const PURE_CALLS: [string, Set<string>][] = [
     new Set([
       'cloneElement',
       'createContext',
-      'createElement',
+      'construct',
       'createFactory',
       'createRef',
       'forwardRef',

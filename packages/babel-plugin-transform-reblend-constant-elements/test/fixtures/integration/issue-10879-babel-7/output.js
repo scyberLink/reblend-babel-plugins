@@ -12,7 +12,7 @@ var buildTest = function buildTest(name) {
   return function () {
     return (
       _MyComponent ||
-      (_MyComponent = /*#__PURE__*/ _reblend['default'].createElement(
+      (_MyComponent = /*#__PURE__*/ _reblend['default'].construct(
         MyComponent,
         {
           name: name,

@@ -4,7 +4,7 @@ import {
   jsxDEV as _jsxDEV,
   Fragment as _Fragment,
 } from 'reblend/jsx-dev-runtime';
-import { createElement as _createElement } from 'reblend';
+import { construct as _construct } from 'reblend';
 var x = /*#__PURE__*/ _jsxDEV(
   _Fragment,
   {
@@ -50,7 +50,7 @@ var x = /*#__PURE__*/ _jsxDEV(
             },
             this,
           ),
-          /*#__PURE__*/ _createElement('div', {
+          /*#__PURE__*/ _construct('div', {
             ...props,
             key: '4',
             __self: this,

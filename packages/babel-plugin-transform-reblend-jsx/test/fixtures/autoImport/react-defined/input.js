@@ -1,5 +1,5 @@
 import * as reblend from 'reblend';
-var y = reblend.createElement('div', { foo: 1 });
+var y = reblend.construct('div', { foo: 1 });
 var x = (
   <div>
     <div key="1" />

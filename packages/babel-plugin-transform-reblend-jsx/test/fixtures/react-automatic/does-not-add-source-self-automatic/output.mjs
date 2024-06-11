@@ -3,7 +3,7 @@ import {
   jsxs as _jsxs,
   Fragment as _Fragment,
 } from 'reblend/jsx-runtime';
-import { createElement as _createElement } from 'reblend';
+import { construct as _construct } from 'reblend';
 var x = /*#__PURE__*/ _jsx(_Fragment, {
   children: /*#__PURE__*/ _jsxs('div', {
     children: [
@@ -16,7 +16,7 @@ var x = /*#__PURE__*/ _jsx(_Fragment, {
         '2'
       ),
       /*#__PURE__*/ _jsx('div', {}, '3'),
-      /*#__PURE__*/ _createElement('div', {
+      /*#__PURE__*/ _construct('div', {
         ...props,
         key: '4',
       }),

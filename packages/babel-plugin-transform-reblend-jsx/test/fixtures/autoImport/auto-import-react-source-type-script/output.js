@@ -12,7 +12,7 @@ var x = /*#__PURE__*/ _reblendJsxRuntime.jsx(_reblendJsxRuntime.Fragment, {
         '2'
       ),
       /*#__PURE__*/ _reblendJsxRuntime.jsx('div', {}, '3'),
-      /*#__PURE__*/ _reblend.createElement('div', {
+      /*#__PURE__*/ _reblend.construct('div', {
         ...props,
         key: '4',
       }),
