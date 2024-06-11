@@ -23,8 +23,8 @@ export default declarePreset((api, opts: Options) => {
   const {
     development,
     importSource,
-    pragma,
-    pragmaFrag,
+    pragma = 'Reblend.construct',
+    pragmaFrag = 'Reblend',
     pure,
     runtime,
     throwIfNamespace,
