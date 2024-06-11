@@ -131,9 +131,9 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
                             if (sourceSet) {
                                 throw path.buildCodeFrameError(`importSource cannot be set when runtime is classic.`);
                             }
-                            const createElement = toMemberExpression(pragma);
+                            const construct = toMemberExpression(pragma);
                             const fragment = toMemberExpression(pragmaFrag);
-                            set(state, 'id/createElement', () => core_1.types.cloneNode(createElement));
+                            set(state, 'id/construct', () => core_1.types.cloneNode(construct));
                             set(state, 'id/fragment', () => core_1.types.cloneNode(fragment));
                             set(state, 'defaultPure', pragma === DEFAULT.pragma);
                         }
@@ -144,7 +144,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
                             const define = (name, id) => set(state, name, createImportLazily(state, path, id, source));
                             define('id/jsx', development ? 'jsxDEV' : 'jsx');
                             define('id/jsxs', development ? 'jsxDEV' : 'jsxs');
-                            define('id/createElement', 'createElement');
+                            define('id/construct', 'construct');
                             define('id/fragment', 'Fragment');
                             set(state, 'defaultPure', source === DEFAULT.importSource);
                         }
@@ -176,7 +176,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
                     exit(path, file) {
                         let callExpr;
                         if (get(file, 'runtime') === 'classic') {
-                            callExpr = buildCreateElementFragmentCall(path, file);
+                            callExpr = buildConstructFragmentCall(path, file);
                         }
                         else {
                             callExpr = buildJSXFragmentCall(path, file);
@@ -188,8 +188,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
                     exit(path, file) {
                         let callExpr;
                         if (get(file, 'runtime') === 'classic' ||
-                            shouldUseCreateElement(path)) {
-                            callExpr = buildCreateElementCall(path, file);
+                            shouldUseConstruct(path)) {
+                            callExpr = buildConstructCall(path, file);
                         }
                         else {
                             callExpr = buildJSXElementCall(path, file);
@@ -244,8 +244,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
         // jsx, for <div {...props} key={key} /> to distinguish it
         // from <div key={key} {...props} />. This is an intermediary
         // step while we deprecate key spread from props. Afterwards,
-        // we will stop using createElement in the transform.
-        function shouldUseCreateElement(path) {
+        // we will stop using construct in the transform.
+        function shouldUseConstruct(path) {
             const openingPath = path.get('openingElement');
             const attributes = openingPath.node.attributes;
             let seenPropsSpread = false;
@@ -457,10 +457,10 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
         }
         // Builds JSX Fragment <></> into
         // Reblend.construct(Reblend, null, ...children)
-        function buildCreateElementFragmentCall(path, file) {
+        function buildConstructFragmentCall(path, file) {
             if (filter && !filter(path.node, file))
                 return;
-            return call(file, 'createElement', [
+            return call(file, 'construct', [
                 get(file, 'id/fragment')(),
                 core_1.types.nullLiteral(),
                 ...core_1.types.react.buildChildren(path.node),
@@ -470,12 +470,11 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
         // Builds JSX into:
         // Production: Reblend.construct(type, arguments, children)
         // Development: Reblend.construct(type, arguments, children, source, self)
-        function buildCreateElementCall(path, file) {
+        function buildConstructCall(path, file) {
             const openingPath = path.get('openingElement');
-            return call(file, 'createElement', [
-                'this',
+            return call(file, 'construct', [
                 getTag(openingPath),
-                buildCreateElementOpeningElementAttributes(file, path, openingPath.get('attributes')),
+                buildConstructOpeningElementAttributes(file, path, openingPath.get('attributes')),
                 // ts-expect-error JSXSpreadChild has been transformed in convertAttributeValue
                 ...core_1.types.react.buildChildren(path.node),
             ]);
@@ -502,7 +501,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
          * breaking on spreads, we then push a new object containing
          * all prior attributes to an array for later processing.
          */
-        function buildCreateElementOpeningElementAttributes(file, path, attribs) {
+        function buildConstructOpeningElementAttributes(file, path, attribs) {
             const runtime = get(file, 'runtime');
             if (!process.env.BABEL_8_BREAKING) {
                 if (runtime !== 'automatic') {
@@ -587,7 +586,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
             case 'jsx':
             case 'jsxs':
                 return `${source}/jsx-runtime`;
-            case 'createElement':
+            case 'construct':
                 return source;
         }
     }

@@ -17,7 +17,7 @@ const PURE_CALLS = [
         new Set([
             'cloneElement',
             'createContext',
-            'createElement',
+            'construct',
             'createFactory',
             'createRef',
             'forwardRef',
