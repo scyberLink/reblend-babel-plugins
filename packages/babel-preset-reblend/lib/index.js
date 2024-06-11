@@ -10,7 +10,7 @@ const babel_plugin_transform_reblend_display_name_1 = __importDefault(require("b
 const babel_plugin_transform_reblend_pure_annotations_1 = __importDefault(require("babel-plugin-transform-reblend-pure-annotations"));
 const normalize_options_1 = __importDefault(require("./normalize-options"));
 exports.default = (0, helper_plugin_utils_1.declarePreset)((api, opts) => {
-    api.assertVersion(REQUIRED_VERSION(7));
+    //api.assertVersion(REQUIRED_VERSION(7));
     const { development, importSource, pragma, pragmaFrag, pure, runtime, throwIfNamespace, } = (0, normalize_options_1.default)(opts);
     return {
         plugins: [

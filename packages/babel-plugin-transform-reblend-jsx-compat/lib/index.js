@@ -7,7 +7,7 @@ const helper_plugin_utils_1 = require("@babel/helper-plugin-utils");
 const babel_helper_builder_reblend_jsx_1 = __importDefault(require("babel-helper-builder-reblend-jsx"));
 const core_1 = require("@babel/core");
 exports.default = (0, helper_plugin_utils_1.declare)(api => {
-    api.assertVersion(REQUIRED_VERSION(7));
+    //api.assertVersion(REQUIRED_VERSION(7));
     return {
         name: 'transform-reblend-jsx-compat',
         manipulateOptions(_, parserOpts) {

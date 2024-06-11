@@ -63,7 +63,7 @@ function isThisAllowed(path) {
     return !isDerivedClass(parentMethodOrFunction.parentPath.parentPath);
 }
 exports.default = (0, helper_plugin_utils_1.declare)(api => {
-    api.assertVersion(REQUIRED_VERSION(7));
+    //api.assertVersion(REQUIRED_VERSION(7));
     const visitor = {
         JSXOpeningElement(path) {
             if (!isThisAllowed(path)) {

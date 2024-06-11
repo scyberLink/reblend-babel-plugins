@@ -26,10 +26,9 @@ const PURE_CALLS = [
             'lazy',
         ]),
     ],
-    ['reblend-dom', new Set(['createPortal'])],
 ];
 exports.default = (0, helper_plugin_utils_1.declare)(api => {
-    api.assertVersion(REQUIRED_VERSION(7));
+    //api.assertVersion(REQUIRED_VERSION(7));
     return {
         name: 'transform-reblend-pure-annotations',
         visitor: {

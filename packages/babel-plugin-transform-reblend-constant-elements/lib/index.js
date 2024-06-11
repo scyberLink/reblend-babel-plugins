@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const helper_plugin_utils_1 = require("@babel/helper-plugin-utils");
 const core_1 = require("@babel/core");
 exports.default = (0, helper_plugin_utils_1.declare)((api, options) => {
-    api.assertVersion(REQUIRED_VERSION(7));
+    //api.assertVersion(REQUIRED_VERSION(7));
     const { allowMutablePropsOnTags } = options;
     if (allowMutablePropsOnTags != null &&
         !Array.isArray(allowMutablePropsOnTags)) {

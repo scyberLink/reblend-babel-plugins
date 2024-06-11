@@ -20,7 +20,7 @@ const TRACE_ID = '__source';
 const FILE_NAME_VAR = '_jsxFileName';
 const createNodeFromNullish = (val, fn) => (val == null ? core_1.types.nullLiteral() : fn(val));
 exports.default = (0, helper_plugin_utils_1.declare)(api => {
-    api.assertVersion(REQUIRED_VERSION(7));
+    //api.assertVersion(REQUIRED_VERSION(7));
     function makeTrace(fileNameIdentifier, { line, column }) {
         const fileLineLiteral = createNodeFromNullish(line, core_1.types.numericLiteral);
         const fileColumnLiteral = createNodeFromNullish(column, c => 

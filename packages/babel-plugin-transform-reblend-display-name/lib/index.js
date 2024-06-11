@@ -7,7 +7,7 @@ const helper_plugin_utils_1 = require("@babel/helper-plugin-utils");
 const path_1 = __importDefault(require("path"));
 const core_1 = require("@babel/core");
 exports.default = (0, helper_plugin_utils_1.declare)(api => {
-    api.assertVersion(REQUIRED_VERSION(7));
+    //api.assertVersion(REQUIRED_VERSION(7));
     function addDisplayName(id, call) {
         const props = call.arguments[0].properties;
         let safe = true;
