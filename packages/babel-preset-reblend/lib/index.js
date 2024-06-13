@@ -15,8 +15,8 @@ exports.default = (0, helper_plugin_utils_1.declarePreset)((api, opts) => {
     const { development, importSource, pragma = 'Reblend.construct', pragmaFrag = 'Reblend', pure, runtime, throwIfNamespace, } = (0, normalize_options_1.default)(opts);
     return {
         plugins: [
+            babel_plugin_transform_reblend_function_to_class_1.default,
             [
-                babel_plugin_transform_reblend_function_to_class_1.default,
                 development ? babel_plugin_transform_reblend_jsx_development_1.default : babel_plugin_transform_reblend_jsx_1.default,
                 process.env.BABEL_8_BREAKING
                     ? {

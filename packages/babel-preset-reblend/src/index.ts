@@ -34,8 +34,8 @@ export default declarePreset((api, opts: Options) => {
 
   return {
     plugins: [
+      transformReblendFunctionToClass,
       [
-        transformReblendFunctionToClass,
         development ? transformReblendJSXDevelopment : transformReblendJSX,
         process.env.BABEL_8_BREAKING
           ? {
