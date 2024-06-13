@@ -22,6 +22,7 @@
     "@babel/helper-plugin-utils": "^7.24.7",
     "@babel/helper-validator-option": "^7.24.7",
     "babel-plugin-transform-reblend-display-name": "latest",
+    "babel-plugin-transform-reblend-function-to-class": "^1.0.2",
     "babel-plugin-transform-reblend-jsx": "latest",
     "babel-plugin-transform-reblend-jsx-development": "latest",
     "babel-plugin-transform-reblend-pure-annotations": "latest"

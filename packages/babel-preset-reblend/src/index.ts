@@ -3,6 +3,8 @@ import transformReblendJSX from 'babel-plugin-transform-reblend-jsx';
 import transformReblendJSXDevelopment from 'babel-plugin-transform-reblend-jsx-development';
 import transformReblendDisplayName from 'babel-plugin-transform-reblend-display-name';
 import transformReblendPure from 'babel-plugin-transform-reblend-pure-annotations';
+import transformReblendFunctionToClass from 'babel-plugin-transform-reblend-function-to-class';
+
 import normalizeOptions from './normalize-options';
 
 export interface Options {
@@ -33,6 +35,7 @@ export default declarePreset((api, opts: Options) => {
   return {
     plugins: [
       [
+        transformReblendFunctionToClass,
         development ? transformReblendJSXDevelopment : transformReblendJSX,
         process.env.BABEL_8_BREAKING
           ? {
