@@ -20,8 +20,7 @@
   ],
   "dependencies": {
     "@babel/core": "latest",
-    "@babel/types": "latest",
-    "babel-plugin-transform-reblend-jsx": "latest"
+    "babel-plugin-transform-reblend-jsx": "^7.24.20"
   },
   "devDependencies": {
     "@babel/helper-plugin-test-runner": "latest"

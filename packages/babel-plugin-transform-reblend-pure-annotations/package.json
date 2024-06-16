@@ -21,8 +21,7 @@
   "dependencies": {
     "@babel/core": "latest",
     "@babel/helper-annotate-as-pure": "^7.24.7",
-    "@babel/helper-plugin-utils": "latest",
-    "@babel/types": "latest"
+    "@babel/helper-plugin-utils": "latest"
   },
   "devDependencies": {
     "@babel/helper-plugin-test-runner": "latest"
