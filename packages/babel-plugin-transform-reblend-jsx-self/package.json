@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-reblend-jsx-self",
-  "version": "7.24.23",
+  "version": "7.24.24",
   "description": "Add a __self prop to all JSX Elements",
   "repository": {
     "type": "git",
