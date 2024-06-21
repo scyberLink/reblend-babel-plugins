@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-reblend-jsx-development",
-  "version": "7.24.22",
+  "version": "7.24.23",
   "description": "Turn JSX into Reblend function calls in development",
   "repository": {
     "type": "git",
@@ -20,7 +20,7 @@
   ],
   "dependencies": {
     "@babel/core": "latest",
-    "babel-plugin-transform-reblend-jsx": "^7.24.20"
+    "babel-plugin-transform-reblend-jsx": "^7.24.21"
   },
   "devDependencies": {
     "@babel/helper-plugin-test-runner": "latest"
