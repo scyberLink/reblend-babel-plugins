@@ -622,12 +622,12 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 }
 exports.default = createPlugin;
 function toMemberExpression(id) {
-    return (id
+    return core_1.types.callExpression(core_1.types.memberExpression(id
         .split('.')
         .map(name => core_1.types.identifier(name))
         // @ts-expect-error - The Array#reduce does not have a signature
         // where the type of initial value differs from callback return type
-        .reduce((object, property) => core_1.types.memberExpression(object, property)));
+        .reduce((object, property) => core_1.types.memberExpression(object, property)), core_1.types.identifier('bind')), [core_1.types.thisExpression()]);
 }
 function makeSource(path, state) {
     const location = path.node.loc;

@@ -847,14 +847,18 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
   }
 }
 
-function toMemberExpression(id: string): Identifier | MemberExpression {
-  return (
-    id
-      .split('.')
-      .map(name => t.identifier(name))
-      // @ts-expect-error - The Array#reduce does not have a signature
-      // where the type of initial value differs from callback return type
-      .reduce((object, property) => t.memberExpression(object, property))
+function toMemberExpression(id: string): Identifier | CallExpression {
+  return t.callExpression(
+    t.memberExpression(
+      id
+        .split('.')
+        .map(name => t.identifier(name))
+        // @ts-expect-error - The Array#reduce does not have a signature
+        // where the type of initial value differs from callback return type
+        .reduce((object, property) => t.memberExpression(object, property)),
+      t.identifier('bind'),
+    ),
+    [t.thisExpression()],
   );
 }
 
