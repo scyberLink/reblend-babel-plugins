@@ -131,8 +131,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
                             if (sourceSet) {
                                 throw path.buildCodeFrameError(`importSource cannot be set when runtime is classic.`);
                             }
-                            const construct = toMemberExpression(pragma);
-                            const fragment = toMemberExpression(pragmaFrag);
+                            const construct = toMemberExpression(pragma, true);
+                            const fragment = toMemberExpression(pragmaFrag, false);
                             set(state, 'id/construct', () => core_1.types.cloneNode(construct));
                             set(state, 'id/fragment', () => core_1.types.cloneNode(fragment));
                             set(state, 'defaultPure', pragma === DEFAULT.pragma);
@@ -621,7 +621,15 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
     }
 }
 exports.default = createPlugin;
-function toMemberExpression(id) {
+function toMemberExpression(id, isFragment) {
+    if (isFragment) {
+        return (id
+            .split('.')
+            .map(name => core_1.types.identifier(name))
+            // @ts-expect-error - The Array#reduce does not have a signature
+            // where the type of initial value differs from callback return type
+            .reduce((object, property) => core_1.types.memberExpression(object, property)));
+    }
     return core_1.types.callExpression(core_1.types.memberExpression(id
         .split('.')
         .map(name => core_1.types.identifier(name))

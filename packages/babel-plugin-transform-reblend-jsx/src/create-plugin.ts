@@ -233,8 +233,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
                 );
               }
 
-              const construct = toMemberExpression(pragma);
-              const fragment = toMemberExpression(pragmaFrag);
+              const construct = toMemberExpression(pragma, true);
+              const fragment = toMemberExpression(pragmaFrag, false);
 
               set(state, 'id/construct', () => t.cloneNode(construct));
               set(state, 'id/fragment', () => t.cloneNode(fragment));
@@ -847,7 +847,20 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
   }
 }
 
-function toMemberExpression(id: string): Identifier | CallExpression {
+function toMemberExpression(
+  id: string,
+  isFragment: boolean,
+): Identifier | CallExpression {
+  if (isFragment) {
+    return (
+      id
+        .split('.')
+        .map(name => t.identifier(name))
+        // @ts-expect-error - The Array#reduce does not have a signature
+        // where the type of initial value differs from callback return type
+        .reduce((object, property) => t.memberExpression(object, property))
+    );
+  }
   return t.callExpression(
     t.memberExpression(
       id
