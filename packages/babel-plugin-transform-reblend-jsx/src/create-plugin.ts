@@ -233,8 +233,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
                 );
               }
 
-              const construct = toMemberExpression(pragma, true);
-              const fragment = toMemberExpression(pragmaFrag, false);
+              const construct = toMemberExpression(pragma, false);
+              const fragment = toMemberExpression(pragmaFrag, true);
 
               set(state, 'id/construct', () => t.cloneNode(construct));
               set(state, 'id/fragment', () => t.cloneNode(fragment));

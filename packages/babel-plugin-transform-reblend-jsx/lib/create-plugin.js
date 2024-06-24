@@ -131,8 +131,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
                             if (sourceSet) {
                                 throw path.buildCodeFrameError(`importSource cannot be set when runtime is classic.`);
                             }
-                            const construct = toMemberExpression(pragma, true);
-                            const fragment = toMemberExpression(pragmaFrag, false);
+                            const construct = toMemberExpression(pragma, false);
+                            const fragment = toMemberExpression(pragmaFrag, true);
                             set(state, 'id/construct', () => core_1.types.cloneNode(construct));
                             set(state, 'id/fragment', () => core_1.types.cloneNode(fragment));
                             set(state, 'defaultPure', pragma === DEFAULT.pragma);
