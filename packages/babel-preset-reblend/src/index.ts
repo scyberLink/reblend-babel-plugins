@@ -1,8 +1,6 @@
 import { declarePreset } from '@babel/helper-plugin-utils';
 import transformReblendJSX from 'babel-plugin-transform-reblend-jsx';
 import transformReblendJSXDevelopment from 'babel-plugin-transform-reblend-jsx-development';
-import transformReblendDisplayName from 'babel-plugin-transform-reblend-display-name';
-import transformReblendPure from 'babel-plugin-transform-reblend-pure-annotations';
 import transformReblendFunctionToClass from 'babel-plugin-transform-reblend-function-to-class';
 
 import normalizeOptions from './normalize-options';
@@ -57,8 +55,6 @@ export default declarePreset((api, opts: Options) => {
               useSpread: opts.useSpread,
             },
       ],
-      transformReblendDisplayName,
-      pure !== false && transformReblendPure,
     ].filter(Boolean),
   };
 });

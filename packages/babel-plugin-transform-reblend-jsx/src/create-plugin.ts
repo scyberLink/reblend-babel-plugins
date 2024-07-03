@@ -4,7 +4,7 @@ import { template, types as t } from '@babel/core';
 //@ts-ignore
 import type { PluginPass, NodePath, Scope, Visitor } from '@babel/core';
 import { addNamed, addNamespace, isModule } from '@babel/helper-module-imports';
-import annotateAsPure from '@babel/helper-annotate-as-pure';
+//import annotateAsPure from '@babel/helper-annotate-as-pure';
 import type {
   CallExpression,
   Class,
@@ -21,7 +21,7 @@ import type {
 } from '@babel/types';
 
 const DEFAULT = {
-  importSource: 'reblend',
+  importSource: 'reblendjs',
   runtime: 'automatic',
   pragma: 'Reblend.construct',
   pragmaFrag: 'Reblend',
@@ -360,7 +360,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
       args: CallExpression['arguments'],
     ) {
       const node = t.callExpression(get(pass, `id/${name}`)(), args);
-      if (PURE_ANNOTATION ?? get(pass, 'defaultPure')) annotateAsPure(node);
+      //if (PURE_ANNOTATION ?? get(pass, 'defaultPure')) annotateAsPure(node);
       return node;
     }
 
