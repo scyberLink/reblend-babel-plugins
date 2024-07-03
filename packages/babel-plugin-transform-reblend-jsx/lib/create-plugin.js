@@ -7,9 +7,8 @@ const plugin_syntax_jsx_1 = __importDefault(require("@babel/plugin-syntax-jsx"))
 const helper_plugin_utils_1 = require("@babel/helper-plugin-utils");
 const core_1 = require("@babel/core");
 const helper_module_imports_1 = require("@babel/helper-module-imports");
-const helper_annotate_as_pure_1 = __importDefault(require("@babel/helper-annotate-as-pure"));
 const DEFAULT = {
-    importSource: 'reblend',
+    importSource: 'reblendjs',
     runtime: 'automatic',
     pragma: 'Reblend.construct',
     pragmaFrag: 'Reblend',
@@ -236,8 +235,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
         }
         function call(pass, name, args) {
             const node = core_1.types.callExpression(get(pass, `id/${name}`)(), args);
-            if (PURE_ANNOTATION !== null && PURE_ANNOTATION !== void 0 ? PURE_ANNOTATION : get(pass, 'defaultPure'))
-                (0, helper_annotate_as_pure_1.default)(node);
+            //if (PURE_ANNOTATION ?? get(pass, 'defaultPure')) annotateAsPure(node);
             return node;
         }
         // We want to use Reblend.construct, even in the case of
