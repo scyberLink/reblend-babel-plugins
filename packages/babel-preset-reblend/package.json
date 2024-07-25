@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-reblend",
-  "version": "7.24.34",
+  "version": "7.24.35",
   "description": "Babel preset for all Reblend plugins.",
   "author": "Emmanuel Elom <scansioquielom@gmail.com>, The Babel Team (https://babel.dev/team)",
   "homepage": "https://babel.dev/docs/en/next/babel-preset-reblend",
@@ -19,12 +19,12 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@babel/core": "^7.24.7",
     "@babel/helper-plugin-utils": "^7.24.7",
     "@babel/helper-validator-option": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
-    "@babel/core": "^7.24.7",
-    "babel-plugin-transform-reblend-function-to-class": "^3.0.6",
-    "babel-plugin-transform-reblend-jsx": "^7.24.24"
+    "babel-plugin-transform-reblend-function-to-class": "^3.0.7",
+    "babel-plugin-transform-reblend-jsx": "^7.24.25"
   },
   "devDependencies": {
     "@babel/helper-plugin-test-runner": "latest",
