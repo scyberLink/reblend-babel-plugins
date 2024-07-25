@@ -1,4 +1,5 @@
 export interface Options {
+    includeTypescript?: boolean;
     development?: boolean;
     importSource?: string;
     pragma?: string;

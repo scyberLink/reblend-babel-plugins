@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = createPlugin;
 const plugin_syntax_jsx_1 = __importDefault(require("@babel/plugin-syntax-jsx"));
 const helper_plugin_utils_1 = require("@babel/helper-plugin-utils");
 const core_1 = require("@babel/core");
@@ -618,7 +619,6 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
         };
     }
 }
-exports.default = createPlugin;
 function toMemberExpression(id, isFragment) {
     if (isFragment) {
         return (id

@@ -1,9 +1,0 @@
-{
-  "plugins": [
-    [
-      "transform-reblend-constant-elements",
-      { "allowMutablePropsOnTags": ["FormattedMessage"] }
-    ],
-    "syntax-jsx"
-  ]
-}

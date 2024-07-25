@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = normalizeOptions;
 const helper_validator_option_1 = require("@babel/helper-validator-option");
 const v = new helper_validator_option_1.OptionValidator('babel-preset-reblend');
 function normalizeOptions(options = {}) {
@@ -20,6 +21,7 @@ function normalizeOptions(options = {}) {
 }`);
         }
         const TopLevelOptions = {
+            includeTypescript: true,
             development: 'development',
             importSource: 'importSource',
             pragma: 'pragma',
@@ -29,6 +31,7 @@ function normalizeOptions(options = {}) {
             throwIfNamespace: 'throwIfNamespace',
         };
         v.validateTopLevelOptions(options, TopLevelOptions);
+        const includeTypescript = v.validateBooleanOption(TopLevelOptions.includeTypescript, options.includeTypescript, false);
         const development = v.validateBooleanOption(TopLevelOptions.development, options.development, false);
         let importSource = v.validateStringOption(TopLevelOptions.importSource, options.importSource);
         let pragma = v.validateStringOption(TopLevelOptions.pragma, options.pragma);
@@ -49,6 +52,7 @@ function normalizeOptions(options = {}) {
                 `- Did you mean '${(0, helper_validator_option_1.findSuggestion)(runtime, validRuntime)}'?`);
         }
         return {
+            includeTypescript,
             development,
             importSource,
             pragma,
@@ -60,13 +64,14 @@ function normalizeOptions(options = {}) {
     }
     else {
         let { pragma, pragmaFrag } = options;
-        const { pure, throwIfNamespace = true, runtime = 'classic', importSource, useBuiltIns, useSpread, } = options;
+        const { includeTypescript, pure, throwIfNamespace = true, runtime = 'classic', importSource, useBuiltIns, useSpread, } = options;
         if (runtime === 'classic') {
             pragma = pragma || 'Reblend.construct';
             pragmaFrag = pragmaFrag || 'Reblend';
         }
         const development = !!options.development;
         return {
+            includeTypescript,
             development,
             importSource,
             pragma,
@@ -79,4 +84,3 @@ function normalizeOptions(options = {}) {
         };
     }
 }
-exports.default = normalizeOptions;

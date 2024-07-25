@@ -1,6 +1,0 @@
-{
-  "plugins": [
-    "./plugin.js",
-    ["transform-reblend-jsx-development", { "runtime": "automatic" }]
-  ]
-}

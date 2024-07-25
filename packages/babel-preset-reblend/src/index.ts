@@ -1,11 +1,11 @@
 import { declarePreset } from '@babel/helper-plugin-utils';
 import transformReblendJSX from 'babel-plugin-transform-reblend-jsx';
-import transformReblendJSXDevelopment from 'babel-plugin-transform-reblend-jsx-development';
 import transformReblendFunctionToClass from 'babel-plugin-transform-reblend-function-to-class';
 
 import normalizeOptions from './normalize-options';
 
 export interface Options {
+  includeTypescript?: boolean;
   development?: boolean;
   importSource?: string;
   pragma?: string;
@@ -21,7 +21,7 @@ export default declarePreset((api, opts: Options) => {
   //api.assertVersion(REQUIRED_VERSION(7));
 
   const {
-    development,
+    includeTypescript = true,
     importSource,
     pragma = 'Reblend.construct',
     pragmaFrag = 'Reblend',
@@ -31,10 +31,15 @@ export default declarePreset((api, opts: Options) => {
   } = normalizeOptions(opts);
 
   return {
+    presets: [
+      [includeTypescript && require.resolve('@babel/preset-typescript')].filter(
+        Boolean,
+      ),
+    ],
     plugins: [
       transformReblendFunctionToClass,
       [
-        development ? transformReblendJSXDevelopment : transformReblendJSX,
+        transformReblendJSX,
         process.env.BABEL_8_BREAKING
           ? {
               importSource,

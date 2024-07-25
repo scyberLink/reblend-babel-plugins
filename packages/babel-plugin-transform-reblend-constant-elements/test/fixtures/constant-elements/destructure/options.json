@@ -1,7 +1,0 @@
-{
-  "plugins": [
-    "syntax-jsx",
-    "transform-destructuring",
-    "transform-reblend-constant-elements"
-  ]
-}

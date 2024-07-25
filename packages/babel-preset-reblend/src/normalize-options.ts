@@ -28,6 +28,7 @@ export default function normalizeOptions(options: any = {}) {
     }
 
     const TopLevelOptions = {
+      includeTypescript: true,
       development: 'development',
       importSource: 'importSource',
       pragma: 'pragma',
@@ -37,6 +38,11 @@ export default function normalizeOptions(options: any = {}) {
       throwIfNamespace: 'throwIfNamespace',
     };
     v.validateTopLevelOptions(options, TopLevelOptions);
+    const includeTypescript = v.validateBooleanOption(
+      TopLevelOptions.includeTypescript,
+      options.includeTypescript,
+      false,
+    );
     const development = v.validateBooleanOption(
       TopLevelOptions.development,
       options.development,
@@ -78,6 +84,7 @@ export default function normalizeOptions(options: any = {}) {
     }
 
     return {
+      includeTypescript,
       development,
       importSource,
       pragma,
@@ -90,6 +97,7 @@ export default function normalizeOptions(options: any = {}) {
     let { pragma, pragmaFrag } = options;
 
     const {
+      includeTypescript,
       pure,
       throwIfNamespace = true,
       runtime = 'classic',
@@ -106,6 +114,7 @@ export default function normalizeOptions(options: any = {}) {
     const development = !!options.development;
 
     return {
+      includeTypescript,
       development,
       importSource,
       pragma,

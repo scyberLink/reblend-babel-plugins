@@ -1,8 +1,0 @@
-{
-  "plugins": [
-    ["transform-reblend-jsx", { "runtime": "automatic" }],
-    "transform-reblend-display-name",
-    "transform-arrow-functions"
-  ],
-  "sourceType": "module"
-}

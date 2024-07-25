@@ -1,8 +1,0 @@
-{
-  "plugins": [
-    ["transform-reblend-jsx-development", { "runtime": "classic" }],
-    "transform-reblend-jsx-source",
-    "transform-reblend-jsx-self"
-  ],
-  "throws": "Duplicate __self prop found. You are most likely using the deprecated transform-reblend-jsx-self Babel plugin. Both __source and __self are automatically set when using the automatic runtime. Please remove transform-reblend-jsx-source and transform-reblend-jsx-self from your Babel config."
-}

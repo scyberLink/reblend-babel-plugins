@@ -1,4 +1,0 @@
-{
-  "plugins": ["transform-reblend-jsx-development"],
-  "sourceType": "module"
-}

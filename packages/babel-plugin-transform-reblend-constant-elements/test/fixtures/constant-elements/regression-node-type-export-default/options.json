@@ -1,6 +1,0 @@
-{
-  "plugins": [
-    ["transform-reblend-jsx", { "runtime": "classic" }],
-    "transform-reblend-constant-elements"
-  ]
-}

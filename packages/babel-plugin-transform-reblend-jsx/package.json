@@ -14,7 +14,7 @@
   },
   "main": "./lib/index.js",
   "scripts": {
-    "build": "npx tsc"
+    "build": "tsc"
   },
   "keywords": [
     "babel-plugin"
@@ -29,7 +29,8 @@
   },
   "devDependencies": {
     "@babel/helper-plugin-test-runner": "latest",
-    "@babel/traverse": "latest"
+    "@babel/traverse": "latest",
+    "typescript": "^5.5.4"
   },
   "engines": {
     "node": ">=6.9.0"

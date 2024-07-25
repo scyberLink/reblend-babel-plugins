@@ -1,8 +1,0 @@
-{
-  "plugins": [
-    "syntax-jsx",
-    "transform-reblend-jsx",
-    "transform-reblend-display-name",
-    "transform-arrow-functions"
-  ]
-}

@@ -1,4 +1,0 @@
-{
-  "plugins": ["syntax-jsx", "transform-reblend-jsx-self"],
-  "sourceType": "script"
-}

@@ -1,7 +1,0 @@
-{
-  "plugins": [
-    "transform-reblend-constant-elements",
-    "transform-reblend-inline-elements",
-    "syntax-jsx"
-  ]
-}
