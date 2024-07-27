@@ -1,23 +1,11 @@
 import * as t from '@babel/types';
 
-function getProps(
-  node: t.Function,
-):
-  | (t.RestElement | t.ObjectProperty)[]
-  | (
-      | t.Identifier
-      | t.AssignmentPattern
-      | t.ArrayPattern
-      | t.RestElement
-      | t.TSParameterProperty
-    )[] {
-  if (node.params.length < 1) return [];
-
-  const prop: any = node.params.pop();
-
-  return t.isObjectPattern(prop)
-    ? (prop as t.ObjectPattern).properties
-    : [prop];
+function getProps(node: t.Function) {
+  return node.params.length < 1
+    ? []
+    : t.isObjectPattern(node.params[0])
+      ? (node.params[0] as t.ObjectPattern).properties
+      : [node.params[0]];
 }
 
 export default getProps;
