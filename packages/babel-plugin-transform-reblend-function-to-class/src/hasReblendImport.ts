@@ -6,7 +6,7 @@ function hasReblendImport(path: NodePath<t.Program>) {
 
   path.traverse({
     ImportDeclaration(importPath) {
-      if (importPath.node.source.value === 'reblendjs') {
+      if (`${importPath.node.source.value}`.toLowerCase().includes('reblend')) {
         hasImport = true;
         importPath.stop();
       }

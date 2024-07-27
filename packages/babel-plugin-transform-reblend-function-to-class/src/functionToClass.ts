@@ -4,6 +4,7 @@ import replaceIdentifiers from './replaceIdentifiers';
 import hookBinding from './hookBinding';
 import getProps from './getProps';
 import spreadBodyStatements from './spreadBodyStatements';
+import hasReblendComponentComment from './hasReblendComponentComment';
 
 interface FunctionToClass {
   (
@@ -49,11 +50,15 @@ const functionToClass: FunctionToClass = (path, node, t) => {
       ? ((path.parent as t.VariableDeclarator).id as t.Identifier).name
       : '');
 
+  const must = !containSkipComment && node.type !== 'ClassMethod' && hasName;
+
   if (
-    containsJSX &&
-    !containSkipComment &&
-    node.type !== 'ClassMethod' &&
-    hasName
+    ((hasReblendComponentComment(node) ||
+      hasReblendComponentComment(
+        path?.parentPath?.parentPath?.node as t.Function,
+      )) &&
+      must) ||
+    (containsJSX && must)
   ) {
     path.addComment('inner', ' Transformed from function to class ', false);
 
