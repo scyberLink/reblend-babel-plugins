@@ -20,16 +20,16 @@
     "babel-plugin"
   ],
   "dependencies": {
-    "@babel/core": "latest",
+    "@babel/core": "^7.25.2",
     "@babel/helper-annotate-as-pure": "^7.24.7",
     "@babel/helper-module-imports": "latest",
     "@babel/helper-plugin-utils": "latest",
     "@babel/plugin-syntax-jsx": "^7.24.7",
-    "@babel/types": "latest"
+    "@babel/types": "^7.25.2"
   },
   "devDependencies": {
     "@babel/helper-plugin-test-runner": "latest",
-    "@babel/traverse": "latest",
+    "@babel/traverse": "^7.25.3",
     "typescript": "^5.5.4"
   },
   "engines": {
