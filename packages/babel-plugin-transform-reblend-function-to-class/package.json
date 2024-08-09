@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-reblend-function-to-class",
-  "version": "3.0.9",
+  "version": "3.0.10",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -20,7 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^29.5.12",
-    "babel-plugin-transform-reblend-jsx": "^7.24.27",
+    "babel-plugin-transform-reblend-jsx": "^7.24.28",
     "jest": "^29.7.0",
     "typescript": "^5.5.4"
   }
