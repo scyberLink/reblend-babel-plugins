@@ -16,7 +16,7 @@ class App extends Reblend {
     this.msg = msg;
     this.s = s;
     const Header1 = useMemo.bind(this)(() => {
-      return /*#__PURE__*/Reblend.construct.bind(this)(Reblend, null, /*#__PURE__*/Reblend.construct.bind(this)(Header, {
+      return Reblend.construct.bind(this)(Reblend, null, Reblend.construct.bind(this)(Header, {
         logo,
         msg: this.msg,
         i: this.s
@@ -32,9 +32,9 @@ class App extends Reblend {
     }, 2000);
   }
   html() {
-    return /*#__PURE__*/Reblend.construct.bind(this)(Reblend, null, /*#__PURE__*/Reblend.construct.bind(this)(this.Header1, null), /*#__PURE__*/Reblend.construct.bind(this)("div", {
+    return Reblend.construct.bind(this)(Reblend, null, Reblend.construct.bind(this)(this.Header1, null), Reblend.construct.bind(this)("div", {
       className: 'App'
-    }, /*#__PURE__*/Reblend.construct.bind(this)(Header, {
+    }, Reblend.construct.bind(this)(Header, {
       logo,
       msg: this.msg,
       i: this.s

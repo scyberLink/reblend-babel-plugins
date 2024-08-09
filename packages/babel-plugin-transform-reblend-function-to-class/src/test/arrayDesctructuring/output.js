@@ -11,7 +11,7 @@ extends Reblend {
     this.count = count;
     this.setCount = setCount;
     const Header1 = useMemo.bind(this)(() => {
-      return /*#__PURE__*/Reblend.construct.bind(this)(Reblend, null, /*#__PURE__*/Reblend.construct.bind(this)(Header, {
+      return Reblend.construct.bind(this)(Reblend, null, Reblend.construct.bind(this)(Header, {
         logo,
         msg,
         i: s
@@ -24,9 +24,9 @@ extends Reblend {
     this.handleClick = handleClick.bind(this);
   }
   html() {
-    return /*#__PURE__*/Reblend.construct.bind(this)("div", null, /*#__PURE__*/Reblend.construct.bind(this)(this.Header1, null), /*#__PURE__*/Reblend.construct.bind(this)("p", null, "Count: ", this.count), /*#__PURE__*/Reblend.construct.bind(this)("button", {
+    return Reblend.construct.bind(this)("div", null, Reblend.construct.bind(this)(this.Header1, null), Reblend.construct.bind(this)("p", null, "Count: ", this.count), Reblend.construct.bind(this)("button", {
       onClick: this.handleClick
-    }, "Increment"), /*#__PURE__*/Reblend.construct.bind(this)("p", null, "Hello, ", this.props.name, "!"), /*#__PURE__*/Reblend.construct.bind(this)(this.props.Header2, null));
+    }, "Increment"), Reblend.construct.bind(this)("p", null, "Hello, ", this.props.name, "!"), Reblend.construct.bind(this)(this.props.Header2, null));
   }
 };
 export default SampleComponent;

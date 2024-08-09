@@ -22,9 +22,9 @@ extends Reblend {
     this.cter = cter;
   }
   html() {
-    return /*#__PURE__*/Reblend.construct.bind(this)("div", null, /*#__PURE__*/Reblend.construct.bind(this)("p", null, "Count: ", this.count.number.insert()), /*#__PURE__*/Reblend.construct.bind(this)("button", {
+    return Reblend.construct.bind(this)("div", null, Reblend.construct.bind(this)("p", null, "Count: ", this.count.number.insert()), Reblend.construct.bind(this)("button", {
       onClick: () => this.dispatch(increment())
-    }, "Increment"), /*#__PURE__*/Reblend.construct.bind(this)("p", null, "Hello, ", this.props.user.names.first, " ", this.props.user.lastname, "! counter = ", this.cter));
+    }, "Increment"), Reblend.construct.bind(this)("p", null, "Hello, ", this.props.user.names.first, " ", this.props.user.lastname, "! counter = ", this.cter));
   }
 };
 export default SampleComponent;

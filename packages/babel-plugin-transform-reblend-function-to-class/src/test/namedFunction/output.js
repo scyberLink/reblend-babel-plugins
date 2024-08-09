@@ -16,7 +16,7 @@ const SampleComponent = class SampleComponent extends Reblend {
     }, "[]");
   }
   html() {
-    return /*#__PURE__*/Reblend.construct.bind(this)("div", null, /*#__PURE__*/Reblend.construct.bind(this)("p", null, "Count: ", this.count), /*#__PURE__*/Reblend.construct.bind(this)("p", null, "Hello, ", this.props.name, "!"));
+    return Reblend.construct.bind(this)("div", null, Reblend.construct.bind(this)("p", null, "Count: ", this.count), Reblend.construct.bind(this)("p", null, "Hello, ", this.props.name, "!"));
   }
 } /* Transformed from function to class */;
 export default SampleComponent;

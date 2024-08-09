@@ -96,14 +96,14 @@ export default function createPlugin({
         const useBuiltInsFormatted = JSON.stringify(options.useBuiltIns);
         throw new Error(
           `babel-plugin-transform-reblend-jsx: Since "useBuiltIns" is removed in Babel 8, you can remove it from the config.
-- Babel 8 now transforms JSX spread to object spread. If you need to transpile object spread with
-\`useBuiltIns: ${useBuiltInsFormatted}\`, you can use the following config
-{
-  "plugins": [
-    "babel-plugin-transform-reblend-jsx"
-    ["@babel/plugin-transform-object-rest-spread", { "loose": true, "useBuiltIns": ${useBuiltInsFormatted} }]
-  ]
-}`,
+          - Babel 8 now transforms JSX spread to object spread. If you need to transpile object spread with
+          \`useBuiltIns: ${useBuiltInsFormatted}\`, you can use the following config
+          {
+            "plugins": [
+              "babel-plugin-transform-reblend-jsx"
+              ["@babel/plugin-transform-object-rest-spread", { "loose": true, "useBuiltIns": ${useBuiltInsFormatted} }]
+            ]
+          }`,
         );
       }
 
@@ -165,7 +165,7 @@ export default function createPlugin({
       name,
       inherits: jsx,
       visitor: {
-        JSXNamespacedName(path) {
+        /* JSXNamespacedName(path) {
           if (throwIfNamespace) {
             throw path.buildCodeFrameError(
               `Namespace tags are not supported by default. Reblend's JSX doesn't support namespace tags. \
@@ -178,7 +178,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
           throw path.buildCodeFrameError(
             'Spread children are not supported in Reblend.',
           );
-        },
+        }, */
 
         Program: {
           enter(path, state) {
@@ -227,11 +227,11 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
 
             set(state, 'runtime', runtime);
             if (runtime === 'classic') {
-              if (sourceSet) {
+              /* if (sourceSet) {
                 throw path.buildCodeFrameError(
                   `importSource cannot be set when runtime is classic.`,
                 );
-              }
+              } */
 
               const construct = toMemberExpression(pragma, false);
               const fragment = toMemberExpression(pragmaFrag, true);

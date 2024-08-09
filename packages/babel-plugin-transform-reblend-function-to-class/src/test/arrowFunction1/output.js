@@ -8,7 +8,7 @@ extends Reblend {
   }
   init() {}
   html() {
-    return /*#__PURE__*/Reblend.construct.bind(this)("code", null, "src/App.tsx(", this.props.code, ")");
+    return Reblend.construct.bind(this)("code", null, "src/App.tsx(", this.props.code, ")");
   }
 };
 export default Cde;

@@ -39,14 +39,14 @@ function createPlugin({ name, development, }) {
             if ('useBuiltIns' in options) {
                 const useBuiltInsFormatted = JSON.stringify(options.useBuiltIns);
                 throw new Error(`babel-plugin-transform-reblend-jsx: Since "useBuiltIns" is removed in Babel 8, you can remove it from the config.
-- Babel 8 now transforms JSX spread to object spread. If you need to transpile object spread with
-\`useBuiltIns: ${useBuiltInsFormatted}\`, you can use the following config
-{
-  "plugins": [
-    "babel-plugin-transform-reblend-jsx"
-    ["@babel/plugin-transform-object-rest-spread", { "loose": true, "useBuiltIns": ${useBuiltInsFormatted} }]
-  ]
-}`);
+          - Babel 8 now transforms JSX spread to object spread. If you need to transpile object spread with
+          \`useBuiltIns: ${useBuiltInsFormatted}\`, you can use the following config
+          {
+            "plugins": [
+              "babel-plugin-transform-reblend-jsx"
+              ["@babel/plugin-transform-object-rest-spread", { "loose": true, "useBuiltIns": ${useBuiltInsFormatted} }]
+            ]
+          }`);
             }
             if (filter != null && RUNTIME_DEFAULT === 'automatic') {
                 throw new Error('babel-plugin-transform-reblend-jsx: "filter" option can not be used with automatic runtime. If you are upgrading from Babel 7, please specify `runtime: "classic"`.');
@@ -84,15 +84,20 @@ function createPlugin({ name, development, }) {
             name,
             inherits: plugin_syntax_jsx_1.default,
             visitor: {
-                JSXNamespacedName(path) {
-                    if (throwIfNamespace) {
-                        throw path.buildCodeFrameError(`Namespace tags are not supported by default. Reblend's JSX doesn't support namespace tags. \
-You can set \`throwIfNamespace: false\` to bypass this warning.`);
-                    }
+                /* JSXNamespacedName(path) {
+                  if (throwIfNamespace) {
+                    throw path.buildCodeFrameError(
+                      `Namespace tags are not supported by default. Reblend's JSX doesn't support namespace tags. \
+        You can set \`throwIfNamespace: false\` to bypass this warning.`,
+                    );
+                  }
                 },
+        
                 JSXSpreadChild(path) {
-                    throw path.buildCodeFrameError('Spread children are not supported in Reblend.');
-                },
+                  throw path.buildCodeFrameError(
+                    'Spread children are not supported in Reblend.',
+                  );
+                }, */
                 Program: {
                     enter(path, state) {
                         const { file } = state;
@@ -128,9 +133,11 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
                         }
                         set(state, 'runtime', runtime);
                         if (runtime === 'classic') {
-                            if (sourceSet) {
-                                throw path.buildCodeFrameError(`importSource cannot be set when runtime is classic.`);
-                            }
+                            /* if (sourceSet) {
+                              throw path.buildCodeFrameError(
+                                `importSource cannot be set when runtime is classic.`,
+                              );
+                            } */
                             const construct = toMemberExpression(pragma, false);
                             const fragment = toMemberExpression(pragmaFrag, true);
                             set(state, 'id/construct', () => core_1.types.cloneNode(construct));

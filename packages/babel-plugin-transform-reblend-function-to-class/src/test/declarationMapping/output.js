@@ -27,15 +27,15 @@ class App extends Reblend {
     this.atss = atss.bind(this);
   }
   html() {
-    return /*#__PURE__*/Reblend.construct.bind(this)(Reblend, null, /*#__PURE__*/Reblend.construct.bind(this)("div", {
+    return Reblend.construct.bind(this)(Reblend, null, Reblend.construct.bind(this)("div", {
       className: "App"
-    }, /*#__PURE__*/Reblend.construct.bind(this)("header", {
+    }, Reblend.construct.bind(this)("header", {
       className: "App-header"
-    }, /*#__PURE__*/Reblend.construct.bind(this)("img", {
+    }, Reblend.construct.bind(this)("img", {
       src: logo,
       className: "App-logo",
       alt: "logo"
-    }), /*#__PURE__*/Reblend.construct.bind(this)("p", null, "Edit ", /*#__PURE__*/Reblend.construct.bind(this)("code", null, "src/App.js"), " and save to reload. ", this.state), /*#__PURE__*/Reblend.construct.bind(this)("a", {
+    }), Reblend.construct.bind(this)("p", null, "Edit ", Reblend.construct.bind(this)("code", null, "src/App.js"), " and save to reload. ", this.state), Reblend.construct.bind(this)("a", {
       onClick: this.atss,
       className: "App-link",
       href: "https://reblendjs.org",

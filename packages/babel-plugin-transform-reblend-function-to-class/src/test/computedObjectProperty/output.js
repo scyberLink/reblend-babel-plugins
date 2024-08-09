@@ -6,7 +6,7 @@ export default class Route extends Reblend {
     super();
   }
   init() {
-    const thisRoute = this.props.element || /*#__PURE__*/Reblend.construct.bind(this)(this.props.Component, null);
+    const thisRoute = this.props.element || Reblend.construct.bind(this)(this.props.Component, null);
     this.thisRoute = thisRoute;
     if (!this.thisRoute) {
       throw new Error("Route should have element or Component prop");

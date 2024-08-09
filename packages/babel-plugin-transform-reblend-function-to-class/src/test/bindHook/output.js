@@ -26,11 +26,11 @@ class App extends Reblend {
     }, 10000);
   }
   html() {
-    return /*#__PURE__*/Reblend.construct.bind(this)("div", {
+    return Reblend.construct.bind(this)("div", {
       className: "App"
-    }, /*#__PURE__*/Reblend.construct.bind(this)("header", {
+    }, Reblend.construct.bind(this)("header", {
       className: "App-header"
-    }, /*#__PURE__*/Reblend.construct.bind(this)("img", {
+    }, Reblend.construct.bind(this)("img", {
       class: "App",
       src: logo,
       className: "App-logo",
@@ -38,14 +38,14 @@ class App extends Reblend {
       style: {
         width: "50px"
       }
-    }), /*#__PURE__*/Reblend.construct.bind(this)("p", {
+    }), Reblend.construct.bind(this)("p", {
       style: {
         theme: this.theme,
         color: this.theme,
         themeDispatcher: this.themeDispatcher,
         t: ThemeContext
       }
-    }, "Edit ", /*#__PURE__*/Reblend.construct.bind(this)("code", null, "src/App.tsx"), " and save to reload. ", `{${this.msg}}`), /*#__PURE__*/Reblend.construct.bind(this)("a", {
+    }, "Edit ", Reblend.construct.bind(this)("code", null, "src/App.tsx"), " and save to reload. ", `{${this.msg}}`), Reblend.construct.bind(this)("a", {
       className: "App-link",
       href: "https://reblendjs.org",
       target: "_blank",
