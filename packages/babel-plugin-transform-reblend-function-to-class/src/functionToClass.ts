@@ -1,6 +1,5 @@
 import * as t from '@babel/types';
-import { NodePath, TraverseOptions } from '@babel/traverse';
-import replaceIdentifiers from './replaceIdentifiers';
+import { NodePath } from '@babel/traverse';
 import hookBinding from './hookBinding';
 import getProps from './getProps';
 import spreadBodyStatements from './spreadBodyStatements';
@@ -78,8 +77,25 @@ const functionToClass: FunctionToClass = (path, node, t) => {
       }
     });
 
-    const assignmentStatements: t.ExpressionStatement[] =
-      spreadBodyStatements(bodyStatements);
+    const stateAssignments: any[] = [];
+    const propsAssignments: any[] = [
+      //Props initializer
+      t.expressionStatement(
+        t.assignmentExpression(
+          '=',
+          t.memberExpression(t.thisExpression(), t.identifier('props')),
+          t.objectExpression([]),
+        ),
+      ),
+    ];
+    let initPropsMethodArgument = getProps(node);
+    const assignments = spreadBodyStatements(
+      path,
+      bodyStatements,
+      initPropsMethodArgument as any,
+    );
+    propsAssignments.push(...assignments.props);
+    stateAssignments.push(...assignments.state);
 
     const constructorMethod = t.classMethod(
       'constructor',
@@ -90,11 +106,18 @@ const functionToClass: FunctionToClass = (path, node, t) => {
       ]),
     );
 
-    const initMethod = t.classMethod(
+    const initStateMethod = t.classMethod(
       'method',
-      t.identifier('init'),
+      t.identifier('initState'),
       [],
-      t.blockStatement([...assignmentStatements]),
+      t.blockStatement([...stateAssignments]),
+    );
+
+    const initPropsMethod = t.classMethod(
+      'method',
+      t.identifier('initProps'),
+      initPropsMethodArgument,
+      t.blockStatement([...propsAssignments]),
     );
 
     const renderMethod = t.classMethod(
@@ -104,15 +127,8 @@ const functionToClass: FunctionToClass = (path, node, t) => {
       t.blockStatement([renderReturnStatement as any]),
     );
 
-    replaceIdentifiers(path, initMethod!, t, {
-      props: getProps(node),
-      assignmentStatements,
-    });
-    hookBinding(path, initMethod!, t);
-    replaceIdentifiers(path, renderReturnStatement!, t, {
-      props: getProps(node),
-      assignmentStatements,
-    });
+    hookBinding(path, initStateMethod!, t);
+    hookBinding(path, initPropsMethod!, t);
 
     const classBody = [
       t.classProperty(
@@ -132,7 +148,8 @@ const functionToClass: FunctionToClass = (path, node, t) => {
         true, // to indicate that it's a static property
       ),
       constructorMethod,
-      initMethod,
+      initStateMethod,
+      initPropsMethod,
       renderMethod,
     ];
 

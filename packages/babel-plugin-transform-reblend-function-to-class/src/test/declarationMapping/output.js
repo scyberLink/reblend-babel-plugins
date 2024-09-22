@@ -6,25 +6,25 @@ class App extends Reblend {
   constructor() {
     super();
   }
-  init() {
+  initState() {
     const [state, setState] = useState.bind(this)(0, "state");
     this.state = state;
     this.setState = setState;
-    setInterval(() => {
-      this.setState(this.state + 1);
-    }, 1000);
     function ts() {
       console.log(this);
     }
-    this.ts = ts.bind(this);
+    this.ts = ts;
     async function ats() {
       console.log(this);
     }
-    this.ats = ats.bind(this);
+    this.ats = ats;
     const tss = () => console.log(this);
-    this.tss = tss.bind(this);
+    this.tss = tss;
     const atss = async () => console.log(this);
-    this.atss = atss.bind(this);
+    this.atss = atss;
+  }
+  initProps() {
+    this.props = {};
   }
   html() {
     return Reblend.construct.bind(this)(Reblend, null, Reblend.construct.bind(this)("div", {
@@ -36,7 +36,7 @@ class App extends Reblend {
       className: "App-logo",
       alt: "logo"
     }), Reblend.construct.bind(this)("p", null, "Edit ", Reblend.construct.bind(this)("code", null, "src/App.js"), " and save to reload. ", this.state), Reblend.construct.bind(this)("a", {
-      onClick: this.atss,
+      onClick: r ? this.atss : t ? this.ats : this.ts,
       className: "App-link",
       href: "https://reblendjs.org",
       target: "_blank",

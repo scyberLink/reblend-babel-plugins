@@ -8,13 +8,14 @@ extends Reblend {
   constructor() {
     super();
   }
-  init() {
+  initState() {
     const [state, setState] = useState.bind(this)(0, "state");
     this.state = state;
     this.setState = setState;
-    setInterval(() => {
-      this.setState(this.state + 1);
-    }, 1000);
+  }
+  initProps(props) {
+    this.props = {};
+    this.props = props;
   }
   html() {
     return Reblend.construct.bind(this)(Reblend, null, Reblend.construct.bind(this)("div", {

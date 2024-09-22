@@ -7,13 +7,17 @@ extends Reblend {
   constructor() {
     super();
   }
-  init() {
+  initState() {
     const {
       count,
-      increment
+      increment = 'indes'
     } = useCounter.bind(this)("");
     this.count = count;
     this.increment = increment;
+  }
+  initProps(props) {
+    this.props = {};
+    this.props = props;
   }
   html() {
     return Reblend.construct.bind(this)("div", null, Reblend.construct.bind(this)("p", null, "Count: ", this.count), Reblend.construct.bind(this)("button", {

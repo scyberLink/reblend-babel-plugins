@@ -1,7 +1,7 @@
 import Reblend, { useContext } from "reblendjs";
 import createRoute, { MatchedRoute } from "../contexts/routes";
 
-export default function Route({ Component, element, path }) {
+export default function Route({ Component, element, path }, [yes]) {
   const thisRoute = element || <Component />;
 
   if (!thisRoute) {

@@ -11,7 +11,7 @@ class App extends Reblend {
   constructor() {
     super();
   }
-  init() {
+  initState() {
     const [msg, s] = useI.bind(this)("msg");
     this.msg = msg;
     this.s = s;
@@ -27,9 +27,9 @@ class App extends Reblend {
     this.themeDispatcher = themeDispatcher;
     const colors = ['azure', 'yellow', 'pink', 'purple', 'green', 'red'];
     this.colors = colors;
-    setInterval(() => {
-      this.themeDispatcher(this.colors[rand(0, this.colors.length)]);
-    }, 2000);
+  }
+  initProps() {
+    this.props = {};
   }
   html() {
     return Reblend.construct.bind(this)(Reblend, null, Reblend.construct.bind(this)(this.Header1, null), Reblend.construct.bind(this)("div", {

@@ -8,22 +8,19 @@ class App extends Reblend {
   constructor() {
     super();
   }
-  init() {
+  initState() {
     const [s, setS] = useState.bind(this)(1, "s");
     this.s = s;
     this.setS = setS;
-    setInterval(() => {
-      this.setS(pre => pre + 2);
-    }, 1000);
     const msg = useMemo.bind(this)(() => `State = "${this.s}"`, "[this.s]", "msg");
     this.msg = msg;
     const theme = useContext.bind(this)(ThemeContext, "theme");
     this.theme = theme;
     const themeDispatcher = useContextDispatch.bind(this)(ThemeContext, "themeDispatcher");
     this.themeDispatcher = themeDispatcher;
-    setTimeout(() => {
-      this.themeDispatcher("yellow");
-    }, 10000);
+  }
+  initProps() {
+    this.props = {};
   }
   html() {
     return Reblend.construct.bind(this)("div", {

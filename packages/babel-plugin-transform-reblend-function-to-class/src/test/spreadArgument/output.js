@@ -8,18 +8,21 @@ extends Reblend {
   constructor() {
     super();
   }
-  init() {
+  initState() {
     const count = useSelector.bind(this)(state => state.counter, "count");
     this.count = count;
     const dispatch = useDispatch.bind(this)("dispatch");
     this.dispatch = dispatch;
-    useEffect.bind(this)(() => {
-      console.log("count", this.count + 1 + this.props.user);
-    }, "[this.props.user, this.dispatch]");
     const cter = useMemo.bind(this)(() => {
       return this.count++;
     }, "[this.count]", "cter");
     this.cter = cter;
+  }
+  initProps({
+    user
+  }) {
+    this.props = {};
+    this.props.user = user;
   }
   html() {
     return Reblend.construct.bind(this)("div", null, Reblend.construct.bind(this)("p", null, "Count: ", this.count.number.insert()), Reblend.construct.bind(this)("button", {

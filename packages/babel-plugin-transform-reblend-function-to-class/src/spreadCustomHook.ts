@@ -1,8 +1,8 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
-import replaceIdentifiers from './replaceIdentifiers';
 import hookBinding from './hookBinding';
 import spreadBodyStatements from './spreadBodyStatements';
+import getProps from './getProps';
 
 interface FunctionToClass {
   (
@@ -39,8 +39,11 @@ const spreadCustomHook: FunctionToClass = (path, node, t) => {
       }
     });
 
-    const assignmentStatements: t.ExpressionStatement[] =
-      spreadBodyStatements(bodyStatements);
+    const assignmentStatements = spreadBodyStatements(
+      path,
+      bodyStatements,
+      null,
+    );
 
     const newFunction = t.functionDeclaration(
       t.identifier(
@@ -54,15 +57,11 @@ const spreadCustomHook: FunctionToClass = (path, node, t) => {
       ),
       node.params as (t.Identifier | t.Pattern | t.RestElement)[],
       t.blockStatement([
-        ...assignmentStatements,
+        ...assignmentStatements.state,
         renderReturnStatement as t.ReturnStatement,
       ]),
     );
 
-    replaceIdentifiers(path, newFunction!, t, {
-      props: [],
-      assignmentStatements,
-    });
     hookBinding(path, newFunction!, t);
 
     //@ts-ignore

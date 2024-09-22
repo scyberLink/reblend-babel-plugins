@@ -14,7 +14,8 @@
   },
   "main": "./lib/index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepublish": "rm -rf dist; rm -rf lib; npm run build"
   },
   "keywords": [
     "babel-plugin"

@@ -6,9 +6,15 @@ extends Reblend {
   constructor() {
     super();
   }
-  init() {}
+  initState() {}
+  initProps({
+    code = 1
+  }) {
+    this.props = {};
+    this.code = code;
+  }
   html() {
-    return Reblend.construct.bind(this)("code", null, "src/App.tsx(", this.props.code, ")");
+    return Reblend.construct.bind(this)("code", null, "src/App.tsx(", this.code, ")");
   }
 };
 export default Cde;

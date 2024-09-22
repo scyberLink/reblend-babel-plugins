@@ -1,8 +1,8 @@
 import Reblend from "reblendjs";
 import useCounter from './useCounter';
 
-const SampleComponent = function (props) {
-  const { count, increment } = useCounter();
+const SampleComponent = function (props = {yes: 'iii'}) {
+  const { count, increment = {yse} } = useCounter();
 
   return (
     <div>

@@ -29,7 +29,7 @@ function App() {
             Edit <code>src/App.js</code> and save to reload. {state}
           </p>
           <a
-            onClick={atss}
+            onClick={r ? atss : t ? ats : ts}
             className="App-link"
             href="https://reblendjs.org"
             target="_blank"
