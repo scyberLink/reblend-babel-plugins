@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-reblend-function-to-class",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
