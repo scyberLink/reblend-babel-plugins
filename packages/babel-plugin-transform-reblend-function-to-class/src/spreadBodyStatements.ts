@@ -130,26 +130,19 @@ function spreadBodyStatements(
       return;
     }
 
-    // Handle variable declarations
     if (t.isVariableDeclaration(runnerNode)) {
       constructAssignment(runnerNode, DeclarationType.DECLARATION, from);
       runnerNode.declarations.forEach(declarator =>
         runner(declarator, from, null),
       );
-    }
-    // Handle variable declarators
-    else if (t.isVariableDeclarator(runnerNode)) {
+    } else if (t.isVariableDeclarator(runnerNode)) {
       runner(runnerNode.id, from, null);
-    }
-    // Handle function declarations
-    else if (t.isFunctionDeclaration(runnerNode)) {
+    } else if (t.isFunctionDeclaration(runnerNode)) {
       constructAssignment(runnerNode, DeclarationType.DECLARATION, from);
       if (runnerNode.id) {
         runner(runnerNode.id, from, null);
       }
-    }
-    // Handle object properties (e.g., function parameters)
-    else if (t.isObjectProperty(runnerNode)) {
+    } else if (t.isObjectProperty(runnerNode)) {
       runner(runnerNode.value, from, runnerNode);
     } else if (t.isObjectPattern(runnerNode)) {
       runnerNode.properties.forEach(
@@ -170,7 +163,6 @@ function spreadBodyStatements(
         }
       });
     } else if (t.isAssignmentPattern(runnerNode)) {
-      // Run the left side (e.g., `state` in `const { state = {} } = ...`)
       runner(runnerNode.left, from, parent);
     } else {
       constructAssignment(runnerNode, DeclarationType.DECLARATION, from);
