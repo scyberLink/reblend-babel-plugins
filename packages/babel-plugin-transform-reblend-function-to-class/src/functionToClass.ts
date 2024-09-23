@@ -41,13 +41,17 @@ const functionToClass: FunctionToClass = (path, node, t) => {
       }
     });
   }
+
   // @ts-ignore
-  const hasName = !!(node.id
+  const functionName = node.id
     ? // @ts-ignore
       node.id.name
     : (path.parent as t.VariableDeclarator)?.id
       ? ((path.parent as t.VariableDeclarator).id as t.Identifier).name
-      : '');
+      : '';
+
+  // @ts-ignore
+  const hasName = !!functionName;
 
   const must = !containSkipComment && node.type !== 'ClassMethod' && hasName;
 
@@ -133,15 +137,7 @@ const functionToClass: FunctionToClass = (path, node, t) => {
     const classBody = [
       t.classProperty(
         t.identifier('ELEMENT_NAME'),
-        t.stringLiteral(
-          // @ts-ignore
-          node.id
-            ? // @ts-ignore
-              node.id.name
-            : (path.parent as t.VariableDeclarator)?.id
-              ? ((path.parent as t.VariableDeclarator).id as t.Identifier).name
-              : 'Anonymous',
-        ),
+        t.stringLiteral(functionName || 'Anonymous'),
         null,
         null,
         undefined,

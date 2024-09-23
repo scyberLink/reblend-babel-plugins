@@ -8,6 +8,12 @@ export default class Route extends Reblend {
   initState() {
     const thisRoute = this.props.element || Reblend.construct.bind(this)(this.props.Component, null);
     this.thisRoute = thisRoute;
+    if (!this.thisRoute) {
+      throw new Error("Route should have element or Component prop");
+    }
+    createRoute({
+      [this.props.path]: this.thisRoute
+    });
     const matchedRoute = useContext.bind(this)(MatchedRoute, "matchedRoute");
     this.matchedRoute = matchedRoute;
   }
@@ -20,7 +26,7 @@ export default class Route extends Reblend {
     this.props.Component = Component;
     this.props.element = element;
     this.props.path = path;
-    this.yes = yes;
+    this.props = yes;
   }
   html() {
     return this.matchedRoute == this.thisRoute ? this.matchedRoute : null;

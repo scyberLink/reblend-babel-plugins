@@ -27,6 +27,9 @@ class App extends Reblend {
     this.themeDispatcher = themeDispatcher;
     const colors = ['azure', 'yellow', 'pink', 'purple', 'green', 'red'];
     this.colors = colors;
+    setInterval(() => {
+      this.themeDispatcher(this.colors[rand(0, this.colors.length)]);
+    }, 2000);
   }
   initProps() {
     this.props = {};

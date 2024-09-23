@@ -11,10 +11,10 @@ extends Reblend {
     code = 1
   }) {
     this.props = {};
-    this.code = code;
+    this.props.code = code;
   }
   html() {
-    return Reblend.construct.bind(this)("code", null, "src/App.tsx(", this.code, ")");
+    return Reblend.construct.bind(this)("code", null, "src/App.tsx(", this.props.code, ")");
   }
 };
 export default Cde;

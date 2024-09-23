@@ -13,6 +13,9 @@ extends Reblend {
     this.count = count;
     const dispatch = useDispatch.bind(this)("dispatch");
     this.dispatch = dispatch;
+    useEffect.bind(this)(() => {
+      console.log("count", this.count + 1 + this.props.user);
+    }, "[this.props.user, this.dispatch]");
     const cter = useMemo.bind(this)(() => {
       return this.count++;
     }, "[this.count]", "cter");

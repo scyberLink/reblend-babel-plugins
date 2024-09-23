@@ -166,12 +166,14 @@ function spreadBodyStatements(
         if (t.isRestElement(element)) {
           runner(element.argument, from, element);
         } else {
-          runner(element, from, null);
+          runner(element, from, element);
         }
       });
     } else if (t.isAssignmentPattern(runnerNode)) {
       // Run the left side (e.g., `state` in `const { state = {} } = ...`)
-      runner(runnerNode.left, from, null);
+      runner(runnerNode.left, from, parent);
+    } else {
+      constructAssignment(runnerNode, DeclarationType.DECLARATION, from);
     }
   };
 

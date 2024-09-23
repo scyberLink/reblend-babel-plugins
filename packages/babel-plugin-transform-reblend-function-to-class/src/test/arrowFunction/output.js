@@ -12,6 +12,9 @@ extends Reblend {
     const [state, setState] = useState.bind(this)(0, "state");
     this.state = state;
     this.setState = setState;
+    setInterval(() => {
+      this.setState(this.state + 1);
+    }, 1000);
   }
   initProps(props) {
     this.props = {};
