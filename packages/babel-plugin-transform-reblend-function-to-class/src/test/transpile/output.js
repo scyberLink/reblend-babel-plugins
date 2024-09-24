@@ -13,13 +13,13 @@ class App extends Reblend {
     setInterval(() => {
       this.setState(this.state + 1);
     }, 1000);
-    function ts() {
+    const ts = () => {
       console.log("this");
-    }
+    };
     this.ts = ts;
-    async function ats() {
+    const ats = async () => {
       console.log("this");
-    }
+    };
     this.ats = ats;
     const tss = () => console.log("this");
     this.tss = tss;

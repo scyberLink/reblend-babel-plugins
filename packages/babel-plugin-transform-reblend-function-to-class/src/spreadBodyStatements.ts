@@ -138,7 +138,32 @@ function spreadBodyStatements(
     } else if (t.isVariableDeclarator(runnerNode)) {
       runner(runnerNode.id, from, null);
     } else if (t.isFunctionDeclaration(runnerNode)) {
-      constructAssignment(runnerNode, DeclarationType.DECLARATION, from);
+      const arrowFunction = t.arrowFunctionExpression(
+        runnerNode.params, // Use the same parameters
+        runnerNode.body, // Use the same function body
+        runnerNode.async, // Retain whether the original function was async
+      );
+
+      // Preserve comments from the original function
+      arrowFunction.leadingComments = runnerNode.leadingComments;
+      arrowFunction.innerComments = runnerNode.innerComments;
+      arrowFunction.trailingComments = runnerNode.trailingComments;
+
+      // Wrap the arrow function into a VariableDeclarator and then into a VariableDeclaration
+      const variableDeclarator = t.variableDeclarator(
+        runnerNode.id!,
+        arrowFunction,
+      );
+      const variableDeclaration = t.variableDeclaration('const', [
+        variableDeclarator,
+      ]);
+
+      constructAssignment(
+        variableDeclaration,
+        DeclarationType.DECLARATION,
+        from,
+      );
+
       if (runnerNode.id) {
         runner(runnerNode.id, from, null);
       }
