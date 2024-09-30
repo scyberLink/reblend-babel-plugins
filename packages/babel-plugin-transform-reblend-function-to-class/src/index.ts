@@ -21,6 +21,10 @@ export default function ({
               hasReblendHookComment(node) ||
               hasReblendHookComment(
                 functionPath?.parentPath?.parentPath?.node as t.Function,
+              ) ||
+              hasReblendHookComment(functionPath?.container as any) ||
+              hasReblendHookComment(
+                functionPath?.parentPath?.parentPath?.container as any,
               )
             ) {
               spreadCustomHook(functionPath, node, t);

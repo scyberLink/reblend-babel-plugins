@@ -1,6 +1,6 @@
 import { useState, useMemo } from "reblendjs";
 //@ReblendHook
-export default function useCustomHook(initial) {
+export const useNameExportArrowFunctionHook = (useNameExportArrowFunctionHookProps) => {
   const [i, setI] = useState(initial);
 
   const ii = useMemo(() => {

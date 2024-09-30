@@ -1,6 +1,6 @@
 import { useState, useMemo } from "reblendjs";
 //@ReblendHook
-export default function useCustomHook(initial) {
+export const useNameExportArrowFunctionHook = function useNameExportArrowFunctionHook(useNameExportArrowFunctionHookProps) {
   const [i, setI] = useState.bind(this)(initial, "i");
   this.i = i;
   this.setI = setI;
@@ -9,5 +9,4 @@ export default function useCustomHook(initial) {
   }, "[this.i]", "ii");
   this.ii = ii;
   return [this.setI, this.ii];
-}
-/* Transformed from function to class */
+} /* Transformed from function to class */;
