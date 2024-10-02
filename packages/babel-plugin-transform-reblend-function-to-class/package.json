@@ -23,5 +23,6 @@
     "babel-plugin-transform-reblend-jsx": "^7.24.32",
     "jest": "^29.7.0",
     "typescript": "^5.5.4"
-  }
+  },
+  "gitHead": "b8b66b64361c98a6c24d26e7bce9265803156004"
 }
