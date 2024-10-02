@@ -3,7 +3,7 @@ import { NodePath } from '@babel/traverse';
 import hookBinding from './hookBinding';
 import getProps from './getProps';
 import spreadBodyStatements from './spreadBodyStatements';
-import hasReblendComponentComment from './hasReblendComponentComment';
+import { hasReblendComment } from './hasReblendComment';
 
 interface FunctionToClass {
   (
@@ -17,9 +17,11 @@ const functionToClass: FunctionToClass = (path, node, t) => {
   let containsJSX = false;
   let isBlockStatement = node.body.type === 'BlockStatement';
 
+  // Check if node body directly contains JSXElement or JSXFragment
   if (node.body.type === 'JSXElement') {
     containsJSX = true;
   } else {
+    // Traverse to see if there is any JSXElement or JSXFragment in the subtree
     path.traverse({
       JSXElement(path) {
         containsJSX = true;
@@ -53,15 +55,50 @@ const functionToClass: FunctionToClass = (path, node, t) => {
   // @ts-ignore
   const hasName = !!functionName;
 
-  const must = !containSkipComment && node.type !== 'ClassMethod' && hasName;
+  // Check if the current path is within a function hierarchy (FunctionDeclaration, FunctionExpression, or ArrowFunctionExpression)
+  const mustNot = !path.findParent(parentPath => {
+    // Check if inside an ObjectProperty, Function Declaration, Function Expression, Arrow Function, or a function's arguments/parameters
+    if (
+      parentPath.isObjectProperty() ||
+      parentPath.isFunctionDeclaration() ||
+      parentPath.isFunctionExpression() ||
+      parentPath.isArrowFunctionExpression() ||
+      parentPath.isClassMethod() ||
+      parentPath.isClassPrivateMethod() ||
+      parentPath.isClassBody()
+    ) {
+      return true;
+    }
 
+    // Check if the path is inside a function argument/parameter
+    if (
+      parentPath.isCallExpression() &&
+      parentPath.node.arguments.includes(path.node as any)
+    ) {
+      return true;
+    }
+
+    // Check if the path is inside a function's parameter list
+    const functionParent = parentPath.isFunction()
+      ? parentPath
+      : parentPath.findParent(p => p.isFunction());
+    if (
+      functionParent &&
+      (functionParent.node as any).params.includes(path.node)
+    ) {
+      return true;
+    }
+
+    return false;
+  });
+
+  const must =
+    !containSkipComment && hasName && !hasReblendComment('NotComponent', path);
+
+  // Proceed with transformation only if no 'NotComponent' comment and the node is not in a function hierarchy
   if (
-    ((hasReblendComponentComment(node) ||
-      hasReblendComponentComment(
-        path?.parentPath?.parentPath?.node as t.Function,
-      )) &&
-      must) ||
-    (containsJSX && must)
+    (hasReblendComment('Component', path) && must) ||
+    (containsJSX && must && node.type !== 'ClassMethod' && mustNot)
   ) {
     path.addComment('inner', ' Transformed from function to class ', false);
 
@@ -75,11 +112,22 @@ const functionToClass: FunctionToClass = (path, node, t) => {
 
     body.forEach(statement => {
       if (t.isReturnStatement(statement)) {
+        if (renderReturnStatement) {
+          throw new Error(
+            'Reblend does not support conditional returns i.e Return statement should be the last statement in the function component',
+          );
+        }
         renderReturnStatement = statement;
       } else {
         bodyStatements.push(statement);
       }
     });
+
+    if (!renderReturnStatement) {
+      throw new Error(
+        'Reblend does not support conditional returns i.e Return statement should be the last statement in the function component',
+      );
+    }
 
     const stateAssignments: any[] = [];
     const propsAssignments: any[] = [
