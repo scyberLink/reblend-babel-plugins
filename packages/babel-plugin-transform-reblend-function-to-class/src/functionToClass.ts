@@ -104,6 +104,10 @@ const functionToClass: FunctionToClass = (path, node, t) => {
 
     const body = (node as t.FunctionDeclaration).body.body || [];
 
+    const unsupported = new Error(
+      `Reblend does not support conditional returns i.e Return statement should be the last statement in the function component
+      ${node.loc?.identifierName || functionName} ${node.loc?.filename}:${node.loc?.start.line}:${node.loc?.start.column}`,
+    );
     const bodyStatements: t.Statement[] = [];
     let renderReturnStatement: t.ReturnStatement | undefined =
       !isBlockStatement && t.isJSXElement(node.body)
@@ -113,9 +117,7 @@ const functionToClass: FunctionToClass = (path, node, t) => {
     body.forEach(statement => {
       if (t.isReturnStatement(statement)) {
         if (renderReturnStatement) {
-          throw new Error(
-            'Reblend does not support conditional returns i.e Return statement should be the last statement in the function component',
-          );
+          throw unsupported;
         }
         renderReturnStatement = statement;
       } else {
@@ -124,9 +126,7 @@ const functionToClass: FunctionToClass = (path, node, t) => {
     });
 
     if (!renderReturnStatement) {
-      throw new Error(
-        'Reblend does not support conditional returns i.e Return statement should be the last statement in the function component',
-      );
+      throw unsupported;
     }
 
     const stateAssignments: any[] = [];
