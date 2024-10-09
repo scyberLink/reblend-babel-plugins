@@ -90,9 +90,27 @@ function spreadBodyStatements(
 
       const mapping: any = parentIsObjectProperty || propertyThisMap;
 
-      const statement = t.expressionStatement(
-        t.assignmentExpression('=', mapping, runnerNode),
-      );
+      let statement = null;
+      if (
+        t.isRestElement(parent) &&
+        propertyThisMap &&
+        from === PropStateType.PROPS
+      ) {
+        statement = t.expressionStatement(
+          t.assignmentExpression(
+            '=',
+            mapping,
+            t.objectExpression([
+              t.spreadElement(mapping),
+              t.spreadElement(runnerNode),
+            ]),
+          ),
+        );
+      } else {
+        statement = t.expressionStatement(
+          t.assignmentExpression('=', mapping, runnerNode),
+        );
+      }
 
       switch (from) {
         case PropStateType.STATE:
@@ -182,9 +200,9 @@ function spreadBodyStatements(
     } else if (t.isArrayPattern(runnerNode)) {
       runnerNode.elements.forEach((element: any) => {
         if (t.isRestElement(element)) {
-          runner(element.argument, from, element);
+          runner(element.argument, from, t.restElement(element));
         } else {
-          runner(element, from, element);
+          runner(element, from, t.objectProperty(element, t.stringLiteral('')));
         }
       });
     } else if (t.isAssignmentPattern(runnerNode)) {

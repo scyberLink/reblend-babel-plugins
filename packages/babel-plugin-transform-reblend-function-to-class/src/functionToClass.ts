@@ -141,6 +141,11 @@ const functionToClass: FunctionToClass = (path, node, t) => {
       ),
     ];
     let initPropsMethodArgument = getProps(node);
+    if (initPropsMethodArgument?.length > 1) {
+      throw new Error(
+        `Reblend does not support multiple props parameter's for components`,
+      );
+    }
     const assignments = spreadBodyStatements(
       path,
       bodyStatements,
