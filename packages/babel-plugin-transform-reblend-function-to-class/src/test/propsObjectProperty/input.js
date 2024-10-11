@@ -6,7 +6,6 @@ import { Reblend } from '../../internal/Reblend'
 
 //@ReblendComponent
 function TryCatchError(
-  thiz,
   {
     children = ((_error) => <>{''}</>),
   }

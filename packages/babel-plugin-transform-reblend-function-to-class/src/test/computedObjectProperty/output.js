@@ -28,7 +28,7 @@ export default class Route extends Reblend {
     element,
     path,
     ...props
-  }, [yes]) {
+  }) {
     this.props = {};
     this.props.Component = Component;
     this.props.element = element;
@@ -37,7 +37,6 @@ export default class Route extends Reblend {
       ...this.props,
       ...props
     };
-    this.props.yes = yes;
   }
   html() {
     return this.matchedRoute == this.thisRoute ? this.matchedRoute : null;

@@ -16,12 +16,7 @@ export default function ({
       Program(path: NodePath<t.Program>) {
         path.traverse({
           Function(functionPath) {
-            const { node } = functionPath;
-            if (hasReblendComment('Hook', functionPath)) {
-              spreadCustomHook(functionPath, node, t);
-            } else if (hasReblendImport(path)) {
-              functionToClass(functionPath, node, t);
-            }
+            functionToClass(functionPath, t, hasReblendImport(path));
           },
         });
       },

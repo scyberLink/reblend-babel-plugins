@@ -5,14 +5,11 @@ import spreadBodyStatements from './spreadBodyStatements';
 import getProps from './getProps';
 
 interface FunctionToClass {
-  (
-    path: NodePath<t.Function>,
-    node: t.Function,
-    t: typeof import('@babel/types'),
-  ): void;
+  (path: NodePath<t.Function>, t: typeof import('@babel/types')): void;
 }
 
-const spreadCustomHook: FunctionToClass = (path, node, t) => {
+const spreadCustomHook: FunctionToClass = (path, t) => {
+  const { node } = path;
   let containSkipComment = false;
   const comments = path.node.innerComments;
   if (comments && comments.length > 0) {

@@ -4,16 +4,35 @@ import hookBinding from './hookBinding';
 import getProps from './getProps';
 import spreadBodyStatements from './spreadBodyStatements';
 import { hasReblendComment } from './hasReblendComment';
+import hasReblendImport from './hasReblendImport';
+import spreadCustomHook from './spreadCustomHook';
 
 interface FunctionToClass {
   (
     path: NodePath<t.Function>,
-    node: t.Function,
     t: typeof import('@babel/types'),
+    hasReblendImport: boolean,
   ): void;
 }
 
-const functionToClass: FunctionToClass = (path, node, t) => {
+const functionToClass: FunctionToClass = (path, t, hasReblendImport) => {
+  const { node } = path;
+  // @ts-ignore
+  const functionName: string = node.id
+    ? // @ts-ignore
+      node.id.name
+    : (path.parent as t.VariableDeclarator)?.id
+      ? ((path.parent as t.VariableDeclarator).id as t.Identifier).name
+      : '';
+
+  if (functionName.startsWith('use')) {
+    return spreadCustomHook(path, t);
+  }
+
+  if (!hasReblendImport) {
+    return;
+  }
+
   let containsJSX = false;
   let isBlockStatement = node.body.type === 'BlockStatement';
 
@@ -43,14 +62,6 @@ const functionToClass: FunctionToClass = (path, node, t) => {
       }
     });
   }
-
-  // @ts-ignore
-  const functionName = node.id
-    ? // @ts-ignore
-      node.id.name
-    : (path.parent as t.VariableDeclarator)?.id
-      ? ((path.parent as t.VariableDeclarator).id as t.Identifier).name
-      : '';
 
   // @ts-ignore
   const hasName = !!functionName;
@@ -143,7 +154,8 @@ const functionToClass: FunctionToClass = (path, node, t) => {
     let initPropsMethodArgument = getProps(node);
     if (initPropsMethodArgument?.length > 1) {
       throw new Error(
-        `Reblend does not support multiple props parameter's for components`,
+        `Reblend does not support multiple props parameter's for components
+        ${node.loc?.identifierName || functionName} ${node.loc?.filename}:${node.loc?.start.line}:${node.loc?.start.column}`,
       );
     }
     const assignments = spreadBodyStatements(
