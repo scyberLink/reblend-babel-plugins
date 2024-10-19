@@ -11,11 +11,11 @@ class TryCatchError extends Reblend {
     super();
   }
   initState() {
-    thiz.renderingErrorHandler = e => {
-      thiz.renderingError = e;
+    this.thisComponent.renderingErrorHandler = e => {
+      this.thisComponent.renderingError = e;
       //if (!this.stateEffectRunning && this.attached) {
       //Promise.resolve().then(() => {
-      thiz.onStateChange();
+      this.thisComponent.onStateChange();
       //})
       //}
     };
@@ -23,21 +23,22 @@ class TryCatchError extends Reblend {
       const arr = [];
       for (const child of this.props.children) {
         if (isCallable(child)) {
-          arr.push(child(thiz.renderingError));
+          arr.push(child(this.thisComponent.renderingError));
         } else {
           arr.push(child);
         }
       }
-      thiz.renderingError = null;
+      this.thisComponent.renderingError = null;
       return arr;
     };
     this.view = view;
   }
   initProps({
     children = _error => Reblend.construct.bind(this)(Reblend, null, '')
-  }) {
+  }, thisComponent) {
     this.props = {};
     this.props.children = children;
+    this.thisComponent = thisComponent;
   }
   html() {
     return Reblend.construct.bind(this)("div", null, this.view());

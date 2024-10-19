@@ -5,16 +5,16 @@ import { BaseComponent, ReblendRenderingException } from '../../internal/BaseCom
 import { Reblend } from '../../internal/Reblend'
 
 //@ReblendComponent
-function TryCatchError(
+function TryCatchError(  
   {
     children = ((_error) => <>{''}</>),
-  }
+  },thisComponent
 ) {
-  thiz.renderingErrorHandler = (e) => {
-    thiz.renderingError = e
+  thisComponent.renderingErrorHandler = (e) => {
+    thisComponent.renderingError = e
     //if (!this.stateEffectRunning && this.attached) {
     //Promise.resolve().then(() => {
-    thiz.onStateChange()
+    thisComponent.onStateChange()
     //})
     //}
   }
@@ -23,13 +23,13 @@ function TryCatchError(
     const arr = []
     for (const child of children) {
       if (isCallable(child)) {
-        arr.push((child)(thiz.renderingError))
+        arr.push((child)(thisComponent.renderingError))
       } else {
         arr.push(child)
       }
     }
 
-    thiz.renderingError = null
+    thisComponent.renderingError = null
     return arr
   }
   return <div>{view()}</div>

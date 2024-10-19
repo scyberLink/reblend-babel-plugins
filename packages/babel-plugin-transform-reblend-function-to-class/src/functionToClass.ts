@@ -8,14 +8,10 @@ import hasReblendImport from './hasReblendImport';
 import spreadCustomHook from './spreadCustomHook';
 
 interface FunctionToClass {
-  (
-    path: NodePath<t.Function>,
-    t: typeof import('@babel/types'),
-    hasReblendImport: boolean,
-  ): void;
+  (path: NodePath<t.Function>, t: typeof import('@babel/types')): void;
 }
 
-const functionToClass: FunctionToClass = (path, t, hasReblendImport) => {
+const functionToClass: FunctionToClass = (path, t) => {
   const { node } = path;
   // @ts-ignore
   const functionName: string = node.id
@@ -25,11 +21,26 @@ const functionToClass: FunctionToClass = (path, t, hasReblendImport) => {
       ? ((path.parent as t.VariableDeclarator).id as t.Identifier).name
       : '';
 
+  let containSkipComment = false;
+  const comments = path.node.innerComments;
+  if (comments && comments.length > 0) {
+    for (const comment of comments || []) {
+      if (comment.value.includes('Transformed from function to class')) {
+        containSkipComment = true;
+        break;
+      }
+    }
+  }
+
+  if (containSkipComment) {
+    return;
+  }
+
   if (functionName.startsWith('use')) {
     return spreadCustomHook(path, t);
   }
 
-  if (!hasReblendImport) {
+  if (!functionName) {
     return;
   }
 
@@ -52,19 +63,6 @@ const functionToClass: FunctionToClass = (path, t, hasReblendImport) => {
       },
     });
   }
-
-  let containSkipComment = false;
-  const comments = path.node.innerComments;
-  if (comments && comments.length > 0) {
-    comments.forEach(comment => {
-      if (comment.value.includes('Transformed from function to class')) {
-        containSkipComment = true;
-      }
-    });
-  }
-
-  // @ts-ignore
-  const hasName = !!functionName;
 
   // Check if the current path is within a function hierarchy (FunctionDeclaration, FunctionExpression, or ArrowFunctionExpression)
   const mustNot = !path.findParent(parentPath => {
@@ -103,8 +101,7 @@ const functionToClass: FunctionToClass = (path, t, hasReblendImport) => {
     return false;
   });
 
-  const must =
-    !containSkipComment && hasName && !hasReblendComment('NotComponent', path);
+  const must = !hasReblendComment('NotComponent', path);
 
   // Proceed with transformation only if no 'NotComponent' comment and the node is not in a function hierarchy
   if (
@@ -117,8 +114,9 @@ const functionToClass: FunctionToClass = (path, t, hasReblendImport) => {
 
     const unsupported = new Error(
       `Reblend does not support conditional returns i.e Return statement should be the last statement in the function component
-      ${node.loc?.identifierName || functionName} ${node.loc?.filename}:${node.loc?.start.line}:${node.loc?.start.column}`,
+      ${functionName} ${(path.hub as any).file.opts.filename}:${node.loc?.start.line}:${node.loc?.start.column}`,
     );
+
     const bodyStatements: t.Statement[] = [];
     let renderReturnStatement: t.ReturnStatement | undefined =
       !isBlockStatement && t.isJSXElement(node.body)
@@ -151,13 +149,25 @@ const functionToClass: FunctionToClass = (path, t, hasReblendImport) => {
         ),
       ),
     ];
+
     let initPropsMethodArgument = getProps(node);
     if (initPropsMethodArgument?.length > 1) {
-      throw new Error(
-        `Reblend does not support multiple props parameter's for components
-        ${node.loc?.identifierName || functionName} ${node.loc?.filename}:${node.loc?.start.line}:${node.loc?.start.column}`,
-      );
+      if (
+        !t.isIdentifier(initPropsMethodArgument[1]) ||
+        initPropsMethodArgument[1].name !== 'thisComponent'
+      ) {
+        throw new Error(
+          `Reblend only support \`thisComponent\` as the second parameter when there's two params for components
+        ${functionName} ${(path.hub as any).file.opts.filename}:${node.loc?.start.line}:${node.loc?.start.column}`,
+        );
+      } else if (initPropsMethodArgument.length > 2) {
+        throw new Error(
+          `Reblend does not support multiple props parameter's for components
+          ${functionName} ${(path.hub as any).file.opts.filename}:${node.loc?.start.line}:${node.loc?.start.column}`,
+        );
+      }
     }
+
     const assignments = spreadBodyStatements(
       path,
       bodyStatements,

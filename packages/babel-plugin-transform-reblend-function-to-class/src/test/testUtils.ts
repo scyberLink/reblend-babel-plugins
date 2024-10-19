@@ -22,9 +22,13 @@ export function run(dir: string, writeOutFile = false): TransformResult {
     filename: inputFilePath,
     plugins: [require.resolve("../index")],
   };
-
-  const outputCode = transformSync(inputCode, config)!.code;
-
+  let outputCode = ''
+  try {
+     outputCode = transformSync(inputCode, config)!.code as string;
+  }catch(error){
+    console.error(error)
+  }
+  
   const write = () => fs.writeFileSync(outputFilePath, `${outputCode}`);
   let writing: boolean = false;
   let expectedOutputCode: string = "";
