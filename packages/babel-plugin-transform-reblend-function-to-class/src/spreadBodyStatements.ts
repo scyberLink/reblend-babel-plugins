@@ -25,6 +25,18 @@ function spreadBodyStatements(
 } {
   const stateAssignments: any[] = [];
   const propsAssignments: any[] = [];
+  const assignmentPaths = new Set<NodePath<t.AssignmentExpression>>();
+
+  path.scope.path.traverse({
+    AssignmentExpression(assignmentPath) {
+      assignmentPaths.add(assignmentPath);
+    },
+  });
+
+  const replaceableAssignmentPaths: {
+    assignmentPath: NodePath<t.AssignmentExpression>;
+    mapping: t.MemberExpression;
+  }[] = [];
 
   const constructAssignment = (
     constructNode: t.Node,
@@ -144,6 +156,23 @@ function spreadBodyStatements(
 
           refPath.replaceWith(jsxNode || mapping);
         });
+        assignmentPaths.forEach(assignmentPath => {
+          const { left, right } = assignmentPath.node;
+          // Check if the LHS is the identifier we're working with (e.g., `reassignmentMapping_data`)
+          const assignmentBinding = assignmentPath.scope.getBinding(varName);
+
+          // Ensure the assignment is in the same block scope as the original identifier
+          if (
+            assignmentBinding === binding &&
+            t.isIdentifier(left, { name: varName })
+          ) {
+            replaceableAssignmentPaths.push({
+              assignmentPath,
+              mapping,
+            });
+            assignmentPaths.delete(assignmentPath);
+          }
+        });
       }
       return;
     }
@@ -218,6 +247,13 @@ function spreadBodyStatements(
 
   propsStatements?.forEach((statement: any) => {
     runner(statement, PropStateType.PROPS, null);
+  });
+
+  replaceableAssignmentPaths.forEach(({ assignmentPath, mapping }) => {
+    assignmentPath.node.left = mapping;
+    assignmentPath.replaceWith(
+      t.assignmentExpression('=', mapping, assignmentPath.node.right),
+    );
   });
 
   return {
