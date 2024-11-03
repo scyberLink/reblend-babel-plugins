@@ -41,7 +41,7 @@ function hookBinding(
           }
 
           p.node.arguments[p.node.arguments.length] = t.stringLiteral(
-            variableName.name,
+            variableName?.name || 'unneededIdentifier',
           );
         }
 
