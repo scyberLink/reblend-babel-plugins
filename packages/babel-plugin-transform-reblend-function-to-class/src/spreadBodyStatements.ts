@@ -179,8 +179,8 @@ function spreadBodyStatements(
 
     if (t.isVariableDeclaration(runnerNode)) {
       constructAssignment(runnerNode, DeclarationType.DECLARATION, from);
-      runnerNode.declarations.forEach(declarator =>
-        runner(declarator, from, null),
+      runnerNode.declarations.forEach(
+        declarator => declarator && runner(declarator, from, null),
       );
     } else if (t.isVariableDeclarator(runnerNode)) {
       runner(runnerNode.id, from, null);
@@ -219,19 +219,27 @@ function spreadBodyStatements(
     } else if (t.isObjectPattern(runnerNode)) {
       runnerNode.properties.forEach(
         (property: t.ObjectProperty | t.RestElement) => {
-          if (t.isObjectProperty(property)) {
-            runner(property.value, from, property);
-          } else if (t.isRestElement(property)) {
-            runner(property.argument, from, property);
+          if (property) {
+            if (t.isObjectProperty(property)) {
+              runner(property.value, from, property);
+            } else if (t.isRestElement(property)) {
+              runner(property.argument, from, property);
+            }
           }
         },
       );
     } else if (t.isArrayPattern(runnerNode)) {
       runnerNode.elements.forEach((element: any) => {
-        if (t.isRestElement(element)) {
-          runner(element.argument, from, t.restElement(element));
-        } else {
-          runner(element, from, t.objectProperty(element, t.stringLiteral('')));
+        if (element) {
+          if (t.isRestElement(element)) {
+            runner(element.argument, from, t.restElement(element));
+          } else {
+            runner(
+              element,
+              from,
+              t.objectProperty(element, t.stringLiteral('')),
+            );
+          }
         }
       });
     } else if (t.isAssignmentPattern(runnerNode)) {
