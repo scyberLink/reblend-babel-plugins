@@ -81,12 +81,13 @@ function spreadBodyStatements(
     parent: t.Node | null,
   ) => {
     if (t.isIdentifier(runnerNode)) {
-      const propertyThisMap = t.memberExpression(
-        t.thisExpression(),
+      const propertyThisMap =
         parent && from === PropStateType.PROPS
-          ? t.identifier('props')
-          : runnerNode,
-      );
+          ? t.memberExpression(t.thisExpression(), t.identifier('props'))
+          : t.memberExpression(
+              t.memberExpression(t.thisExpression(), t.identifier('state')),
+              runnerNode,
+            );
 
       let parentIsObjectProperty;
       if (
@@ -143,15 +144,21 @@ function spreadBodyStatements(
       if (binding) {
         binding.referencePaths.forEach(refPath => {
           const jsxNode = t.isJSXIdentifier(refPath.node as t.JSXIdentifier)
-            ? t.jSXMemberExpression(
-                parent && from === PropStateType.PROPS
-                  ? t.jSXMemberExpression(
-                      t.jsxIdentifier('this'),
-                      t.jsxIdentifier('props'),
-                    )
-                  : t.jsxIdentifier('this'),
-                refPath.node as t.JSXIdentifier,
-              )
+            ? parent && from === PropStateType.PROPS
+              ? t.jSXMemberExpression(
+                  t.jSXMemberExpression(
+                    t.jsxIdentifier('this'),
+                    t.jsxIdentifier('props'),
+                  ),
+                  refPath.node as t.JSXIdentifier,
+                )
+              : t.jSXMemberExpression(
+                  t.jSXMemberExpression(
+                    t.jsxIdentifier('this'),
+                    t.jsxIdentifier('state'),
+                  ),
+                  refPath.node as t.JSXIdentifier,
+                )
             : null;
 
           refPath.replaceWith(jsxNode || mapping);

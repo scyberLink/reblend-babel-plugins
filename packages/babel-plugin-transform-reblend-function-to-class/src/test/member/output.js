@@ -11,36 +11,36 @@ class App extends Reblend {
   constructor() {
     super();
   }
-  initState() {
+  async initState() {
     const [msg, s] = useI.bind(this)("msg");
-    this.msg = msg;
-    this.s = s;
+    this.state.msg = msg;
+    this.state.s = s;
     const Header1 = useMemo.bind(this)(() => {
       return Reblend.construct.bind(this)(Reblend, null, Reblend.construct.bind(this)(Header, {
         logo,
-        msg: this.msg,
-        i: this.s
+        msg: this.state.msg,
+        i: this.state.s
       }));
     }, "[]", "Header1");
-    this.Header1 = Header1;
+    this.state.Header1 = Header1;
     const themeDispatcher = useContextDispatch.bind(this)(ThemeContext, "themeDispatcher");
-    this.themeDispatcher = themeDispatcher;
+    this.state.themeDispatcher = themeDispatcher;
     const colors = ['azure', 'yellow', 'pink', 'purple', 'green', 'red'];
-    this.colors = colors;
+    this.state.colors = colors;
     setInterval(() => {
-      this.themeDispatcher(this.colors[rand(0, this.colors.length)]);
+      this.state.themeDispatcher(this.state.colors[rand(0, this.state.colors.length)]);
     }, 2000);
   }
-  initProps() {
+  async initProps() {
     this.props = {};
   }
-  html() {
-    return Reblend.construct.bind(this)(Reblend, null, Reblend.construct.bind(this)(this.Header1, null), Reblend.construct.bind(this)("div", {
+  async html() {
+    return Reblend.construct.bind(this)(Reblend, null, Reblend.construct.bind(this)(this.state.Header1, null), Reblend.construct.bind(this)("div", {
       className: 'App'
     }, Reblend.construct.bind(this)(Header, {
       logo,
-      msg: this.msg,
-      i: this.s
+      msg: this.state.msg,
+      i: this.state.s
     })));
   }
 }

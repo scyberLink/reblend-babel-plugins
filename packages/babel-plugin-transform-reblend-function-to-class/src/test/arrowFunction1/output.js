@@ -6,14 +6,14 @@ extends Reblend {
   constructor() {
     super();
   }
-  initState() {}
-  initProps({
+  async initState() {}
+  async initProps({
     code = 1
   }) {
     this.props = {};
     this.props.code = code;
   }
-  html() {
+  async html() {
     return Reblend.construct.bind(this)("code", null, "src/App.tsx(", this.props.code, ")");
   }
 };

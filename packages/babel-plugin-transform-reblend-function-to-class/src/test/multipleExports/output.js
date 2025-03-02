@@ -80,81 +80,81 @@ class PaginatedTable extends Reblend {
   constructor() {
     super();
   }
-  initState() {
+  async initState() {
     const [reload, setReload] = useState.bind(this)(false, "reload");
-    this.reload = reload;
-    this.setReload = setReload;
+    this.state.reload = reload;
+    this.state.setReload = setReload;
     const [fields, setFields] = useState.bind(this)(null, "fields");
-    this.fields = fields;
-    this.setFields = setFields;
+    this.state.fields = fields;
+    this.state.setFields = setFields;
     const [fieldKeys, setFieldKeys] = useState.bind(this)([], "fieldKeys");
-    this.fieldKeys = fieldKeys;
-    this.setFieldKeys = setFieldKeys;
+    this.state.fieldKeys = fieldKeys;
+    this.state.setFieldKeys = setFieldKeys;
     const [fieldValues, setFieldValues] = useState.bind(this)([], "fieldValues");
-    this.fieldValues = fieldValues;
-    this.setFieldValues = setFieldValues;
+    this.state.fieldValues = fieldValues;
+    this.state.setFieldValues = setFieldValues;
     const [initQuery, setInitQuery] = useState.bind(this)(null, "initQuery");
-    this.initQuery = initQuery;
-    this.setInitQuery = setInitQuery;
+    this.state.initQuery = initQuery;
+    this.state.setInitQuery = setInitQuery;
     const [query, setQuery] = useState.bind(this)(null, "query");
-    this.query = query;
-    this.setQuery = setQuery;
+    this.state.query = query;
+    this.state.setQuery = setQuery;
     const [loading, setLoading] = useState.bind(this)(true, "loading");
-    this.loading = loading;
-    this.setLoading = setLoading;
+    this.state.loading = loading;
+    this.state.setLoading = setLoading;
     const [results, setResults] = useState.bind(this)(null, "results");
-    this.results = results;
-    this.setResults = setResults;
+    this.state.results = results;
+    this.state.setResults = setResults;
     const [searchKey, setSearchKey] = useState.bind(this)(null, "searchKey");
-    this.searchKey = searchKey;
-    this.setSearchKey = setSearchKey;
+    this.state.searchKey = searchKey;
+    this.state.setSearchKey = setSearchKey;
     const [searchValue, setSearchValue] = useState.bind(this)('', "searchValue");
-    this.searchValue = searchValue;
-    this.setSearchValue = setSearchValue;
+    this.state.searchValue = searchValue;
+    this.state.setSearchValue = setSearchValue;
     const [sortKey, setSortKey] = useState.bind(this)(null, "sortKey");
-    this.sortKey = sortKey;
-    this.setSortKey = setSortKey;
+    this.state.sortKey = sortKey;
+    this.state.setSortKey = setSortKey;
     const [sortOrder, setSortOrder] = useState.bind(this)(null, "sortOrder");
-    this.sortOrder = sortOrder;
-    this.setSortOrder = setSortOrder;
+    this.state.sortOrder = sortOrder;
+    this.state.setSortOrder = setSortOrder;
     const [showSortTip, setShowSortTip] = useState.bind(this)(false, "showSortTip");
-    this.showSortTip = showSortTip;
-    this.setShowSortTip = setShowSortTip;
+    this.state.showSortTip = showSortTip;
+    this.state.setShowSortTip = setShowSortTip;
     const [firstDisplay, setFirstDisplay] = useState.bind(this)(true, "firstDisplay");
-    this.firstDisplay = firstDisplay;
-    this.setFirstDisplay = setFirstDisplay;
+    this.state.firstDisplay = firstDisplay;
+    this.state.setFirstDisplay = setFirstDisplay;
     const [loadingError, setLoadingError] = useState.bind(this)(false, "loadingError");
-    this.loadingError = loadingError;
-    this.setLoadingError = setLoadingError;
+    this.state.loadingError = loadingError;
+    this.state.setLoadingError = setLoadingError;
     const [numEqualityValue, setNumEqualityValue] = useState.bind(this)(numEquality[0].value, "numEqualityValue");
-    this.numEqualityValue = numEqualityValue;
-    this.setNumEqualityValue = setNumEqualityValue;
+    this.state.numEqualityValue = numEqualityValue;
+    this.state.setNumEqualityValue = setNumEqualityValue;
     const uidRef = useRef.bind(this)(SharedConfig.getLocalData(UID), "uidRef");
-    this.uidRef = uidRef;
+    this.state.uidRef = uidRef;
     useEffect.bind(this)(() => {
-      if (!this.props.noScroll) {
-        this.sortKey && document.getElementById(this.sortKey)?.scrollIntoView({
+      if (!this.state.props.noScroll) {
+        this.state.sortKey && document.getElementById(this.state.sortKey)?.scrollIntoView({
           behavior: 'smooth',
           block: 'center',
           inline: 'center'
         });
       }
-    }, "[this.results]");
+    }, "[this.state.results]");
     useEffect.bind(this)(() => {
-      !this.firstDisplay && this.setReload(!this.reload);
-    }, "[this.props.reload]");
+      !this.state.firstDisplay && this.state.setReload(!this.state.reload);
+    }, "[this.state.props.reload]");
     useEffect.bind(this)(() => {
-      this.setSearchValue('');
-    }, "[this.searchKey]");
+      this.state.setSearchValue('');
+    }, "[this.state.searchKey]");
     useEffect.bind(this)(() => {
-      !this.firstDisplay && this.querySetter();
-    }, "[this.sortKey, this.sortOrder]");
+      !this.state.firstDisplay && this.state.querySetter();
+    }, "[this.state.sortKey, this.state.sortOrder]");
     useEffect.bind(this)(() => {
-      !this.firstDisplay && this.querySetter();
-    }, "[this.props.query]");
+      !this.state.firstDisplay && this.state.querySetter();
+    }, "[this.state.props.query]");
     useEffect.bind(this)(() => {
       const f = {
-        ...this.props.fields
+        ...this.state.props.fields
       };
       f.status && !f.status.transform && (f.status.transform = statusTransform);
       f.createdAt && !f.createdAt.transform && (f.createdAt.transform = {
@@ -187,14 +187,14 @@ class PaginatedTable extends Reblend {
       }
       const keys = Object.keys(f);
       const values = Object.values(f);
-      const defaultSearchKey = this.props.primaryKey ? this.props.primaryKey : keys[0] || null;
-      const defaultSortOrder = this.props.sortOrder || ASCENDING;
-      const defaultInitQuery = this.props.forCurrentUser ? {
+      const defaultSearchKey = this.state.props.primaryKey ? this.state.props.primaryKey : keys[0] || null;
+      const defaultSortOrder = this.state.props.sortOrder || ASCENDING;
+      const defaultInitQuery = this.state.props.forCurrentUser ? {
         ...{
-          uid: this.uidRef.current
+          uid: this.state.uidRef.current
         },
-        ...this.props.query
-      } : this.props.query;
+        ...this.state.props.query
+      } : this.state.props.query;
       const newQuery = {
         ...defaultInitQuery
       };
@@ -226,35 +226,35 @@ class PaginatedTable extends Reblend {
           [defaultSearchKey]: defaultSortOrder
         };
       }
-      this.setFields(f);
-      this.setFieldKeys(keys);
-      this.setFieldValues(values);
-      this.setSearchKey(defaultSearchKey);
-      this.setSortKey(defaultSearchKey);
-      this.setSortOrder(defaultSortOrder);
-      this.setInitQuery(newQuery);
-      this.setQuery(newQuery);
-    }, "[this.props.fields, this.props.query]");
+      this.state.setFields(f);
+      this.state.setFieldKeys(keys);
+      this.state.setFieldValues(values);
+      this.state.setSearchKey(defaultSearchKey);
+      this.state.setSortKey(defaultSearchKey);
+      this.state.setSortOrder(defaultSortOrder);
+      this.state.setInitQuery(newQuery);
+      this.state.setQuery(newQuery);
+    }, "[this.state.props.fields, this.state.props.query]");
     const resultSetter = data => {
       if (data) {
-        this.setResults(data);
-        this.props.setData && this.props.setData(data);
+        this.state.setResults(data);
+        this.state.props.setData && this.state.props.setData(data);
       }
-      this.setLoading(false);
-      this.firstDisplay && this.setFirstDisplay(false);
+      this.state.setLoading(false);
+      this.state.firstDisplay && this.state.setFirstDisplay(false);
     };
-    this.resultSetter = resultSetter;
+    this.state.resultSetter = resultSetter;
     const querySetter = e => {
       e?.preventDefault();
       const newQuery = {
-        ...this.initQuery,
-        ...this.props.query
+        ...this.state.initQuery,
+        ...this.state.props.query
       };
-      if (this.fields[this.sortKey]?.populated) {
+      if (this.state.fields[this.state.sortKey]?.populated) {
         if (newQuery.populate) {
           newQuery.populate = newQuery.populate.map(path => {
             if (typeof path === 'string') {
-              if (path == this.sortKey) {
+              if (path == this.state.sortKey) {
                 if (newQuery.$sort) {
                   delete newQuery.$sort;
                 }
@@ -262,7 +262,7 @@ class PaginatedTable extends Reblend {
                   path,
                   options: {
                     sort: {
-                      [this.fields[this.sortKey].populatedSortkey]: this.sortOrder
+                      [this.state.fields[this.state.sortKey].populatedSortkey]: this.state.sortOrder
                     }
                   }
                 };
@@ -270,64 +270,64 @@ class PaginatedTable extends Reblend {
                 return path;
               }
             }
-            return this.sortKey;
+            return this.state.sortKey;
           });
         }
       } else {
         newQuery.$sort = {
-          [this.sortKey]: this.sortOrder
+          [this.state.sortKey]: this.state.sortOrder
         };
       }
-      const trimmedValue = this.checkInputTransform(this.searchValue?.trim());
+      const trimmedValue = this.state.checkInputTransform(this.state.searchValue?.trim());
       if (trimmedValue && trimmedValue !== '') {
-        newQuery[this.searchKey] =
+        newQuery[this.state.searchKey] =
         // if is selected a number and also not searching for exact value
-        this.isSelectedANumber() && this.numEqualityValue !== numEquality[0].value ? {
-          [`$${this.numEqualityValue}`]: this.checkInputTransform(this.searchValue?.trim())
-        } : this.checkInputTransform(this.searchValue?.trim());
+        this.state.isSelectedANumber() && this.state.numEqualityValue !== numEquality[0].value ? {
+          [`$${this.state.numEqualityValue}`]: this.state.checkInputTransform(this.state.searchValue?.trim())
+        } : this.state.checkInputTransform(this.state.searchValue?.trim());
       }
-      if (objectEquals(this.query, newQuery)) {
-        this.setLoading(true);
-        this.setReload(!this.reload);
+      if (objectEquals(this.state.query, newQuery)) {
+        this.state.setLoading(true);
+        this.state.setReload(!this.state.reload);
       } else {
-        this.setLoading(true);
-        this.setQuery(newQuery);
+        this.state.setLoading(true);
+        this.state.setQuery(newQuery);
       }
     };
-    this.querySetter = querySetter;
+    this.state.querySetter = querySetter;
     const checkOutputTransform = (field, resultIndex) => {
-      const fieldOptions = this.fields && this.fields[field];
+      const fieldOptions = this.state.fields && this.state.fields[field];
       if (fieldOptions?.transform?.out) {
-        const transformedValue = fieldOptions.transform.out(this.results[resultIndex]);
+        const transformedValue = fieldOptions.transform.out(this.state.results[resultIndex]);
         return transformedValue;
       }
-      return this.results[resultIndex][fieldOptions?.selectionKey || field];
+      return this.state.results[resultIndex][fieldOptions?.selectionKey || field];
     };
-    this.checkOutputTransform = checkOutputTransform;
+    this.state.checkOutputTransform = checkOutputTransform;
     const checkInputTransform = value => {
-      const fieldOptions = this.fields && this.fields[this.searchKey];
+      const fieldOptions = this.state.fields && this.state.fields[this.state.searchKey];
       if (fieldOptions?.transform?.in) {
         const transformValue = fieldOptions.transform.in(value);
         return transformValue;
       }
       return value;
     };
-    this.checkInputTransform = checkInputTransform;
+    this.state.checkInputTransform = checkInputTransform;
     const isSelectedANumber = () => {
-      return this.fields && this.fields[this.searchKey]?.type == Number && !this.fields[this.searchKey]?.virtual;
+      return this.state.fields && this.state.fields[this.state.searchKey]?.type == Number && !this.state.fields[this.state.searchKey]?.virtual;
     };
-    this.isSelectedANumber = isSelectedANumber;
+    this.state.isSelectedANumber = isSelectedANumber;
     const computeValue = (result, field, index) => {
-      const val = this.fields[field]?.type == Boolean ? booleanTransform.out(result) : this.checkOutputTransform(field, index);
-      if (this.fields[field]?.virtual) {
+      const val = this.state.fields[field]?.type == Boolean ? booleanTransform.out(result) : this.state.checkOutputTransform(field, index);
+      if (this.state.fields[field]?.virtual) {
         return val;
       } else {
-        return this.props.noDoubleClick ? val : Reblend.construct.bind(this)(DoubleClickCopy, {
-          noClickOpen: this.props.noClickOpen
+        return this.state.props.noDoubleClick ? val : Reblend.construct.bind(this)(DoubleClickCopy, {
+          noClickOpen: this.state.props.noClickOpen
         }, val, " ");
       }
     };
-    this.computeValue = computeValue;
+    this.state.computeValue = computeValue;
     const sortTip = Reblend.construct.bind(this)(Tooltip, {
       id: "custom-tooltip"
     }, Reblend.construct.bind(this)(Card, null, Reblend.construct.bind(this)("div", {
@@ -340,57 +340,57 @@ class PaginatedTable extends Reblend {
       lg: "6",
       className: "pt-1"
     }, Reblend.construct.bind(this)(InputGroup, null, Reblend.construct.bind(this)(InputGroup.Text, null, "Sort By"), Reblend.construct.bind(this)(Form.Select, {
-      onChange: e => this.setSortKey(e.target.value.trim()),
-      value: this.sortKey
-    }, this.fieldKeys.map((field, i) => this.fieldValues[i].hideFromSearch || this.fieldValues[i].virtual ? null : Reblend.construct.bind(this)("option", {
+      onChange: e => this.state.setSortKey(e.target.value.trim()),
+      value: this.state.sortKey
+    }, this.state.fieldKeys.map((field, i) => this.state.fieldValues[i].hideFromSearch || this.state.fieldValues[i].virtual ? null : Reblend.construct.bind(this)("option", {
       key: md5(field),
       value: field
-    }, this.fieldValues[i].name))))), Reblend.construct.bind(this)(Col, {
+    }, this.state.fieldValues[i].name))))), Reblend.construct.bind(this)(Col, {
       sm: "12",
       md: "6",
       lg: "6",
       className: "pt-1"
     }, Reblend.construct.bind(this)(InputGroup, null, Reblend.construct.bind(this)(InputGroup.Text, null, "Sort Order"), Reblend.construct.bind(this)(Form.Select, {
-      onChange: e => this.setSortOrder(e.target.value),
-      value: this.sortOrder
+      onChange: e => this.state.setSortOrder(e.target.value),
+      value: this.state.sortOrder
     }, sortingOrder.map(obj => Reblend.construct.bind(this)("option", {
       key: md5(obj.name),
       value: obj.value
     }, obj.name)))))))));
-    this.sortTip = sortTip;
+    this.state.sortTip = sortTip;
   }
-  initProps(props) {
+  async initProps(props) {
     this.props = {};
-    this.props = props;
+    this.state.props = props;
   }
-  html() {
-    return Reblend.construct.bind(this)("div", null, this.props.noControl ? null : Reblend.construct.bind(this)(Form, {
-      onSubmit: e => this.querySetter(e)
+  async html() {
+    return Reblend.construct.bind(this)("div", null, this.state.props.noControl ? null : Reblend.construct.bind(this)(Form, {
+      onSubmit: e => this.state.querySetter(e)
     }, Reblend.construct.bind(this)(Row, null, Reblend.construct.bind(this)(Col, {
       sm: "12",
       md: "6",
       lg: "6"
     }, Reblend.construct.bind(this)(Row, null, Reblend.construct.bind(this)(Col, {
-      sm: this.isSelectedANumber() ? '8' : '12',
-      md: this.isSelectedANumber() ? '8' : '12',
-      lg: this.isSelectedANumber() ? '8' : '12',
+      sm: this.state.isSelectedANumber() ? '8' : '12',
+      md: this.state.isSelectedANumber() ? '8' : '12',
+      lg: this.state.isSelectedANumber() ? '8' : '12',
       className: "p-1"
     }, Reblend.construct.bind(this)(InputGroup, null, Reblend.construct.bind(this)(Form.Select, {
-      onChange: e => this.setSearchKey(e.target.value.trim()),
-      value: this.searchKey || this.props.primaryKey || ''
-    }, this.fieldKeys.map((field, i) => this.fieldValues[i].hideFromSearch || this.fieldValues[i].virtual ? null : Reblend.construct.bind(this)("option", {
+      onChange: e => this.state.setSearchKey(e.target.value.trim()),
+      value: this.state.searchKey || this.state.props.primaryKey || ''
+    }, this.state.fieldKeys.map((field, i) => this.state.fieldValues[i].hideFromSearch || this.state.fieldValues[i].virtual ? null : Reblend.construct.bind(this)("option", {
       key: md5(field),
       value: field
-    }, this.fieldValues[i].name))), Reblend.construct.bind(this)(InputGroup.Text, null, Reblend.construct.bind(this)(OverlayTrigger, {
-      overlay: this.sortTip,
+    }, this.state.fieldValues[i].name))), Reblend.construct.bind(this)(InputGroup.Text, null, Reblend.construct.bind(this)(OverlayTrigger, {
+      overlay: this.state.sortTip,
       placement: "auto",
       trigger: 'manual',
-      show: this.showSortTip,
+      show: this.state.showSortTip,
       flip: true
     }, Reblend.construct.bind(this)("i", {
       className: "fas fa-sort c-pointer",
-      onClick: () => this.setShowSortTip(!this.showSortTip),
-      style: this.showSortTip ? {
+      onClick: () => this.state.setShowSortTip(!this.state.showSortTip),
+      style: this.state.showSortTip ? {
         backgroundColor: 'blue',
         borderRadius: '10px',
         padding: '4px'
@@ -401,15 +401,15 @@ class PaginatedTable extends Reblend {
                         /* background-color: transparent */
                       }`)), Reblend.construct.bind(this)(InputGroup.Text, null, Reblend.construct.bind(this)("i", {
       className: "fas fa-refresh c-pointer",
-      onClick: () => this.querySetter()
-    })))), this.isSelectedANumber() ? Reblend.construct.bind(this)(Col, {
+      onClick: () => this.state.querySetter()
+    })))), this.state.isSelectedANumber() ? Reblend.construct.bind(this)(Col, {
       sm: "4",
       md: "4",
       lg: "4",
       className: "p-1"
     }, Reblend.construct.bind(this)(Form.Select, {
-      onChange: e => this.setNumEqualityValue(e.target.value.trim()),
-      defaultValue: this.numEqualityValue
+      onChange: e => this.state.setNumEqualityValue(e.target.value.trim()),
+      defaultValue: this.state.numEqualityValue
     }, numEquality.map(obj => Reblend.construct.bind(this)("option", {
       key: md5(obj.value),
       value: obj.value
@@ -420,8 +420,8 @@ class PaginatedTable extends Reblend {
       className: "p-1"
     }, Reblend.construct.bind(this)("div", {
       className: "form-group d-flex"
-    }, this.fields && this.fields[this.searchKey]?.type == Boolean ? Reblend.construct.bind(this)(Form.Select, {
-      onChange: e => this.setSearchValue(e.target.value.trim())
+    }, this.state.fields && this.state.fields[this.state.searchKey]?.type == Boolean ? Reblend.construct.bind(this)(Form.Select, {
+      onChange: e => this.state.setSearchValue(e.target.value.trim())
     }, Reblend.construct.bind(this)("option", {
       key: 'false',
       value: 'false'
@@ -429,14 +429,14 @@ class PaginatedTable extends Reblend {
       key: 'true',
       value: 'true'
     }, "True")) : Reblend.construct.bind(this)(Form.Control, {
-      value: this.searchValue,
+      value: this.state.searchValue,
       required: true,
-      type: this.fields && this.fields[this.searchKey]?.type == Number ? 'number' : this.fields && this.fields[this.searchKey]?.type == Date ? 'date' : 'text',
-      onChange: e => this.setSearchValue(e.target.value.trim() == '' ? '' : e.target.value)
+      type: this.state.fields && this.state.fields[this.state.searchKey]?.type == Number ? 'number' : this.state.fields && this.state.fields[this.state.searchKey]?.type == Date ? 'date' : 'text',
+      onChange: e => this.state.setSearchValue(e.target.value.trim() == '' ? '' : e.target.value)
     }), Reblend.construct.bind(this)(Button, {
       variant: "primary",
       type: "submit",
-      disabled: this.loading,
+      disabled: this.state.loading,
       style: {
         marginLeft: '-10px',
         borderRadius: '0 5px 5px 0'
@@ -445,69 +445,69 @@ class PaginatedTable extends Reblend {
       className: "fas fa-search"
     })))))), Reblend.construct.bind(this)(Row, null, Reblend.construct.bind(this)(Col, {
       sm: "12"
-    }, this.props.type == 'card' ? Reblend.construct.bind(this)(Spinner, {
-      loading: this.loading,
-      loadingError: this.loadingError
+    }, this.state.props.type == 'card' ? Reblend.construct.bind(this)(Spinner, {
+      loading: this.state.loading,
+      loadingError: this.state.loadingError
     }, Reblend.construct.bind(this)("div", {
-      className: this.props.cardNotCentered ? 's-start-grid' : 's-grid-justify'
-    }, this.results?.map((result, resultIndex) => Reblend.construct.bind(this)(Fragment, {
+      className: this.state.props.cardNotCentered ? 's-start-grid' : 's-grid-justify'
+    }, this.state.results?.map((result, resultIndex) => Reblend.construct.bind(this)(Fragment, {
       key: result?._id
-    }, this.props?.cardView(result, resultIndex))))) : Reblend.construct.bind(this)(Table, {
+    }, this.state.props?.cardView(result, resultIndex))))) : Reblend.construct.bind(this)(Table, {
       responsive: true,
       striped: true,
       hover: true,
-      style: this.props?.style?.tableStyle ? this.props.style.tableStyle : this.props.style,
-      className: `${this.props?.className?.tableClass ? this.props?.className?.tableClass : typeof this.props?.className === 'string' ? this.props?.className : ''}`
+      style: this.state.props?.style?.tableStyle ? this.state.props.style.tableStyle : this.state.props.style,
+      className: `${this.state.props?.className?.tableClass ? this.state.props?.className?.tableClass : typeof this.state.props?.className === 'string' ? this.state.props?.className : ''}`
     }, Reblend.construct.bind(this)("thead", {
-      style: this.props?.style?.theadStyle || {},
-      className: `${this.props?.className?.theadClass || ''}`
-    }, Reblend.construct.bind(this)("tr", null, this.props.numbered ? Reblend.construct.bind(this)("th", {
+      style: this.state.props?.style?.theadStyle || {},
+      className: `${this.state.props?.className?.theadClass || ''}`
+    }, Reblend.construct.bind(this)("tr", null, this.state.props.numbered ? Reblend.construct.bind(this)("th", {
       key: "#"
-    }, "#") : null, this.fieldValues.map((field, i) =>
+    }, "#") : null, this.state.fieldValues.map((field, i) =>
     // Header Cell
     Reblend.construct.bind(this)("th", {
-      id: `${this.fieldKeys[i] == this.sortKey ? this.sortKey : ''}`,
-      onClick: e => !field.virtual && (this.fieldKeys[i] !== this.sortKey ? this.setSortKey(this.fieldKeys[i]) : this.setSortOrder(this.sortOrder == sortingOrder[0].value ? sortingOrder[1].value : sortingOrder[0].value)),
-      className: ` c-pointer ${this.fieldKeys[i] !== this.sortKey && !field.virtual ? 'utilityLink' : ''}`,
-      style: this.fieldKeys[i] !== this.sortKey ? {} : {
+      id: `${this.state.fieldKeys[i] == this.state.sortKey ? this.state.sortKey : ''}`,
+      onClick: e => !field.virtual && (this.state.fieldKeys[i] !== this.state.sortKey ? this.state.setSortKey(this.state.fieldKeys[i]) : this.state.setSortOrder(this.state.sortOrder == sortingOrder[0].value ? sortingOrder[1].value : sortingOrder[0].value)),
+      className: ` c-pointer ${this.state.fieldKeys[i] !== this.state.sortKey && !field.virtual ? 'utilityLink' : ''}`,
+      style: this.state.fieldKeys[i] !== this.state.sortKey ? {} : {
         borderBottom: 'ridge',
         borderBottomColor: 'red',
         color: 'blue'
       },
-      key: md5(this.fieldKeys[i])
+      key: md5(this.state.fieldKeys[i])
     }, Reblend.construct.bind(this)("div", {
       className: "d-flex justify-content-center align-items-center p-0"
     }, Reblend.construct.bind(this)("span", {
       style: {
         wordWrap: 'normal'
       }
-    }, typeof field.name === 'function' ? field.name() : field.name), "\xA0", this.fieldKeys[i] !== this.sortKey ? null : Reblend.construct.bind(this)("span", null, Reblend.construct.bind(this)("i", {
-      className: `fas fa-${this.sortOrder == 1 ? this.fields[this.sortKey].type == Number ? 'sort-numeric-up' : 'sort-alpha-up' : this.fields[this.sortKey].type == Number ? 'sort-numeric-down' : 'sort-alpha-down'} text-red`
+    }, typeof field.name === 'function' ? field.name() : field.name), "\xA0", this.state.fieldKeys[i] !== this.state.sortKey ? null : Reblend.construct.bind(this)("span", null, Reblend.construct.bind(this)("i", {
+      className: `fas fa-${this.state.sortOrder == 1 ? this.state.fields[this.state.sortKey].type == Number ? 'sort-numeric-up' : 'sort-alpha-up' : this.state.fields[this.state.sortKey].type == Number ? 'sort-numeric-down' : 'sort-alpha-down'} text-red`
     }))))))), Reblend.construct.bind(this)("tbody", {
-      style: this.props?.style?.tbodyStyle || {},
-      className: `${this.props?.className?.tbodyClass || ''}`
+      style: this.state.props?.style?.tbodyStyle || {},
+      className: `${this.state.props?.className?.tbodyClass || ''}`
     }, Reblend.construct.bind(this)(Spinner, {
-      loading: this.loading,
-      loadingError: this.loadingError,
+      loading: this.state.loading,
+      loadingError: this.state.loadingError,
       table: {
-        colspan: this.fieldKeys.length
+        colspan: this.state.fieldKeys.length
       }
-    }, this.results?.map((result, resultIndex) => {
+    }, this.state.results?.map((result, resultIndex) => {
       // Row
-      const rowOptions = typeof this.props?.rowOptions === 'function' ? this.props.rowOptions(result) : this.props.rowOptions;
+      const rowOptions = typeof this.state.props?.rowOptions === 'function' ? this.state.props.rowOptions(result) : this.state.props.rowOptions;
       const t = rowOptions?.title;
       delete rowOptions?.title;
       return rowOptions && rowOptions.noTitleToolTip ? Reblend.construct.bind(this)(TRow, {
         key: result?._id,
         result: result,
         resultIndex: resultIndex,
-        style: this.props.style,
-        className: this.props.className,
+        style: this.state.props.style,
+        className: this.state.props.className,
         options: rowOptions,
-        numbered: this.props.numbered,
-        fieldKeys: this.fieldKeys,
-        fields: this.fields,
-        computeValue: this.computeValue
+        numbered: this.state.props.numbered,
+        fieldKeys: this.state.fieldKeys,
+        fields: this.state.fields,
+        computeValue: this.state.computeValue
       }) : t ? Reblend.construct.bind(this)(OverlayTrigger, {
         key: result?._id,
         delay: {
@@ -521,39 +521,39 @@ class PaginatedTable extends Reblend {
       }, Reblend.construct.bind(this)(TRow, {
         result: result,
         resultIndex: resultIndex,
-        style: this.props.style,
-        className: this.props.className,
+        style: this.state.props.style,
+        className: this.state.props.className,
         options: rowOptions,
-        numbered: this.props.numbered,
-        fieldKeys: this.fieldKeys,
-        fields: this.fields,
-        computeValue: this.computeValue
+        numbered: this.state.props.numbered,
+        fieldKeys: this.state.fieldKeys,
+        fields: this.state.fields,
+        computeValue: this.state.computeValue
       })) : Reblend.construct.bind(this)(TRow, {
         key: result?._id,
         result: result,
         resultIndex: resultIndex,
-        style: this.props.style,
-        className: this.props.className,
+        style: this.state.props.style,
+        className: this.state.props.className,
         options: rowOptions,
-        numbered: this.props.numbered,
-        fieldKeys: this.fieldKeys,
-        fields: this.fields,
-        computeValue: this.computeValue
+        numbered: this.state.props.numbered,
+        fieldKeys: this.state.fieldKeys,
+        fields: this.state.fields,
+        computeValue: this.state.computeValue
       });
     })))))), Reblend.construct.bind(this)(Row, {
       className: "pt-2"
     }, Reblend.construct.bind(this)(Col, {
       sm: "12"
     }, Reblend.construct.bind(this)(Paginator, {
-      url: this.props.url,
-      dataName: this.props.dataName,
-      query: this.query,
-      size: this.props.size,
-      setResults: this.resultSetter,
-      reload: this.reload,
-      setLoadingError: this.setLoadingError,
-      hidden: this.props.hidePaginator,
-      noPaginator: this.props.noPaginator
+      url: this.state.props.url,
+      dataName: this.state.props.dataName,
+      query: this.state.query,
+      size: this.state.props.size,
+      setResults: this.state.resultSetter,
+      reload: this.state.reload,
+      setLoadingError: this.state.setLoadingError,
+      hidden: this.state.props.hidePaginator,
+      noPaginator: this.state.props.noPaginator
     }))));
   }
 }

@@ -5,25 +5,25 @@ export default class Route extends Reblend {
   constructor() {
     super();
   }
-  initState() {
+  async initState() {
     const thisRoute = this.props.element || Reblend.construct.bind(this)(this.props.Component, null);
-    this.thisRoute = thisRoute;
+    this.state.thisRoute = thisRoute;
     const {
       y,
       ...es
-    } = useCallback.bind(this)("");
-    this.y = y;
-    this.es = es;
-    if (!this.thisRoute) {
+    } = useCallback.bind(this)("unneededIdentifier");
+    this.state.y = y;
+    this.state.es = es;
+    if (!this.state.thisRoute) {
       throw new Error("Route should have element or Component prop");
     }
     createRoute({
-      [this.props.path]: this.thisRoute
+      [this.props.path]: this.state.thisRoute
     });
     const matchedRoute = useContext.bind(this)(MatchedRoute, "matchedRoute");
-    this.matchedRoute = matchedRoute;
+    this.state.matchedRoute = matchedRoute;
   }
-  initProps({
+  async initProps({
     Component,
     element,
     path,
@@ -38,8 +38,8 @@ export default class Route extends Reblend {
       ...props
     };
   }
-  html() {
-    return this.matchedRoute == this.thisRoute ? this.matchedRoute : null;
+  async html() {
+    return this.state.matchedRoute == this.state.thisRoute ? this.state.matchedRoute : null;
   }
 }
 /* Transformed from function to class */

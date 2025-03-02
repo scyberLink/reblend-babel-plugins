@@ -8,27 +8,27 @@ class App extends Reblend {
   constructor() {
     super();
   }
-  initState() {
+  async initState() {
     const [s, setS] = useState.bind(this)(1, "s");
-    this.s = s;
-    this.setS = setS;
+    this.state.s = s;
+    this.state.setS = setS;
     setInterval(() => {
-      this.setS(pre => pre + 2);
+      this.state.setS(pre => pre + 2);
     }, 1000);
-    const msg = useMemo.bind(this)(() => `State = "${this.s}"`, "[this.s]", "msg");
-    this.msg = msg;
+    const msg = useMemo.bind(this)(() => `State = "${this.state.s}"`, "[this.state.s]", "msg");
+    this.state.msg = msg;
     const theme = useContext.bind(this)(ThemeContext, "theme");
-    this.theme = theme;
+    this.state.theme = theme;
     const themeDispatcher = useContextDispatch.bind(this)(ThemeContext, "themeDispatcher");
-    this.themeDispatcher = themeDispatcher;
+    this.state.themeDispatcher = themeDispatcher;
     setTimeout(() => {
-      this.themeDispatcher("yellow");
+      this.state.themeDispatcher("yellow");
     }, 10000);
   }
-  initProps() {
+  async initProps() {
     this.props = {};
   }
-  html() {
+  async html() {
     return Reblend.construct.bind(this)("div", {
       className: "App"
     }, Reblend.construct.bind(this)("header", {
@@ -43,12 +43,12 @@ class App extends Reblend {
       }
     }), Reblend.construct.bind(this)("p", {
       style: {
-        theme: this.theme,
-        color: this.theme,
-        themeDispatcher: this.themeDispatcher,
+        theme: this.state.theme,
+        color: this.state.theme,
+        themeDispatcher: this.state.themeDispatcher,
         t: ThemeContext
       }
-    }, "Edit ", Reblend.construct.bind(this)("code", null, "src/App.tsx"), " and save to reload. ", `{${this.msg}}`), Reblend.construct.bind(this)("a", {
+    }, "Edit ", Reblend.construct.bind(this)("code", null, "src/App.tsx"), " and save to reload. ", `{${this.state.msg}}`), Reblend.construct.bind(this)("a", {
       className: "App-link",
       href: "https://reblendjs.org",
       target: "_blank",

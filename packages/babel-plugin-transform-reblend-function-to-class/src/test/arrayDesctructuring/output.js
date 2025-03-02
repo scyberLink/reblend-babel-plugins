@@ -6,10 +6,10 @@ extends Reblend {
   constructor() {
     super();
   }
-  initState() {
+  async initState() {
     const [count, setCount] = useState.bind(this)(0, "count");
-    this.count = count;
-    this.setCount = setCount;
+    this.state.count = count;
+    this.state.setCount = setCount;
     const Header1 = useMemo.bind(this)(() => {
       return Reblend.construct.bind(this)(Reblend, null, Reblend.construct.bind(this)(Header, {
         logo,
@@ -17,13 +17,13 @@ extends Reblend {
         i: s
       }));
     }, "[]", "Header1");
-    this.Header1 = Header1;
+    this.state.Header1 = Header1;
     const handleClick = () => {
-      this.setCount(this.count + 1);
+      this.state.setCount(this.state.count + 1);
     };
-    this.handleClick = handleClick;
+    this.state.handleClick = handleClick;
   }
-  initProps({
+  async initProps({
     name,
     Header2
   }) {
@@ -31,9 +31,9 @@ extends Reblend {
     this.props.name = name;
     this.props.Header2 = Header2;
   }
-  html() {
-    return Reblend.construct.bind(this)("div", null, Reblend.construct.bind(this)(this.Header1, null), Reblend.construct.bind(this)("p", null, "Count: ", this.count), Reblend.construct.bind(this)("button", {
-      onClick: this.handleClick
+  async html() {
+    return Reblend.construct.bind(this)("div", null, Reblend.construct.bind(this)(this.state.Header1, null), Reblend.construct.bind(this)("p", null, "Count: ", this.state.count), Reblend.construct.bind(this)("button", {
+      onClick: this.state.handleClick
     }, "Increment"), Reblend.construct.bind(this)("p", null, "Hello, ", this.props.name, "!"), Reblend.construct.bind(this)(this.props.Header2, null));
   }
 };

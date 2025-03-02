@@ -8,29 +8,29 @@ extends Reblend {
   constructor() {
     super();
   }
-  initState() {
+  async initState() {
     const count = useSelector.bind(this)(state => state.counter, "count");
-    this.count = count;
+    this.state.count = count;
     const dispatch = useDispatch.bind(this)("dispatch");
-    this.dispatch = dispatch;
+    this.state.dispatch = dispatch;
     useEffect.bind(this)(() => {
-      console.log("count", this.count + 1 + this.props.user);
-    }, "[this.props.user, this.dispatch]");
+      console.log("count", this.state.count + 1 + this.props.user);
+    }, "[this.props.user, this.state.dispatch]");
     const cter = useMemo.bind(this)(() => {
-      return this.count++;
-    }, "[this.count]", "cter");
-    this.cter = cter;
+      return this.state.count++;
+    }, "[this.state.count]", "cter");
+    this.state.cter = cter;
   }
-  initProps({
+  async initProps({
     user
   }) {
     this.props = {};
     this.props.user = user;
   }
-  html() {
-    return Reblend.construct.bind(this)("div", null, Reblend.construct.bind(this)("p", null, "Count: ", this.count.number.insert()), Reblend.construct.bind(this)("button", {
-      onClick: () => this.dispatch(increment())
-    }, "Increment"), Reblend.construct.bind(this)("p", null, "Hello, ", this.props.user.names.first, " ", this.props.user.lastname, "! counter = ", this.cter));
+  async html() {
+    return Reblend.construct.bind(this)("div", null, Reblend.construct.bind(this)("p", null, "Count: ", this.state.count.number.insert()), Reblend.construct.bind(this)("button", {
+      onClick: () => this.state.dispatch(increment())
+    }, "Increment"), Reblend.construct.bind(this)("p", null, "Hello, ", this.props.user.names.first, " ", this.props.user.lastname, "! counter = ", this.state.cter));
   }
 };
 export default SampleComponent;

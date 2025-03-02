@@ -152,7 +152,7 @@ const functionToClass: FunctionToClass = (path, t) => {
 
     let initPropsMethodArgument = getProps(node);
     if (initPropsMethodArgument?.length > 1) {
-      if (
+      /* if (
         !t.isIdentifier(initPropsMethodArgument[1]) ||
         initPropsMethodArgument[1].name !== 'thisComponent'
       ) {
@@ -160,7 +160,7 @@ const functionToClass: FunctionToClass = (path, t) => {
           `Reblend only support \`thisComponent\` as the second parameter when there's two params for components
         ${functionName} ${(path.hub as any).file.opts.filename}:${node.loc?.start.line}:${node.loc?.start.column}`,
         );
-      } else if (initPropsMethodArgument.length > 2) {
+      } else */ if (initPropsMethodArgument.length > 2) {
         throw new Error(
           `Reblend does not support multiple props parameter's for components
           ${functionName} ${(path.hub as any).file.opts.filename}:${node.loc?.start.line}:${node.loc?.start.column}`,
@@ -190,6 +190,10 @@ const functionToClass: FunctionToClass = (path, t) => {
       t.identifier('initState'),
       [],
       t.blockStatement([...stateAssignments]),
+      undefined,
+      undefined,
+      undefined,
+      true,
     );
 
     const initPropsMethod = t.classMethod(
@@ -197,6 +201,10 @@ const functionToClass: FunctionToClass = (path, t) => {
       t.identifier('initProps'),
       initPropsMethodArgument,
       t.blockStatement([...propsAssignments]),
+      undefined,
+      undefined,
+      undefined,
+      true,
     );
 
     const renderMethod = t.classMethod(
@@ -204,6 +212,10 @@ const functionToClass: FunctionToClass = (path, t) => {
       t.identifier('html'),
       [],
       t.blockStatement([renderReturnStatement as any]),
+      undefined,
+      undefined,
+      undefined,
+      true,
     );
 
     hookBinding(path, initStateMethod!, t);

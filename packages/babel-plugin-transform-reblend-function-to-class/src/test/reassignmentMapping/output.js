@@ -7,15 +7,15 @@ extends Reblend {
   constructor() {
     super();
   }
-  initState() {
+  async initState() {
     const {
       count,
       increment = 'indes'
-    } = useCounter.bind(this)("");
-    this.count = count;
-    this.increment = increment;
-    let reassignmentMapping_data = this.count;
-    this.reassignmentMapping_data = reassignmentMapping_data;
+    } = useCounter.bind(this)("unneededIdentifier");
+    this.state.count = count;
+    this.state.increment = increment;
+    let reassignmentMapping_data = this.state.count;
+    this.state.reassignmentMapping_data = reassignmentMapping_data;
     useEffect.bind(this)(() => {
       let reassignmentMapping_data;
       if (!reassignmentMapping_data) {
@@ -26,16 +26,16 @@ extends Reblend {
       }
     }, "[yes]");
     let f = false;
-    this.f = f;
+    this.state.f = f;
   }
-  initProps(props) {
+  async initProps(props) {
     this.props = {};
-    this.props = props;
+    this.state.props = props;
   }
-  html() {
-    return Reblend.construct.bind(this)("div", null, Reblend.construct.bind(this)("p", null, "Count: ", (this.f = this.increment, this.count)), Reblend.construct.bind(this)("button", {
-      onClick: (this.reassignmentMapping_data.prop1 = this, this.increment)
-    }, "Increment"), Reblend.construct.bind(this)("p", null, "Hello, ", this.props.name, "!"));
+  async html() {
+    return Reblend.construct.bind(this)("div", null, Reblend.construct.bind(this)("p", null, "Count: ", (this.state.f = this.state.increment, this.state.count)), Reblend.construct.bind(this)("button", {
+      onClick: (this.state.reassignmentMapping_data.prop1 = this, this.state.increment)
+    }, "Increment"), Reblend.construct.bind(this)("p", null, "Hello, ", this.state.props.name, "!"));
   }
 };
 export default reassignmentMapping;

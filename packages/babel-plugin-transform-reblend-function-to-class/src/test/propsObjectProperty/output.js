@@ -10,12 +10,12 @@ class TryCatchError extends Reblend {
   constructor() {
     super();
   }
-  initState() {
-    this.thisComponent.renderingErrorHandler = e => {
-      this.thisComponent.renderingError = e;
+  async initState() {
+    this.state.thisComponent.renderingErrorHandler = e => {
+      this.state.thisComponent.renderingError = e;
       //if (!this.stateEffectRunning && this.attached) {
       //Promise.resolve().then(() => {
-      this.thisComponent.onStateChange();
+      this.state.thisComponent.onStateChange();
       //})
       //}
     };
@@ -23,25 +23,25 @@ class TryCatchError extends Reblend {
       const arr = [];
       for (const child of this.props.children) {
         if (isCallable(child)) {
-          arr.push(child(this.thisComponent.renderingError));
+          arr.push(child(this.state.thisComponent.renderingError));
         } else {
           arr.push(child);
         }
       }
-      this.thisComponent.renderingError = null;
+      this.state.thisComponent.renderingError = null;
       return arr;
     };
-    this.view = view;
+    this.state.view = view;
   }
-  initProps({
+  async initProps({
     children = _error => Reblend.construct.bind(this)(Reblend, null, '')
   }, thisComponent) {
     this.props = {};
     this.props.children = children;
-    this.thisComponent = thisComponent;
+    this.state.thisComponent = thisComponent;
   }
-  html() {
-    return Reblend.construct.bind(this)("div", null, this.view());
+  async html() {
+    return Reblend.construct.bind(this)("div", null, this.state.view());
   }
 }
 /* Transformed from function to class */

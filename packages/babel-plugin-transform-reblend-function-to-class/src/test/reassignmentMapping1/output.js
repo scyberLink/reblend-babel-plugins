@@ -10,18 +10,18 @@ class HistoryComponentsForm extends Reblend {
   constructor() {
     super();
   }
-  initState() {
+  async initState() {
     const dataIdRef = useRef.bind(this)("", "dataIdRef");
-    this.dataIdRef = dataIdRef;
+    this.state.dataIdRef = dataIdRef;
     const [isUpdate, setIsUpdate] = useState.bind(this)(false, "isUpdate");
-    this.isUpdate = isUpdate;
-    this.setIsUpdate = setIsUpdate;
+    this.state.isUpdate = isUpdate;
+    this.state.setIsUpdate = setIsUpdate;
     const [submitting, setSubmitting] = useState.bind(this)(false, "submitting");
-    this.submitting = submitting;
-    this.setSubmitting = setSubmitting;
+    this.state.submitting = submitting;
+    this.state.setSubmitting = setSubmitting;
     const [keys, setKeys] = useState.bind(this)([], "keys");
-    this.keys = keys;
-    this.setKeys = setKeys;
+    this.state.keys = keys;
+    this.state.setKeys = setKeys;
     useEffect.bind(this)(() => {
       const ignore = ["_id", "__v", "status", "createdAt", "updatedAt"];
       const _fields = [];
@@ -44,19 +44,19 @@ class HistoryComponentsForm extends Reblend {
         key: "status",
         type: "text"
       });
-      this.setKeys(_fields);
+      this.state.setKeys(_fields);
     }, "[this.props.fields]");
     let data = this.props.updates;
-    this.data = data;
+    this.state.data = data;
     useEffect.bind(this)(() => {
-      this.data = this.props.updates;
-      if (this.data) {
+      this.state.data = this.props.updates;
+      if (this.state.data) {
         //@ts-ignore
-        this.dataIdRef.current = this.data._id;
-        this.setIsUpdate(true);
+        this.state.dataIdRef.current = this.state.data._id;
+        this.state.setIsUpdate(true);
       } else {
-        this.data = {};
-        this.keys?.forEach(key => {
+        this.state.data = {};
+        this.state.keys?.forEach(key => {
           const type = this.props.fields[key.key].type;
           let value = "";
           switch (type) {
@@ -67,16 +67,16 @@ class HistoryComponentsForm extends Reblend {
               value = 0;
               break;
           }
-          this.data[key.key] = value;
+          this.state.data[key.key] = value;
         });
       }
     }, "[this.props.updates]");
     const createUser = e => {
-      this.setSubmitting(true);
+      this.state.setSubmitting(true);
       e.preventDefault();
       const gdFetchOption = {
         url: this.props.url,
-        data: this.data
+        data: this.state.data
       };
       fetcher.fetch(gdFetchOption).then(response => {
         if (response) {
@@ -88,22 +88,22 @@ class HistoryComponentsForm extends Reblend {
             toast.success(response.data.message);
           }
         }
-        this.setSubmitting(false);
+        this.state.setSubmitting(false);
       }).catch(err => {
         toast.error(err.message);
-        this.setSubmitting(false);
+        this.state.setSubmitting(false);
       });
     };
-    this.createUser = createUser;
+    this.state.createUser = createUser;
     const updateUser = e => {
-      this.setSubmitting(true);
+      this.state.setSubmitting(true);
       e.preventDefault();
       const gdFetchOption = {
         url: this.props.url,
         method: "PATCH",
         data: {
-          id: this.dataIdRef.current,
-          ...this.data
+          id: this.state.dataIdRef.current,
+          ...this.state.data
         }
       };
       fetcher.fetch(gdFetchOption).then(response => {
@@ -116,25 +116,25 @@ class HistoryComponentsForm extends Reblend {
             toast.success(response.data.message);
           }
         }
-        this.setSubmitting(false);
+        this.state.setSubmitting(false);
       }).catch(err => {
         toast.error(err.message);
-        this.setSubmitting(false);
+        this.state.setSubmitting(false);
       });
     };
-    this.updateUser = updateUser;
+    this.state.updateUser = updateUser;
     const [changeData, setChangeData] = useState.bind(this)(null, "changeData");
-    this.changeData = changeData;
-    this.setChangeData = setChangeData;
+    this.state.changeData = changeData;
+    this.state.setChangeData = setChangeData;
     const tracker = useMemo.bind(this)(() => {
-      if (this.changeData) {
-        this.data[this.changeData.key] = this.changeData.value;
+      if (this.state.changeData) {
+        this.state.data[this.state.changeData.key] = this.state.changeData.value;
       }
-      return !this.tracker;
-    }, "[this.changeData]", "tracker");
-    this.tracker = tracker;
+      return !this.state.tracker;
+    }, "[this.state.changeData]", "tracker");
+    this.state.tracker = tracker;
   }
-  initProps({
+  async initProps({
     fields,
     updates = {},
     url,
@@ -147,12 +147,12 @@ class HistoryComponentsForm extends Reblend {
     this.props.url = url;
     this.props.setChange = setChange;
     this.props.setReload = setReload;
-    this.thisComponent = thisComponent;
+    this.state.thisComponent = thisComponent;
   }
-  html() {
-    return this.data && Reblend.construct.bind(this)(Form, {
-      onSubmit: e => this.isUpdate ? this.updateUser(e) : this.createUser(e)
-    }, Reblend.construct.bind(this)(Row, null, this.keys?.map(({
+  async html() {
+    return this.state.data && Reblend.construct.bind(this)(Form, {
+      onSubmit: e => this.state.isUpdate ? this.state.updateUser(e) : this.state.createUser(e)
+    }, Reblend.construct.bind(this)(Row, null, this.state.keys?.map(({
       key,
       type
     }) => {
@@ -166,10 +166,10 @@ class HistoryComponentsForm extends Reblend {
           textTransform: "capitalize"
         }
       }, key, " \xA0\xA0", Reblend.construct.bind(this)(Form.Switch, {
-        checked: !!this.data[key],
-        onChange: () => this.setChangeData({
+        checked: !!this.state.data[key],
+        onChange: () => this.state.setChangeData({
           key,
-          value: this.data[key] > 0 ? 0 : 1
+          value: this.state.data[key] > 0 ? 0 : 1
         })
       })))) : Reblend.construct.bind(this)(Col, {
         xs: "12",
@@ -181,8 +181,8 @@ class HistoryComponentsForm extends Reblend {
         }
       }, key), Reblend.construct.bind(this)(Form.Control, {
         type: type,
-        value: this.data[key],
-        onChange: e => this.setChangeData({
+        value: this.state.data[key],
+        onChange: e => this.state.setChangeData({
           key,
           value: e.target.value
         })
@@ -191,12 +191,12 @@ class HistoryComponentsForm extends Reblend {
       xs: "12",
       className: "p-1"
     }, Reblend.construct.bind(this)(Spinner, {
-      loading: this.submitting,
-      loadingText: `${this.isUpdate ? "Updating user" : "Creating user"}`
+      loading: this.state.submitting,
+      loadingText: `${this.state.isUpdate ? "Updating user" : "Creating user"}`
     }, Reblend.construct.bind(this)(Form.Control, {
       size: "sm",
       type: "submit",
-      value: `${this.isUpdate ? "Update" : "Create"}`,
+      value: `${this.state.isUpdate ? "Update" : "Create"}`,
       className: "fw-bold utilityLink"
     })))));
   }

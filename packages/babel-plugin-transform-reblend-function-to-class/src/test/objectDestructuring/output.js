@@ -7,26 +7,26 @@ extends Reblend {
   constructor() {
     super();
   }
-  initState() {
+  async initState() {
     const {
       count,
       increment = {
         yse
       }
-    } = useCounter.bind(this)("");
-    this.count = count;
-    this.increment = increment;
+    } = useCounter.bind(this)("unneededIdentifier");
+    this.state.count = count;
+    this.state.increment = increment;
   }
-  initProps(props = {
+  async initProps(props = {
     yes: 'iii'
   }) {
     this.props = {};
-    this.props = props;
+    this.state.props = props;
   }
-  html() {
-    return Reblend.construct.bind(this)("div", null, Reblend.construct.bind(this)("p", null, "Count: ", this.count), Reblend.construct.bind(this)("button", {
-      onClick: this.increment
-    }, "Increment"), Reblend.construct.bind(this)("p", null, "Hello, ", this.props.name, "!"));
+  async html() {
+    return Reblend.construct.bind(this)("div", null, Reblend.construct.bind(this)("p", null, "Count: ", this.state.count), Reblend.construct.bind(this)("button", {
+      onClick: this.state.increment
+    }, "Increment"), Reblend.construct.bind(this)("p", null, "Hello, ", this.state.props.name, "!"));
   }
 };
 export default SampleComponent;

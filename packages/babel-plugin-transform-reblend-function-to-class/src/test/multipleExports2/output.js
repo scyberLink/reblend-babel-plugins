@@ -14,24 +14,24 @@ class Inventory extends Reblend {
   constructor() {
     super();
   }
-  initState() {
+  async initState() {
     const [reload, setReload] = useState.bind(this)(false, "reload");
-    this.reload = reload;
-    this.setReload = setReload;
+    this.state.reload = reload;
+    this.state.setReload = setReload;
     const [showCreateForm, setShowCreateForm] = useState.bind(this)(false, "showCreateForm");
-    this.showCreateForm = showCreateForm;
-    this.setShowCreateForm = setShowCreateForm;
+    this.state.showCreateForm = showCreateForm;
+    this.state.setShowCreateForm = setShowCreateForm;
     const [itemId, setItemId] = useState.bind(this)('', "itemId");
-    this.itemId = itemId;
-    this.setItemId = setItemId;
+    this.state.itemId = itemId;
+    this.state.setItemId = setItemId;
     const [showConfirmDeletion, setShowConfirmDeletion] = useState.bind(this)(false, "showConfirmDeletion");
-    this.showConfirmDeletion = showConfirmDeletion;
-    this.setShowConfirmDeletion = setShowConfirmDeletion;
+    this.state.showConfirmDeletion = showConfirmDeletion;
+    this.state.setShowConfirmDeletion = setShowConfirmDeletion;
     const [updatingData, setUpdatingData] = useState.bind(this)(null, "updatingData");
-    this.updatingData = updatingData;
-    this.setUpdatingData = setUpdatingData;
+    this.state.updatingData = updatingData;
+    this.state.setUpdatingData = setUpdatingData;
     const urlRef = useRef.bind(this)(ALL_INVENTORY, "urlRef");
-    this.urlRef = urlRef;
+    this.state.urlRef = urlRef;
     const fieldsRef = useRef.bind(this)({
       _id: {
         name: 'ID',
@@ -88,7 +88,7 @@ class Inventory extends Reblend {
       action: {
         name: () => Reblend.construct.bind(this)(Button, {
           onClick: () => {
-            this.setShowCreateForm(true);
+            this.state.setShowCreateForm(true);
           },
           style: {
             padding: '5px'
@@ -101,15 +101,15 @@ class Inventory extends Reblend {
         type: String,
         virtual: true,
         transform: {
-          out: this.out
+          out: this.state.out
         }
       }
     }, "fieldsRef");
-    this.fieldsRef = fieldsRef;
+    this.state.fieldsRef = fieldsRef;
     const queryRef = useRef.bind(this)({
       populate: ['item']
     }, "queryRef");
-    this.queryRef = queryRef;
+    this.state.queryRef = queryRef;
     const deleteInventory = async inventoryId => {
       const fetchData = {
         url: INVENTORY + inventoryId,
@@ -124,19 +124,19 @@ class Inventory extends Reblend {
       if (!data?.data?.status) {
         toast.error(data?.data?.message || 'Error');
       } else {
-        this.setShowConfirmDeletion(false);
-        this.setReload(!this.reload);
+        this.state.setShowConfirmDeletion(false);
+        this.state.setReload(!this.state.reload);
         toast.success(data?.data?.message || 'Success');
       }
     };
-    this.deleteInventory = deleteInventory;
+    this.state.deleteInventory = deleteInventory;
     const out = rowData => {
       return Reblend.construct.bind(this)(ButtonGroup, {
         size: "sm"
       }, Reblend.construct.bind(this)(Button, {
         onClick: () => {
-          this.setShowConfirmDeletion(true);
-          this.setItemId(rowData._id);
+          this.state.setShowConfirmDeletion(true);
+          this.state.setItemId(rowData._id);
         },
         style: {
           padding: '5px'
@@ -145,8 +145,8 @@ class Inventory extends Reblend {
         variant: "danger"
       }, Reblend.construct.bind(this)(FaTrash, null)), Reblend.construct.bind(this)(Button, {
         onClick: () => {
-          this.setShowCreateForm(true);
-          this.setUpdatingData(rowData);
+          this.state.setShowCreateForm(true);
+          this.state.setUpdatingData(rowData);
         },
         style: {
           padding: '5px'
@@ -157,7 +157,7 @@ class Inventory extends Reblend {
         className: "fas fa-edit"
       })), Reblend.construct.bind(this)(Button, {
         onClick: () => {
-          this.action('cancel', rowData._id, rowData.item);
+          this.state.action('cancel', rowData._id, rowData.item);
         },
         style: {
           padding: '5px'
@@ -168,7 +168,7 @@ class Inventory extends Reblend {
         className: "fas fa-times"
       })), Reblend.construct.bind(this)(Button, {
         onClick: () => {
-          this.action('approve', rowData._id, rowData.item);
+          this.state.action('approve', rowData._id, rowData.item);
         },
         style: {
           padding: '5px'
@@ -179,7 +179,7 @@ class Inventory extends Reblend {
         className: "fas fa-mark"
       })));
     };
-    this.out = out;
+    this.state.out = out;
     const action = async (act, id, item) => {
       const fetchData = {
         url: CREATE_INVENTORY,
@@ -199,48 +199,48 @@ class Inventory extends Reblend {
       if (!data?.data?.status) {
         toast.error(data?.data?.message || 'Error');
       } else {
-        this.setReload(!this.reload);
+        this.state.setReload(!this.state.reload);
         toast.success(data?.data?.message || 'Success');
       }
     };
-    this.action = action;
+    this.state.action = action;
   }
-  initProps() {
+  async initProps() {
     this.props = {};
   }
-  html() {
+  async html() {
     return Reblend.construct.bind(this)(Reblend, null, Reblend.construct.bind(this)(ModalBox, {
-      show: this.showConfirmDeletion,
-      onCancel: () => this.setShowConfirmDeletion(false),
-      onAccept: () => this.deleteInventory(this.itemId),
+      show: this.state.showConfirmDeletion,
+      onCancel: () => this.state.setShowConfirmDeletion(false),
+      onAccept: () => this.state.deleteInventory(this.state.itemId),
       header: Reblend.construct.bind(this)("h2", {
         className: "text-center"
       }, "Confirm Deletion"),
       type: "danger",
       backdrop: true
     }, Reblend.construct.bind(this)("span", null, "Are Sure you want to delete this inventory")), Reblend.construct.bind(this)(ModalBox, {
-      show: this.showCreateForm,
+      show: this.state.showCreateForm,
       onCancel: () => {
-        this.setShowCreateForm(false);
-        this.setUpdatingData(null);
+        this.state.setShowCreateForm(false);
+        this.state.setUpdatingData(null);
       },
       control: false,
       header: Reblend.construct.bind(this)("h2", {
         className: "text-center"
-      }, `${this.updatingData ? 'Update' : 'Create'}`, " Inventory"),
+      }, `${this.state.updatingData ? 'Update' : 'Create'}`, " Inventory"),
       backdrop: true
-    }, !this.updatingData ? Reblend.construct.bind(this)(InventoryForm, null) : Reblend.construct.bind(this)(InventoryForm, {
-      setReload: () => this.setReload(!this.reload),
-      data: this.updatingData
+    }, !this.state.updatingData ? Reblend.construct.bind(this)(InventoryForm, null) : Reblend.construct.bind(this)(InventoryForm, {
+      setReload: () => this.state.setReload(!this.state.reload),
+      data: this.state.updatingData
     })), Reblend.construct.bind(this)(PaginatedTable, {
-      url: this.urlRef.current,
+      url: this.state.urlRef.current,
       dataName: "inventories",
-      fields: this.fieldsRef.current,
-      query: this.queryRef.current,
+      fields: this.state.fieldsRef.current,
+      query: this.state.queryRef.current,
       primaryKey: "createdAt.date",
       sortOrder: DESCENDING,
       forCurrentUser: false,
-      reload: this.reload
+      reload: this.state.reload
     }));
   }
 }
