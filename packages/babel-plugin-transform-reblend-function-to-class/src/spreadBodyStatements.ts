@@ -81,13 +81,26 @@ function spreadBodyStatements(
     parent: t.Node | null,
   ) => {
     if (t.isIdentifier(runnerNode)) {
-      const propertyThisMap =
-        parent && from === PropStateType.PROPS
-          ? t.memberExpression(t.thisExpression(), t.identifier('props'))
-          : t.memberExpression(
-              t.memberExpression(t.thisExpression(), t.identifier('state')),
-              runnerNode,
-            );
+      let propertyThisMap = null;
+
+      switch (from) {
+        case PropStateType.STATE:
+          propertyThisMap = t.memberExpression(
+            t.memberExpression(t.thisExpression(), t.identifier('state')),
+            runnerNode,
+          );
+          break;
+
+        case PropStateType.PROPS:
+          propertyThisMap = t.memberExpression(
+            t.thisExpression(),
+            parent ? t.identifier('props') : runnerNode,
+          );
+          break;
+
+        default:
+          break;
+      }
 
       let parentIsObjectProperty;
       if (
@@ -143,23 +156,35 @@ function spreadBodyStatements(
 
       if (binding) {
         binding.referencePaths.forEach(refPath => {
-          const jsxNode = t.isJSXIdentifier(refPath.node as t.JSXIdentifier)
-            ? parent && from === PropStateType.PROPS
-              ? t.jSXMemberExpression(
-                  t.jSXMemberExpression(
-                    t.jsxIdentifier('this'),
-                    t.jsxIdentifier('props'),
-                  ),
-                  refPath.node as t.JSXIdentifier,
-                )
-              : t.jSXMemberExpression(
+          let jsxNode = null;
+          if (t.isJSXIdentifier(refPath.node as t.JSXIdentifier)) {
+            switch (from) {
+              case PropStateType.STATE:
+                jsxNode = t.jSXMemberExpression(
                   t.jSXMemberExpression(
                     t.jsxIdentifier('this'),
                     t.jsxIdentifier('state'),
                   ),
                   refPath.node as t.JSXIdentifier,
-                )
-            : null;
+                );
+                break;
+
+              case PropStateType.PROPS:
+                jsxNode = t.jSXMemberExpression(
+                  parent
+                    ? t.jSXMemberExpression(
+                        t.jsxIdentifier('this'),
+                        t.jsxIdentifier('props'),
+                      )
+                    : t.jsxIdentifier('this'),
+                  refPath.node as t.JSXIdentifier,
+                );
+                break;
+
+              default:
+                break;
+            }
+          }
 
           refPath.replaceWith(jsxNode || mapping);
         });

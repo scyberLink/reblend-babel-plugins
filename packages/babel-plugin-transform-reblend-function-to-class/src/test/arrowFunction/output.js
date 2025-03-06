@@ -18,7 +18,7 @@ extends Reblend {
   }
   async initProps(props) {
     this.props = {};
-    this.state.props = props;
+    this.props = props;
   }
   async html() {
     return Reblend.construct.bind(this)(Reblend, null, Reblend.construct.bind(this)("div", {
@@ -34,7 +34,7 @@ extends Reblend {
       href: "https://reblendjs.org",
       target: "_blank",
       rel: "noopener noreferrer"
-    }, "Learn Reblend"), Reblend.construct.bind(this)(this.state.props.App, null))));
+    }, "Learn Reblend"), Reblend.construct.bind(this)(this.props.App, null))));
   }
 };
 export default App;

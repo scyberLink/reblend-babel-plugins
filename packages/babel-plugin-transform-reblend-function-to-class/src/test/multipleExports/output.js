@@ -132,7 +132,7 @@ class PaginatedTable extends Reblend {
     const uidRef = useRef.bind(this)(SharedConfig.getLocalData(UID), "uidRef");
     this.state.uidRef = uidRef;
     useEffect.bind(this)(() => {
-      if (!this.state.props.noScroll) {
+      if (!this.props.noScroll) {
         this.state.sortKey && document.getElementById(this.state.sortKey)?.scrollIntoView({
           behavior: 'smooth',
           block: 'center',
@@ -142,7 +142,7 @@ class PaginatedTable extends Reblend {
     }, "[this.state.results]");
     useEffect.bind(this)(() => {
       !this.state.firstDisplay && this.state.setReload(!this.state.reload);
-    }, "[this.state.props.reload]");
+    }, "[this.props.reload]");
     useEffect.bind(this)(() => {
       this.state.setSearchValue('');
     }, "[this.state.searchKey]");
@@ -151,10 +151,10 @@ class PaginatedTable extends Reblend {
     }, "[this.state.sortKey, this.state.sortOrder]");
     useEffect.bind(this)(() => {
       !this.state.firstDisplay && this.state.querySetter();
-    }, "[this.state.props.query]");
+    }, "[this.props.query]");
     useEffect.bind(this)(() => {
       const f = {
-        ...this.state.props.fields
+        ...this.props.fields
       };
       f.status && !f.status.transform && (f.status.transform = statusTransform);
       f.createdAt && !f.createdAt.transform && (f.createdAt.transform = {
@@ -187,14 +187,14 @@ class PaginatedTable extends Reblend {
       }
       const keys = Object.keys(f);
       const values = Object.values(f);
-      const defaultSearchKey = this.state.props.primaryKey ? this.state.props.primaryKey : keys[0] || null;
-      const defaultSortOrder = this.state.props.sortOrder || ASCENDING;
-      const defaultInitQuery = this.state.props.forCurrentUser ? {
+      const defaultSearchKey = this.props.primaryKey ? this.props.primaryKey : keys[0] || null;
+      const defaultSortOrder = this.props.sortOrder || ASCENDING;
+      const defaultInitQuery = this.props.forCurrentUser ? {
         ...{
           uid: this.state.uidRef.current
         },
-        ...this.state.props.query
-      } : this.state.props.query;
+        ...this.props.query
+      } : this.props.query;
       const newQuery = {
         ...defaultInitQuery
       };
@@ -234,11 +234,11 @@ class PaginatedTable extends Reblend {
       this.state.setSortOrder(defaultSortOrder);
       this.state.setInitQuery(newQuery);
       this.state.setQuery(newQuery);
-    }, "[this.state.props.fields, this.state.props.query]");
+    }, "[this.props.fields, this.props.query]");
     const resultSetter = data => {
       if (data) {
         this.state.setResults(data);
-        this.state.props.setData && this.state.props.setData(data);
+        this.props.setData && this.props.setData(data);
       }
       this.state.setLoading(false);
       this.state.firstDisplay && this.state.setFirstDisplay(false);
@@ -248,7 +248,7 @@ class PaginatedTable extends Reblend {
       e?.preventDefault();
       const newQuery = {
         ...this.state.initQuery,
-        ...this.state.props.query
+        ...this.props.query
       };
       if (this.state.fields[this.state.sortKey]?.populated) {
         if (newQuery.populate) {
@@ -322,8 +322,8 @@ class PaginatedTable extends Reblend {
       if (this.state.fields[field]?.virtual) {
         return val;
       } else {
-        return this.state.props.noDoubleClick ? val : Reblend.construct.bind(this)(DoubleClickCopy, {
-          noClickOpen: this.state.props.noClickOpen
+        return this.props.noDoubleClick ? val : Reblend.construct.bind(this)(DoubleClickCopy, {
+          noClickOpen: this.props.noClickOpen
         }, val, " ");
       }
     };
@@ -361,10 +361,10 @@ class PaginatedTable extends Reblend {
   }
   async initProps(props) {
     this.props = {};
-    this.state.props = props;
+    this.props = props;
   }
   async html() {
-    return Reblend.construct.bind(this)("div", null, this.state.props.noControl ? null : Reblend.construct.bind(this)(Form, {
+    return Reblend.construct.bind(this)("div", null, this.props.noControl ? null : Reblend.construct.bind(this)(Form, {
       onSubmit: e => this.state.querySetter(e)
     }, Reblend.construct.bind(this)(Row, null, Reblend.construct.bind(this)(Col, {
       sm: "12",
@@ -377,7 +377,7 @@ class PaginatedTable extends Reblend {
       className: "p-1"
     }, Reblend.construct.bind(this)(InputGroup, null, Reblend.construct.bind(this)(Form.Select, {
       onChange: e => this.state.setSearchKey(e.target.value.trim()),
-      value: this.state.searchKey || this.state.props.primaryKey || ''
+      value: this.state.searchKey || this.props.primaryKey || ''
     }, this.state.fieldKeys.map((field, i) => this.state.fieldValues[i].hideFromSearch || this.state.fieldValues[i].virtual ? null : Reblend.construct.bind(this)("option", {
       key: md5(field),
       value: field
@@ -445,23 +445,23 @@ class PaginatedTable extends Reblend {
       className: "fas fa-search"
     })))))), Reblend.construct.bind(this)(Row, null, Reblend.construct.bind(this)(Col, {
       sm: "12"
-    }, this.state.props.type == 'card' ? Reblend.construct.bind(this)(Spinner, {
+    }, this.props.type == 'card' ? Reblend.construct.bind(this)(Spinner, {
       loading: this.state.loading,
       loadingError: this.state.loadingError
     }, Reblend.construct.bind(this)("div", {
-      className: this.state.props.cardNotCentered ? 's-start-grid' : 's-grid-justify'
+      className: this.props.cardNotCentered ? 's-start-grid' : 's-grid-justify'
     }, this.state.results?.map((result, resultIndex) => Reblend.construct.bind(this)(Fragment, {
       key: result?._id
-    }, this.state.props?.cardView(result, resultIndex))))) : Reblend.construct.bind(this)(Table, {
+    }, this.props?.cardView(result, resultIndex))))) : Reblend.construct.bind(this)(Table, {
       responsive: true,
       striped: true,
       hover: true,
-      style: this.state.props?.style?.tableStyle ? this.state.props.style.tableStyle : this.state.props.style,
-      className: `${this.state.props?.className?.tableClass ? this.state.props?.className?.tableClass : typeof this.state.props?.className === 'string' ? this.state.props?.className : ''}`
+      style: this.props?.style?.tableStyle ? this.props.style.tableStyle : this.props.style,
+      className: `${this.props?.className?.tableClass ? this.props?.className?.tableClass : typeof this.props?.className === 'string' ? this.props?.className : ''}`
     }, Reblend.construct.bind(this)("thead", {
-      style: this.state.props?.style?.theadStyle || {},
-      className: `${this.state.props?.className?.theadClass || ''}`
-    }, Reblend.construct.bind(this)("tr", null, this.state.props.numbered ? Reblend.construct.bind(this)("th", {
+      style: this.props?.style?.theadStyle || {},
+      className: `${this.props?.className?.theadClass || ''}`
+    }, Reblend.construct.bind(this)("tr", null, this.props.numbered ? Reblend.construct.bind(this)("th", {
       key: "#"
     }, "#") : null, this.state.fieldValues.map((field, i) =>
     // Header Cell
@@ -484,8 +484,8 @@ class PaginatedTable extends Reblend {
     }, typeof field.name === 'function' ? field.name() : field.name), "\xA0", this.state.fieldKeys[i] !== this.state.sortKey ? null : Reblend.construct.bind(this)("span", null, Reblend.construct.bind(this)("i", {
       className: `fas fa-${this.state.sortOrder == 1 ? this.state.fields[this.state.sortKey].type == Number ? 'sort-numeric-up' : 'sort-alpha-up' : this.state.fields[this.state.sortKey].type == Number ? 'sort-numeric-down' : 'sort-alpha-down'} text-red`
     }))))))), Reblend.construct.bind(this)("tbody", {
-      style: this.state.props?.style?.tbodyStyle || {},
-      className: `${this.state.props?.className?.tbodyClass || ''}`
+      style: this.props?.style?.tbodyStyle || {},
+      className: `${this.props?.className?.tbodyClass || ''}`
     }, Reblend.construct.bind(this)(Spinner, {
       loading: this.state.loading,
       loadingError: this.state.loadingError,
@@ -494,17 +494,17 @@ class PaginatedTable extends Reblend {
       }
     }, this.state.results?.map((result, resultIndex) => {
       // Row
-      const rowOptions = typeof this.state.props?.rowOptions === 'function' ? this.state.props.rowOptions(result) : this.state.props.rowOptions;
+      const rowOptions = typeof this.props?.rowOptions === 'function' ? this.props.rowOptions(result) : this.props.rowOptions;
       const t = rowOptions?.title;
       delete rowOptions?.title;
       return rowOptions && rowOptions.noTitleToolTip ? Reblend.construct.bind(this)(TRow, {
         key: result?._id,
         result: result,
         resultIndex: resultIndex,
-        style: this.state.props.style,
-        className: this.state.props.className,
+        style: this.props.style,
+        className: this.props.className,
         options: rowOptions,
-        numbered: this.state.props.numbered,
+        numbered: this.props.numbered,
         fieldKeys: this.state.fieldKeys,
         fields: this.state.fields,
         computeValue: this.state.computeValue
@@ -521,10 +521,10 @@ class PaginatedTable extends Reblend {
       }, Reblend.construct.bind(this)(TRow, {
         result: result,
         resultIndex: resultIndex,
-        style: this.state.props.style,
-        className: this.state.props.className,
+        style: this.props.style,
+        className: this.props.className,
         options: rowOptions,
-        numbered: this.state.props.numbered,
+        numbered: this.props.numbered,
         fieldKeys: this.state.fieldKeys,
         fields: this.state.fields,
         computeValue: this.state.computeValue
@@ -532,10 +532,10 @@ class PaginatedTable extends Reblend {
         key: result?._id,
         result: result,
         resultIndex: resultIndex,
-        style: this.state.props.style,
-        className: this.state.props.className,
+        style: this.props.style,
+        className: this.props.className,
         options: rowOptions,
-        numbered: this.state.props.numbered,
+        numbered: this.props.numbered,
         fieldKeys: this.state.fieldKeys,
         fields: this.state.fields,
         computeValue: this.state.computeValue
@@ -545,15 +545,15 @@ class PaginatedTable extends Reblend {
     }, Reblend.construct.bind(this)(Col, {
       sm: "12"
     }, Reblend.construct.bind(this)(Paginator, {
-      url: this.state.props.url,
-      dataName: this.state.props.dataName,
+      url: this.props.url,
+      dataName: this.props.dataName,
       query: this.state.query,
-      size: this.state.props.size,
+      size: this.props.size,
       setResults: this.state.resultSetter,
       reload: this.state.reload,
       setLoadingError: this.state.setLoadingError,
-      hidden: this.state.props.hidePaginator,
-      noPaginator: this.state.props.noPaginator
+      hidden: this.props.hidePaginator,
+      noPaginator: this.props.noPaginator
     }))));
   }
 }

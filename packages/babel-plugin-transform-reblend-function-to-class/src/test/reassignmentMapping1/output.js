@@ -147,7 +147,7 @@ class HistoryComponentsForm extends Reblend {
     this.props.url = url;
     this.props.setChange = setChange;
     this.props.setReload = setReload;
-    this.state.thisComponent = thisComponent;
+    this.thisComponent = thisComponent;
   }
   async html() {
     return this.state.data && Reblend.construct.bind(this)(Form, {

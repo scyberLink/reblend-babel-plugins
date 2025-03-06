@@ -30,12 +30,12 @@ extends Reblend {
   }
   async initProps(props) {
     this.props = {};
-    this.state.props = props;
+    this.props = props;
   }
   async html() {
     return Reblend.construct.bind(this)("div", null, Reblend.construct.bind(this)("p", null, "Count: ", (this.state.f = this.state.increment, this.state.count)), Reblend.construct.bind(this)("button", {
       onClick: (this.state.reassignmentMapping_data.prop1 = this, this.state.increment)
-    }, "Increment"), Reblend.construct.bind(this)("p", null, "Hello, ", this.state.props.name, "!"));
+    }, "Increment"), Reblend.construct.bind(this)("p", null, "Hello, ", this.props.name, "!"));
   }
 };
 export default reassignmentMapping;
