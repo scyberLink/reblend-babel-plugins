@@ -134,10 +134,6 @@ const functionToClass: FunctionToClass = (path, t) => {
       }
     });
 
-    if (!renderReturnStatement) {
-      throw unsupported;
-    }
-
     const stateAssignments: any[] = [];
     const propsAssignments: any[] = [
       //Props initializer
@@ -211,7 +207,7 @@ const functionToClass: FunctionToClass = (path, t) => {
       'method',
       t.identifier('html'),
       [],
-      t.blockStatement([renderReturnStatement as any]),
+      t.blockStatement([renderReturnStatement as any || t.returnStatement()]),
       undefined,
       undefined,
       undefined,

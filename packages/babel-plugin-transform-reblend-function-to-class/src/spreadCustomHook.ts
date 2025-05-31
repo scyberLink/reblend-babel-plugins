@@ -55,7 +55,7 @@ const spreadCustomHook: FunctionToClass = (path, t) => {
       node.params as (t.Identifier | t.Pattern | t.RestElement)[],
       t.blockStatement([
         ...assignmentStatements.state,
-        renderReturnStatement as t.ReturnStatement,
+        renderReturnStatement as t.ReturnStatement || t.returnStatement(),
       ]),
     );
 
