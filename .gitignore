@@ -133,3 +133,6 @@ build
 dist
 *lib.*
 **/lib/**
+
+# npmrc 
+.npmrc
