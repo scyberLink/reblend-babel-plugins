@@ -1,9 +1,9 @@
 import Reblend from "reblendjs";
 import useCounter from './useCounter';
-const reassignmentMapping = class
+const ReassignmentMapping = class
   /* Transformed from function to class */
 extends Reblend {
-  static ELEMENT_NAME = "reassignmentMapping";
+  static ELEMENT_NAME = "ReassignmentMapping";
   constructor() {
     super();
   }

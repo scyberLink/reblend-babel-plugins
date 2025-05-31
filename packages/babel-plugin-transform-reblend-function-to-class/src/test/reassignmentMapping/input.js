@@ -1,7 +1,7 @@
 import Reblend from "reblendjs";
 import useCounter from './useCounter';
 
-const reassignmentMapping = function (props) {
+const ReassignmentMapping = function (props) {
   const { count, increment = 'indes' } = useCounter();
   let reassignmentMapping_data = count
 

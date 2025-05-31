@@ -13,13 +13,6 @@ interface FunctionToClass {
 
 const functionToClass: FunctionToClass = (path, t) => {
   const { node } = path;
-  // @ts-ignore
-  const functionName: string = node.id
-    ? // @ts-ignore
-      node.id.name
-    : (path.parent as t.VariableDeclarator)?.id
-      ? ((path.parent as t.VariableDeclarator).id as t.Identifier).name
-      : '';
 
   let containSkipComment = false;
   const comments = path.node.innerComments;
@@ -36,86 +29,34 @@ const functionToClass: FunctionToClass = (path, t) => {
     return;
   }
 
-  if (functionName.startsWith('use')) {
-    return spreadCustomHook(path, t);
-  }
+  // @ts-ignore
+  const functionName: string = node.id
+    ? // @ts-ignore
+      node.id.name
+    : (path.parent as t.VariableDeclarator)?.id
+      ? ((path.parent as t.VariableDeclarator).id as t.Identifier).name
+      : '';
 
   if (!functionName) {
     return;
   }
 
-  let containsJSX = false;
-  let isBlockStatement = node.body.type === 'BlockStatement';
-
-  // Check if node body directly contains JSXElement or JSXFragment
-  if (node.body.type === 'JSXElement') {
-    containsJSX = true;
-  } else {
-    // Traverse to see if there is any JSXElement or JSXFragment in the subtree
-    path.traverse({
-      JSXElement(path) {
-        containsJSX = true;
-        path.stop();
-      },
-      JSXFragment(path) {
-        containsJSX = true;
-        path.stop();
-      },
-    });
+  if (functionName.startsWith('use')) {
+    return spreadCustomHook(path, t);
   }
 
-  // Check if the current path is within a function hierarchy (FunctionDeclaration, FunctionExpression, or ArrowFunctionExpression)
-  const mustNot = !path.findParent(parentPath => {
-    // Check if inside an ObjectProperty, Function Declaration, Function Expression, Arrow Function, or a function's arguments/parameters
-    if (
-      parentPath.isObjectProperty() ||
-      parentPath.isFunctionDeclaration() ||
-      parentPath.isFunctionExpression() ||
-      parentPath.isArrowFunctionExpression() ||
-      parentPath.isClassMethod() ||
-      parentPath.isClassPrivateMethod() ||
-      parentPath.isClassBody()
-    ) {
-      return true;
-    }
+  let isBlockStatement = node.body.type === 'BlockStatement';
+  const isComponentName = functionName[0] === functionName[0]?.toUpperCase();
 
-    // Check if the path is inside a function argument/parameter
-    if (
-      parentPath.isCallExpression() &&
-      parentPath.node.arguments.includes(path.node as any)
-    ) {
-      return true;
-    }
-
-    // Check if the path is inside a function's parameter list
-    const functionParent = parentPath.isFunction()
-      ? parentPath
-      : parentPath.findParent(p => p.isFunction());
-    if (
-      functionParent &&
-      (functionParent.node as any).params.includes(path.node)
-    ) {
-      return true;
-    }
-
-    return false;
-  });
-
-  const must = !hasReblendComment('NotComponent', path);
-
-  // Proceed with transformation only if no 'NotComponent' comment and the node is not in a function hierarchy
+  // Proceed with transformation only if no '@ReblendNotComponent' comment or "@ReblendComponent"
   if (
-    (hasReblendComment('Component', path) && must) ||
-    (containsJSX && must && node.type !== 'ClassMethod' && mustNot)
+    (hasReblendComment('Component', path) &&
+      !hasReblendComment('NotComponent', path)) ||
+    (isComponentName && node.type !== 'ClassMethod')
   ) {
     path.addComment('inner', ' Transformed from function to class ', false);
 
     const body = (node as t.FunctionDeclaration).body.body || [];
-
-    const unsupported = new Error(
-      `Reblend does not support conditional returns i.e Return statement should be the last statement in the function component
-      ${functionName} ${(path.hub as any).file.opts.filename}:${node.loc?.start.line}:${node.loc?.start.column}`,
-    );
 
     const bodyStatements: t.Statement[] = [];
     let renderReturnStatement: t.ReturnStatement | undefined =
@@ -126,7 +67,9 @@ const functionToClass: FunctionToClass = (path, t) => {
     body.forEach(statement => {
       if (t.isReturnStatement(statement)) {
         if (renderReturnStatement) {
-          throw unsupported;
+          throw new Error(
+            `Reblend does not support conditional returns i.e Return statement should be the last statement in the function component ${functionName} ${(path.hub as any).file.opts.filename}:${node.loc?.start.line}:${node.loc?.start.column}`,
+          );
         }
         renderReturnStatement = statement;
       } else {
@@ -207,7 +150,7 @@ const functionToClass: FunctionToClass = (path, t) => {
       'method',
       t.identifier('html'),
       [],
-      t.blockStatement([renderReturnStatement as any || t.returnStatement()]),
+      t.blockStatement([(renderReturnStatement as any) || t.returnStatement()]),
       undefined,
       undefined,
       undefined,
