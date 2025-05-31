@@ -2,7 +2,7 @@ import Reblend from "reblendjs";
 import { useSelector, useDispatch } from "react-redux";
 import { increment } from "./actions";
 const SampleComponent = class
-  /* Transformed from function to class */
+  /* @Reblend: Transformed from function to class */
 extends Reblend {
   static ELEMENT_NAME = "SampleComponent";
   constructor() {

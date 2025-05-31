@@ -10,5 +10,5 @@ const useCustomHook = function useCustomHook(initial) {
   }, "[this.state.i]", "ii");
   this.state.ii = ii;
   return [this.state.setI, this.state.ii];
-} /* Transformed from function to class */;
+} /* @Reblend: Transformed from function to class */;
 export default useCustomHook;

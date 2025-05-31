@@ -1,6 +1,6 @@
 import Reblend, { useState } from "reblendjs";
 const SampleComponent = class
-  /* Transformed from function to class */
+  /* @Reblend: Transformed from function to class */
 extends Reblend {
   static ELEMENT_NAME = "SampleComponent";
   constructor() {

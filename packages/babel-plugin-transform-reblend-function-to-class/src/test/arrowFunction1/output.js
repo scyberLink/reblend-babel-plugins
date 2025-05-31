@@ -1,6 +1,6 @@
 import Reblend from 'reblendjs';
 const Cde = class
-  /* Transformed from function to class */
+  /* @Reblend: Transformed from function to class */
 extends Reblend {
   static ELEMENT_NAME = "Cde";
   constructor() {

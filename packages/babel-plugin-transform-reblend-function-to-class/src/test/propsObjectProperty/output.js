@@ -44,5 +44,5 @@ class TryCatchError extends Reblend {
     return Reblend.construct.bind(this)("div", null, this.state.view());
   }
 }
-/* Transformed from function to class */
+/* @Reblend: Transformed from function to class */
 export { TryCatchError };

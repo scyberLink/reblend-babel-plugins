@@ -44,5 +44,5 @@ class App extends Reblend {
     })));
   }
 }
-/* Transformed from function to class */
+/* @Reblend: Transformed from function to class */
 export default App;

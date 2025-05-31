@@ -10,4 +10,4 @@ export default function useCustomHook(initial) {
   this.state.ii = ii;
   return;
 }
-/* Transformed from function to class */
+/* @Reblend: Transformed from function to class */

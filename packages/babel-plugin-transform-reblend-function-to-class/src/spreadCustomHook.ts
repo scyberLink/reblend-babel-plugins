@@ -14,14 +14,14 @@ const spreadCustomHook: FunctionToClass = (path, t) => {
   const comments = path.node.innerComments;
   if (comments && comments.length > 0) {
     comments.forEach(comment => {
-      if (comment.value.includes('Transformed from function to class')) {
+      if (comment.value.includes('@Reblend: Transformed from function to class')) {
         containSkipComment = true;
       }
     });
   }
 
   if (!containSkipComment && node.type !== 'ClassMethod') {
-    path.addComment('inner', ' Transformed from function to class ', false);
+    path.addComment('inner', ' @Reblend: Transformed from function to class ', false);
 
     const body = (node as t.FunctionDeclaration).body.body;
 

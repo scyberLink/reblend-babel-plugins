@@ -1,7 +1,7 @@
 import Reblend from "reblendjs";
 import useCounter from './useCounter';
 const SampleComponent = class
-  /* Transformed from function to class */
+  /* @Reblend: Transformed from function to class */
 extends Reblend {
   static ELEMENT_NAME = "SampleComponent";
   constructor() {

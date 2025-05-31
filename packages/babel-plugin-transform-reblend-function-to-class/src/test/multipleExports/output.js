@@ -557,7 +557,7 @@ class PaginatedTable extends Reblend {
     }))));
   }
 }
-/* Transformed from function to class */
+/* @Reblend: Transformed from function to class */
 PaginatedTable.defaultProps = {
   numbered: true,
   forCurrentUser: true

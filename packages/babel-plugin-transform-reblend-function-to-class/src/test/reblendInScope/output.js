@@ -1,12 +1,28 @@
 import React from 'react';
 import useCounter from './useCounter';
-const SampleComponent = function (props) {
-  const {
-    count,
-    increment
-  } = useCounter();
-  return Reblend.construct.bind(this)("div", null, Reblend.construct.bind(this)("p", null, "Count: ", count), Reblend.construct.bind(this)("button", {
-    onClick: increment
-  }, "Increment"), Reblend.construct.bind(this)("p", null, "Hello, ", props.name, "!"));
+const SampleComponent = class
+  /* @Reblend: Transformed from function to class */
+extends Reblend {
+  static ELEMENT_NAME = "SampleComponent";
+  constructor() {
+    super();
+  }
+  async initState() {
+    const {
+      count,
+      increment
+    } = useCounter.bind(this)("unneededIdentifier");
+    this.state.count = count;
+    this.state.increment = increment;
+  }
+  async initProps(props) {
+    this.props = {};
+    this.props = props;
+  }
+  async html() {
+    return Reblend.construct.bind(this)("div", null, Reblend.construct.bind(this)("p", null, "Count: ", this.state.count), Reblend.construct.bind(this)("button", {
+      onClick: this.state.increment
+    }, "Increment"), Reblend.construct.bind(this)("p", null, "Hello, ", this.props.name, "!"));
+  }
 };
 export default SampleComponent;

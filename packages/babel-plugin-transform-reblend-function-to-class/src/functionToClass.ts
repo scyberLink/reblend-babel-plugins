@@ -4,7 +4,6 @@ import hookBinding from './hookBinding';
 import getProps from './getProps';
 import spreadBodyStatements from './spreadBodyStatements';
 import { hasReblendComment } from './hasReblendComment';
-import hasReblendImport from './hasReblendImport';
 import spreadCustomHook from './spreadCustomHook';
 
 interface FunctionToClass {
@@ -18,7 +17,9 @@ const functionToClass: FunctionToClass = (path, t) => {
   const comments = path.node.innerComments;
   if (comments && comments.length > 0) {
     for (const comment of comments || []) {
-      if (comment.value.includes('Transformed from function to class')) {
+      if (
+        comment.value.includes('@Reblend: Transformed from function to class')
+      ) {
         containSkipComment = true;
         break;
       }
@@ -54,7 +55,11 @@ const functionToClass: FunctionToClass = (path, t) => {
       !hasReblendComment('NotComponent', path)) ||
     (isComponentName && node.type !== 'ClassMethod')
   ) {
-    path.addComment('inner', ' Transformed from function to class ', false);
+    path.addComment(
+      'inner',
+      ' @Reblend: Transformed from function to class ',
+      false,
+    );
 
     const body = (node as t.FunctionDeclaration).body.body || [];
 

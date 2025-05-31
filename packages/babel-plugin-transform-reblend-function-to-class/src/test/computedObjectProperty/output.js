@@ -42,4 +42,4 @@ export default class Route extends Reblend {
     return this.state.matchedRoute == this.state.thisRoute ? this.state.matchedRoute : null;
   }
 }
-/* Transformed from function to class */
+/* @Reblend: Transformed from function to class */

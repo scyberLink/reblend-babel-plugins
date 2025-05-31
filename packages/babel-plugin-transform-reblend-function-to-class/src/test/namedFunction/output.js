@@ -22,5 +22,5 @@ const SampleComponent = class SampleComponent extends Reblend {
   async html() {
     return Reblend.construct.bind(this)("div", null, Reblend.construct.bind(this)("p", null, "Count: ", this.state.count), Reblend.construct.bind(this)("p", null, "Hello, ", this.props.name, "!"));
   }
-} /* Transformed from function to class */;
+} /* @Reblend: Transformed from function to class */;
 export default SampleComponent;

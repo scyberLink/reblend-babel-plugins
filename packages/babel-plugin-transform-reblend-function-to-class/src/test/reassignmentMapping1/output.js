@@ -201,5 +201,5 @@ class HistoryComponentsForm extends Reblend {
     })))));
   }
 }
-/* Transformed from function to class */
+/* @Reblend: Transformed from function to class */
 export default HistoryComponentsForm;

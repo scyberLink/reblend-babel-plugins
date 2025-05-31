@@ -23,5 +23,5 @@ class SampleComponent extends Reblend {
     }, "Increment"), Reblend.construct.bind(this)("p", null, "Hello, ", this.props.name, "!"));
   }
 }
-/* Transformed from function to class */
+/* @Reblend: Transformed from function to class */
 export default SampleComponent;

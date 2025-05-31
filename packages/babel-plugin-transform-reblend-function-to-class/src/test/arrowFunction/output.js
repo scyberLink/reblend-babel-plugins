@@ -2,7 +2,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import Reblend, { useState } from "reblendjs";
 const App = class
-  /* Transformed from function to class */
+  /* @Reblend: Transformed from function to class */
 extends Reblend {
   static ELEMENT_NAME = "App";
   constructor() {

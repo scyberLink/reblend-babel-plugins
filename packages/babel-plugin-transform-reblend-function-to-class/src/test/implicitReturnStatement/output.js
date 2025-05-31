@@ -23,4 +23,4 @@ export default class SampleComponent extends Reblend {
     return;
   }
 }
-/* Transformed from function to class */
+/* @Reblend: Transformed from function to class */
