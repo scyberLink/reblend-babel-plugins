@@ -1,6 +1,6 @@
 import { run } from "../testUtils";
 
-test("Should not transpile", () => {
+test("Should transpile", () => {
   const { outputCode, expectedOutputCode } = run(__dirname);
   expect(outputCode).toBe(expectedOutputCode);
 });

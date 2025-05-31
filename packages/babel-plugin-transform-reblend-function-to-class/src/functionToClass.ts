@@ -96,15 +96,7 @@ const functionToClass: FunctionToClass = (path, t) => {
 
     let initPropsMethodArgument = getProps(node);
     if (initPropsMethodArgument?.length > 1) {
-      /* if (
-        !t.isIdentifier(initPropsMethodArgument[1]) ||
-        initPropsMethodArgument[1].name !== 'thisComponent'
-      ) {
-        throw new Error(
-          `Reblend only support \`thisComponent\` as the second parameter when there's two params for components
-        ${functionName} ${(path.hub as any).file.opts.filename}:${node.loc?.start.line}:${node.loc?.start.column}`,
-        );
-      } else */ if (initPropsMethodArgument.length > 2) {
+      if (initPropsMethodArgument.length > 2) {
         throw new Error(
           `Reblend does not support multiple props parameter's for components
           ${functionName} ${(path.hub as any).file.opts.filename}:${node.loc?.start.line}:${node.loc?.start.column}`,

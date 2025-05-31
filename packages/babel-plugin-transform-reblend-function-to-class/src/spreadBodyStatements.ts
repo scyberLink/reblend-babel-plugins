@@ -23,23 +23,28 @@ function spreadBodyStatements(
   props: t.ExpressionStatement[];
   state: t.ExpressionStatement[];
 } {
-  const stateAssignments: any[] = [];
-  const propsAssignments: any[] = [];
+  const stateAssignments: t.ExpressionStatement[] = [];
+  const propsAssignments: t.ExpressionStatement[] = [];
   const assignmentPaths = new Set<NodePath<t.AssignmentExpression>>();
 
+  // Collect all assignment expressions in the current scope
   path.scope.path.traverse({
     AssignmentExpression(assignmentPath) {
       assignmentPaths.add(assignmentPath);
     },
   });
 
+  // Track assignments that need to be replaced with member expressions
   const replaceableAssignmentPaths: {
     assignmentPath: NodePath<t.AssignmentExpression>;
     mapping: t.MemberExpression;
   }[] = [];
 
-  const constructAssignment = (
-    constructNode: t.Node,
+  /**
+   * Adds a variable or assignment to the correct assignments array.
+   */
+  const addAssignment = (
+    node: t.Node,
     declarationType: DeclarationType,
     from: PropStateType,
   ) => {
@@ -48,119 +53,114 @@ function spreadBodyStatements(
     switch (declarationType) {
       case DeclarationType.ARRAY_PATTERN:
       case DeclarationType.OBJECT_PATTERN:
-        /* assignment = t.variableDeclaration('const', [
-          constructNode as t.VariableDeclarator,
-        ]); // Wrap in VariableDeclaration */
+        // Destructuring handled elsewhere
         break;
-
       case DeclarationType.DECLARATION:
       default:
-        assignment = constructNode as any;
+        assignment = node as t.Statement;
         break;
     }
 
     if (assignment) {
-      switch (from) {
-        case PropStateType.STATE:
-          stateAssignments.push(assignment);
-          break;
-
-        case PropStateType.PROPS:
-          propsAssignments.push(assignment);
-          break;
-
-        default:
-          break;
+      if (from === PropStateType.STATE) {
+        stateAssignments.push(assignment as t.ExpressionStatement);
+      } else if (from === PropStateType.PROPS) {
+        propsAssignments.push(assignment as t.ExpressionStatement);
       }
     }
   };
 
-  const runner = (
-    runnerNode: t.Node,
+  /**
+   * Recursively processes nodes to map identifiers, destructuring, and assignments
+   * to this.state or this.props as appropriate.
+   */
+  const processNode = (
+    node: t.Node,
     from: PropStateType,
     parent: t.Node | null,
   ) => {
-    if (t.isIdentifier(runnerNode)) {
-      let propertyThisMap = null;
+    // Handle identifiers (simple variable names)
+    if (t.isIdentifier(node)) {
+      let memberExpr: t.MemberExpression | null = null;
 
+      // Map identifier to this.state or this.props
       switch (from) {
         case PropStateType.STATE:
-          propertyThisMap = t.memberExpression(
+          memberExpr = t.memberExpression(
             t.memberExpression(t.thisExpression(), t.identifier('state')),
-            runnerNode,
+            node,
           );
           break;
-
         case PropStateType.PROPS:
-          propertyThisMap = t.memberExpression(
+          memberExpr = t.memberExpression(
             t.thisExpression(),
-            parent ? t.identifier('props') : runnerNode,
+            parent ? t.identifier('props') : node,
           );
           break;
-
         default:
           break;
       }
 
-      let parentIsObjectProperty;
+      // If the identifier is part of an object property, map to this.props.key
+      let memberExprWithKey: t.MemberExpression | undefined;
       if (
         t.isObjectProperty(parent) &&
-        propertyThisMap &&
+        memberExpr &&
         from === PropStateType.PROPS
       ) {
-        parentIsObjectProperty = t.memberExpression(
-          propertyThisMap,
+        memberExprWithKey = t.memberExpression(
+          memberExpr,
           parent.key,
         );
       }
 
-      const mapping: any = parentIsObjectProperty || propertyThisMap;
+      // Use the most specific mapping
+      const finalMapping: t.MemberExpression = memberExprWithKey || memberExpr!;
 
-      let statement = null;
+      // Handle rest elements in destructuring (e.g., ...rest)
+      let assignmentStmt: t.ExpressionStatement;
       if (
         t.isRestElement(parent) &&
-        propertyThisMap &&
+        memberExpr &&
         from === PropStateType.PROPS
       ) {
-        statement = t.expressionStatement(
+        // For rest, create an assignment with object spread
+        assignmentStmt = t.expressionStatement(
           t.assignmentExpression(
             '=',
-            mapping,
+            finalMapping,
             t.objectExpression([
-              t.spreadElement(mapping),
-              t.spreadElement(runnerNode),
+              t.spreadElement(finalMapping),
+              t.spreadElement(node),
             ]),
           ),
         );
       } else {
-        statement = t.expressionStatement(
-          t.assignmentExpression('=', mapping, runnerNode),
+        // Simple assignment
+        assignmentStmt = t.expressionStatement(
+          t.assignmentExpression('=', finalMapping, node),
         );
       }
 
-      switch (from) {
-        case PropStateType.STATE:
-          stateAssignments.push(statement);
-          break;
-
-        case PropStateType.PROPS:
-          propsAssignments.push(statement);
-          break;
-
-        default:
-          break;
+      // Add assignment to the correct array
+      if (from === PropStateType.STATE) {
+        stateAssignments.push(assignmentStmt);
+      } else if (from === PropStateType.PROPS) {
+        propsAssignments.push(assignmentStmt);
       }
 
-      const varName = runnerNode.name;
+      // Replace all references to the identifier in the scope with the mapped member expression
+      const varName = node.name;
       const binding = path.scope.getBinding(varName);
 
       if (binding) {
         binding.referencePaths.forEach(refPath => {
-          let jsxNode = null;
+          let jsxReplacement: t.JSXMemberExpression | t.MemberExpression | null = null;
           if (t.isJSXIdentifier(refPath.node as t.JSXIdentifier)) {
+            // Replace JSX usage with this.state.var or this.props.var
             switch (from) {
               case PropStateType.STATE:
-                jsxNode = t.jSXMemberExpression(
+                jsxReplacement = t.jSXMemberExpression(
                   t.jSXMemberExpression(
                     t.jsxIdentifier('this'),
                     t.jsxIdentifier('state'),
@@ -168,9 +168,8 @@ function spreadBodyStatements(
                   refPath.node as t.JSXIdentifier,
                 );
                 break;
-
               case PropStateType.PROPS:
-                jsxNode = t.jSXMemberExpression(
+                jsxReplacement = t.jSXMemberExpression(
                   parent
                     ? t.jSXMemberExpression(
                         t.jsxIdentifier('this'),
@@ -180,27 +179,26 @@ function spreadBodyStatements(
                   refPath.node as t.JSXIdentifier,
                 );
                 break;
-
               default:
                 break;
             }
           }
-
-          refPath.replaceWith(jsxNode || mapping);
+          refPath.replaceWith(jsxReplacement || finalMapping);
         });
+
+        // Replace assignments to the identifier with assignments to the member expression
         assignmentPaths.forEach(assignmentPath => {
-          const { left, right } = assignmentPath.node;
-          // Check if the LHS is the identifier we're working with (e.g., `reassignmentMapping_data`)
+          const { left } = assignmentPath.node;
           const assignmentBinding = assignmentPath.scope.getBinding(varName);
 
-          // Ensure the assignment is in the same block scope as the original identifier
+          // Only replace if the assignment is in the same scope as the original identifier
           if (
             assignmentBinding === binding &&
             t.isIdentifier(left, { name: varName })
           ) {
             replaceableAssignmentPaths.push({
               assignmentPath,
-              mapping,
+              mapping: finalMapping,
             });
             assignmentPaths.delete(assignmentPath);
           }
@@ -209,86 +207,109 @@ function spreadBodyStatements(
       return;
     }
 
-    if (t.isVariableDeclaration(runnerNode)) {
-      constructAssignment(runnerNode, DeclarationType.DECLARATION, from);
-      runnerNode.declarations.forEach(
-        declarator => declarator && runner(declarator, from, null),
+    // Handle variable declarations (e.g., const { a } = ...)
+    if (t.isVariableDeclaration(node)) {
+      addAssignment(node, DeclarationType.DECLARATION, from);
+      node.declarations.forEach(
+        declarator => declarator && processNode(declarator, from, null),
       );
-    } else if (t.isVariableDeclarator(runnerNode)) {
-      runner(runnerNode.id, from, null);
-    } else if (t.isFunctionDeclaration(runnerNode)) {
+    }
+    // Handle variable declarators (e.g., { a } = ...)
+    else if (t.isVariableDeclarator(node)) {
+      processNode(node.id, from, null);
+    }
+    // Handle function declarations (convert to arrow function and preserve comments)
+    else if (t.isFunctionDeclaration(node)) {
       const arrowFunction = t.arrowFunctionExpression(
-        runnerNode.params, // Use the same parameters
-        runnerNode.body, // Use the same function body
-        runnerNode.async, // Retain whether the original function was async
+        node.params,
+        node.body,
+        node.async,
       );
+      arrowFunction.leadingComments = node.leadingComments;
+      arrowFunction.innerComments = node.innerComments;
+      arrowFunction.trailingComments = node.trailingComments;
 
-      // Preserve comments from the original function
-      arrowFunction.leadingComments = runnerNode.leadingComments;
-      arrowFunction.innerComments = runnerNode.innerComments;
-      arrowFunction.trailingComments = runnerNode.trailingComments;
-
-      // Wrap the arrow function into a VariableDeclarator and then into a VariableDeclaration
       const variableDeclarator = t.variableDeclarator(
-        runnerNode.id!,
+        node.id!,
         arrowFunction,
       );
       const variableDeclaration = t.variableDeclaration('const', [
         variableDeclarator,
       ]);
 
-      constructAssignment(
+      addAssignment(
         variableDeclaration,
         DeclarationType.DECLARATION,
         from,
       );
 
-      if (runnerNode.id) {
-        runner(runnerNode.id, from, null);
+      if (node.id) {
+        processNode(node.id, from, null);
       }
-    } else if (t.isObjectProperty(runnerNode)) {
-      runner(runnerNode.value, from, runnerNode);
-    } else if (t.isObjectPattern(runnerNode)) {
-      runnerNode.properties.forEach(
+    }
+    // Handle object properties (recursively process the value)
+    else if (t.isObjectProperty(node)) {
+      processNode(node.value, from, node);
+    }
+    // Handle object patterns (destructuring: const { a, ...rest } = ...)
+    else if (t.isObjectPattern(node)) {
+      node.properties.forEach(
         (property: t.ObjectProperty | t.RestElement) => {
           if (property) {
             if (t.isObjectProperty(property)) {
-              runner(property.value, from, property);
+              processNode(property.value, from, property);
             } else if (t.isRestElement(property)) {
-              runner(property.argument, from, property);
+              // Rest element in object pattern (e.g., ...rest)
+              processNode(property.argument, from, property);
             }
           }
         },
       );
-    } else if (t.isArrayPattern(runnerNode)) {
-      runnerNode.elements.forEach((element: any) => {
-        if (element) {
-          if (t.isRestElement(element)) {
-            runner(element.argument, from, t.restElement(element));
-          } else {
-            runner(
-              element,
-              from,
-              t.objectProperty(element, t.stringLiteral('')),
-            );
-          }
+    }
+    // Handle array patterns (destructuring: const [a, ...rest] = ...)
+    else if (t.isArrayPattern(node)) {
+      // Each element in node.elements is either a Pattern or null
+      node.elements.forEach((element, idx) => {
+        if (!element) return;
+        if (t.isRestElement(element)) {
+          // Rest element in array pattern (e.g., ...rest)
+          // element.argument is a Pattern
+          processNode(element.argument, from, element);
+        } else if (
+          t.isIdentifier(element) ||
+          t.isAssignmentPattern(element) ||
+          t.isArrayPattern(element) ||
+          t.isObjectPattern(element) ||
+          t.isMemberExpression(element)
+        ) {
+          // Regular element in array pattern
+          // For parent, we pass null since objectProperty is not valid here
+          processNode(element, from, null);
         }
+        // Other node types (e.g., null) are ignored
       });
-    } else if (t.isAssignmentPattern(runnerNode)) {
-      runner(runnerNode.left, from, parent);
-    } else {
-      constructAssignment(runnerNode, DeclarationType.DECLARATION, from);
+    }
+    // Handle assignment patterns (default values: const a = b)
+    else if (t.isAssignmentPattern(node)) {
+      processNode(node.left, from, parent);
+    }
+    // Fallback: treat as a declaration
+    else {
+      addAssignment(node, DeclarationType.DECLARATION, from);
     }
   };
 
+  // Process state-related statements
   bodyStatements?.forEach(statement => {
-    runner(statement, PropStateType.STATE, null);
+    processNode(statement, PropStateType.STATE, null);
   });
 
-  propsStatements?.forEach((statement: any) => {
-    runner(statement, PropStateType.PROPS, null);
+  // Process props-related statements
+  propsStatements?.forEach((statement: t.Statement) => {
+    processNode(statement, PropStateType.PROPS, null);
   });
 
+  // Replace assignment expressions with member expressions
   replaceableAssignmentPaths.forEach(({ assignmentPath, mapping }) => {
     assignmentPath.node.left = mapping;
     assignmentPath.replaceWith(
