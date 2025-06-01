@@ -8,7 +8,7 @@
     "test": "jest",
     "pretest": "tsc",
     "build": "npm run pretest",
-    "prepublish": "rm -rf dist; rm -rf lib; npm run pretest"
+    "prepublishOnly": "rm -rf dist; rm -rf lib; npm run pretest"
   },
   "keywords": [
     "babel",

@@ -17,7 +17,7 @@
   "main": "./lib/index.js",
   "scripts": {
     "build": "tsc",
-    "prepublish": "rm -rf dist; rm -rf lib; npm run build"
+    "prepublishOnly": "rm -rf dist; rm -rf lib; npm run build"
   },
   "dependencies": {
     "@babel/core": "^7.25.7",
