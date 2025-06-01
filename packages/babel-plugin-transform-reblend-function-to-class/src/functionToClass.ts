@@ -5,6 +5,7 @@ import getProps from './getProps';
 import spreadBodyStatements from './spreadBodyStatements';
 import { hasReblendComment } from './hasReblendComment';
 import spreadCustomHook from './spreadCustomHook';
+import { findReblendImportName } from './findReblendImportName';
 
 interface FunctionToClass {
   (path: NodePath<t.Function>, t: typeof import('@babel/types')): void;
@@ -172,10 +173,11 @@ const functionToClass: FunctionToClass = (path, t) => {
       renderMethod,
     ];
 
+    const reblendSuperName = findReblendImportName(path);
     const classDecl = t.classDeclaration(
       //@ts-ignore
       node.id ? t.identifier(node.id.name) : null,
-      t.identifier('Reblend'),
+      t.identifier(reblendSuperName),
       t.classBody(classBody),
       [],
     );
@@ -183,7 +185,7 @@ const functionToClass: FunctionToClass = (path, t) => {
     const classExpr = t.classExpression(
       //@ts-ignore
       node.id ? t.identifier(node.id.name) : null,
-      t.identifier('Reblend'),
+      t.identifier(reblendSuperName),
       t.classBody(classBody),
       [],
     );
