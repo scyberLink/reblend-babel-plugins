@@ -9,9 +9,9 @@ extends Reblend {
     super();
   }
   async initState() {
-    const count = useSelector.bind(this)(state => state.counter, "count");
+    const count = useSelector.bind(this)(state => state.counter);
     this.state.count = count;
-    const dispatch = useDispatch.bind(this)("dispatch");
+    const dispatch = useDispatch.bind(this)();
     this.state.dispatch = dispatch;
     useEffect.bind(this)(() => {
       console.log("count", this.state.count + 1 + this.props.user);

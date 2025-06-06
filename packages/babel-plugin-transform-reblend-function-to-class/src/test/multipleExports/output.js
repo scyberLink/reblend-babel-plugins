@@ -129,7 +129,7 @@ class PaginatedTable extends Reblend {
     const [numEqualityValue, setNumEqualityValue] = useState.bind(this)(numEquality[0].value, "numEqualityValue");
     this.state.numEqualityValue = numEqualityValue;
     this.state.setNumEqualityValue = setNumEqualityValue;
-    const uidRef = useRef.bind(this)(SharedConfig.getLocalData(UID), "uidRef");
+    const uidRef = useRef.bind(this)(SharedConfig.getLocalData(UID));
     this.state.uidRef = uidRef;
     useEffect.bind(this)(() => {
       if (!this.props.noScroll) {

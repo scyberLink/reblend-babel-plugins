@@ -13,7 +13,7 @@ extends Reblend {
       increment = {
         yse
       }
-    } = useCounter.bind(this)("unneededIdentifier");
+    } = useCounter.bind(this)();
     this.state.count = count;
     this.state.increment = increment;
   }

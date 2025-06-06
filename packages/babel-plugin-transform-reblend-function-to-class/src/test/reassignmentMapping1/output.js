@@ -11,7 +11,7 @@ class HistoryComponentsForm extends Reblend {
     super();
   }
   async initState() {
-    const dataIdRef = useRef.bind(this)("", "dataIdRef");
+    const dataIdRef = useRef.bind(this)("");
     this.state.dataIdRef = dataIdRef;
     const [isUpdate, setIsUpdate] = useState.bind(this)(false, "isUpdate");
     this.state.isUpdate = isUpdate;

@@ -30,7 +30,7 @@ class Inventory extends Reblend {
     const [updatingData, setUpdatingData] = useState.bind(this)(null, "updatingData");
     this.state.updatingData = updatingData;
     this.state.setUpdatingData = setUpdatingData;
-    const urlRef = useRef.bind(this)(ALL_INVENTORY, "urlRef");
+    const urlRef = useRef.bind(this)(ALL_INVENTORY);
     this.state.urlRef = urlRef;
     const fieldsRef = useRef.bind(this)({
       _id: {
@@ -104,11 +104,11 @@ class Inventory extends Reblend {
           out: this.state.out
         }
       }
-    }, "fieldsRef");
+    });
     this.state.fieldsRef = fieldsRef;
     const queryRef = useRef.bind(this)({
       populate: ['item']
-    }, "queryRef");
+    });
     this.state.queryRef = queryRef;
     const deleteInventory = async inventoryId => {
       const fetchData = {

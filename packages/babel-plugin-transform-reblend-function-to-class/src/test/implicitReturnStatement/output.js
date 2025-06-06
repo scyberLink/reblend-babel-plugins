@@ -1,8 +1,8 @@
 import Reblend, { useState } from 'reblendjs';
 
 //@ReblendComponent
-export default class SampleComponent extends Reblend {
-  static ELEMENT_NAME = "SampleComponent";
+export default class sampleComponent extends Reblend {
+  static ELEMENT_NAME = "sampleComponent";
   constructor() {
     super();
   }

@@ -11,7 +11,7 @@ extends Reblend {
     const {
       count,
       increment = 'indes'
-    } = useCounter.bind(this)("unneededIdentifier");
+    } = useCounter.bind(this)();
     this.state.count = count;
     this.state.increment = increment;
   }

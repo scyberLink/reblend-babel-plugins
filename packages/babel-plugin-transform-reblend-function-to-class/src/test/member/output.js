@@ -12,7 +12,7 @@ class App extends Reblend {
     super();
   }
   async initState() {
-    const [msg, s] = useI.bind(this)("msg");
+    const [msg, s] = useI.bind(this)();
     this.state.msg = msg;
     this.state.s = s;
     const Header1 = useMemo.bind(this)(() => {
@@ -23,7 +23,7 @@ class App extends Reblend {
       }));
     }, "[]", "Header1");
     this.state.Header1 = Header1;
-    const themeDispatcher = useContextDispatch.bind(this)(ThemeContext, "themeDispatcher");
+    const themeDispatcher = useContextDispatch.bind(this)(ThemeContext);
     this.state.themeDispatcher = themeDispatcher;
     const colors = ['azure', 'yellow', 'pink', 'purple', 'green', 'red'];
     this.state.colors = colors;

@@ -19,7 +19,7 @@ class App extends Reblend {
     this.state.msg = msg;
     const theme = useContext.bind(this)(ThemeContext, "theme");
     this.state.theme = theme;
-    const themeDispatcher = useContextDispatch.bind(this)(ThemeContext, "themeDispatcher");
+    const themeDispatcher = useContextDispatch.bind(this)(ThemeContext);
     this.state.themeDispatcher = themeDispatcher;
     setTimeout(() => {
       this.state.themeDispatcher("yellow");

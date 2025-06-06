@@ -11,7 +11,7 @@ export default class Route extends Reblend {
     const {
       y,
       ...es
-    } = useCallback.bind(this)("unneededIdentifier");
+    } = useCallback.bind(this)();
     this.state.y = y;
     this.state.es = es;
     if (!this.state.thisRoute) {
