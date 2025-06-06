@@ -1,0 +1,103 @@
+import * as t from '@babel/types';
+import { NodePath } from '@babel/traverse';
+import generate from '@babel/generator';
+import { isHookName } from './utils';
+
+export function processHookMemberAccess(path: NodePath) {
+  path.traverse({
+    MemberExpression(innerPath) {
+      const propertyName = (innerPath.node.property as t.Identifier).name;
+      if (!isHookName(propertyName) || isAlreadyBound(innerPath)) {
+        return;
+      }
+
+      bindThis(
+        innerPath,
+        innerPath.node.property as t.Identifier,
+        (innerPath.parent as t.CallExpression).arguments,
+        {
+          object: innerPath.node.object as t.Identifier,
+          property: innerPath.node.property as t.Identifier,
+          computed: innerPath.node.computed,
+        },
+      );
+    },
+
+    CallExpression(p: NodePath<t.CallExpression>) {
+      if (!t.isIdentifier(p.node.callee) || !isHookName(p.node.callee.name)) {
+        return;
+      }
+      bindThis(p, p.node.callee, p.node.arguments);
+    },
+  });
+}
+
+function bindThis(
+  path: NodePath,
+  callee: t.Identifier,
+  calleeArguments: any[],
+  asMemberObject?: {
+    object: t.Identifier;
+    property: t.Identifier;
+    computed: boolean;
+  },
+) {
+  //Bind custom hooks call to `this`
+  const newCallExpression = asMemberObject
+    ? t.callExpression(
+        t.memberExpression(
+          t.memberExpression(
+            asMemberObject.object,
+            asMemberObject.property,
+            asMemberObject.computed,
+          ),
+          t.identifier('bind'),
+        ),
+        [t.thisExpression()],
+      )
+    : t.callExpression(
+        t.callExpression(t.memberExpression(callee, t.identifier('bind')), [
+          t.thisExpression(),
+        ]),
+        calleeArguments,
+      );
+
+  const dep = calleeArguments[1];
+  if ((callee.name === 'useEffect' || callee.name === 'useMemo') && dep) {
+    const stringValue = generate(dep).code;
+    calleeArguments[1] = t.stringLiteral(stringValue);
+  }
+
+  const include = ['useState', 'useReducer', 'useMemo', 'useContext'];
+
+  const expectedDeclaratorParent = asMemberObject ? path.parentPath : path;
+
+  if (
+    include.includes(callee.name) &&
+    expectedDeclaratorParent &&
+    t.isVariableDeclarator(expectedDeclaratorParent.parent)
+  ) {
+    let variableName: t.Identifier = t.identifier('');
+
+    if (t.isArrayPattern(expectedDeclaratorParent.parent.id)) {
+      variableName = expectedDeclaratorParent.parent.id
+        .elements[0] as t.Identifier;
+    } else if (t.isIdentifier(expectedDeclaratorParent.parent.id)) {
+      variableName = expectedDeclaratorParent.parent.id as t.Identifier;
+    }
+
+    calleeArguments.push(
+      t.stringLiteral(variableName?.name || 'unneededIdentifier'),
+    );
+  }
+
+  path.replaceWith(newCallExpression);
+  return newCallExpression;
+}
+
+function isAlreadyBound(path: NodePath) {
+  return (
+    t.isMemberExpression(path.parent) &&
+    (path.parent.property as t.Identifier).name === 'bind'
+  );
+}

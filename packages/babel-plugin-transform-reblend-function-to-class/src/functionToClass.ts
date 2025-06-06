@@ -1,17 +1,24 @@
 import * as t from '@babel/types';
-import { NodePath } from '@babel/traverse';
-import hookBinding from './hookBinding';
-import getProps from './getProps';
+import type { PluginPass, NodePath } from '@babel/core';
+
 import spreadBodyStatements from './spreadBodyStatements';
-import { hasReblendComment } from './hasReblendComment';
 import spreadCustomHook from './spreadCustomHook';
-import { findReblendImportName } from './findReblendImportName';
+import { processHookMemberAccess } from './processHookMemberAccess';
+import {
+  findReblendImportName,
+  get,
+  getProps,
+  hasReblendComment,
+  isComponentName,
+  isHookName,
+  REBLEND_IMPORT_NAME_ID,
+} from './utils';
 
 interface FunctionToClass {
-  (path: NodePath<t.Function>, t: typeof import('@babel/types')): void;
+  (path: NodePath<t.Function>, state: PluginPass): void;
 }
 
-const functionToClass: FunctionToClass = (path, t) => {
+const functionToClass: FunctionToClass = (path, state) => {
   const { node } = path;
 
   let containSkipComment = false;
@@ -43,18 +50,17 @@ const functionToClass: FunctionToClass = (path, t) => {
     return;
   }
 
-  if (functionName.startsWith('use')) {
+  if (isHookName(functionName)) {
     return spreadCustomHook(path, t);
   }
 
   let isBlockStatement = node.body.type === 'BlockStatement';
-  const isComponentName = functionName[0] === functionName[0]?.toUpperCase();
 
   // Proceed with transformation only if no '@ReblendNotComponent' comment or "@ReblendComponent"
   if (
     (hasReblendComment('Component', path) &&
       !hasReblendComment('NotComponent', path)) ||
-    (isComponentName && node.type !== 'ClassMethod')
+    (isComponentName(functionName) && node.type !== 'ClassMethod')
   ) {
     path.addComment(
       'inner',
@@ -155,9 +161,6 @@ const functionToClass: FunctionToClass = (path, t) => {
       true,
     );
 
-    hookBinding(path, initStateMethod!, t);
-    hookBinding(path, initPropsMethod!, t);
-
     const classBody = [
       t.classProperty(
         t.identifier('ELEMENT_NAME'),
@@ -173,7 +176,7 @@ const functionToClass: FunctionToClass = (path, t) => {
       renderMethod,
     ];
 
-    const reblendSuperName = findReblendImportName(path);
+    const reblendSuperName = get(state, REBLEND_IMPORT_NAME_ID);
     const classDecl = t.classDeclaration(
       //@ts-ignore
       node.id ? t.identifier(node.id.name) : null,
@@ -199,6 +202,7 @@ const functionToClass: FunctionToClass = (path, t) => {
     } else {
       path.replaceWith(classDecl);
     }
+    processHookMemberAccess(path);
   }
 };
 

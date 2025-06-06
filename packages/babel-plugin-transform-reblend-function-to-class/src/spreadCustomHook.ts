@@ -1,8 +1,7 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
-import hookBinding from './hookBinding';
 import spreadBodyStatements from './spreadBodyStatements';
-import getProps from './getProps';
+import { processHookMemberAccess } from './processHookMemberAccess';
 
 interface FunctionToClass {
   (path: NodePath<t.Function>, t: typeof import('@babel/types')): void;
@@ -14,14 +13,20 @@ const spreadCustomHook: FunctionToClass = (path, t) => {
   const comments = path.node.innerComments;
   if (comments && comments.length > 0) {
     comments.forEach(comment => {
-      if (comment.value.includes('@Reblend: Transformed from function to class')) {
+      if (
+        comment.value.includes('@Reblend: Transformed from function to class')
+      ) {
         containSkipComment = true;
       }
     });
   }
 
   if (!containSkipComment && node.type !== 'ClassMethod') {
-    path.addComment('inner', ' @Reblend: Transformed from function to class ', false);
+    path.addComment(
+      'inner',
+      ' @Reblend: Transformed from function to class ',
+      false,
+    );
 
     const body = (node as t.FunctionDeclaration).body.body;
 
@@ -55,11 +60,9 @@ const spreadCustomHook: FunctionToClass = (path, t) => {
       node.params as (t.Identifier | t.Pattern | t.RestElement)[],
       t.blockStatement([
         ...assignmentStatements.state,
-        renderReturnStatement as t.ReturnStatement || t.returnStatement(),
+        (renderReturnStatement as t.ReturnStatement) || t.returnStatement(),
       ]),
     );
-
-    hookBinding(path, newFunction!, t);
 
     //@ts-ignore
     node.id?.name && path.scope.removeBinding(node.id?.name);
@@ -78,6 +81,7 @@ const spreadCustomHook: FunctionToClass = (path, t) => {
     } else {
       path.replaceWith(newFunction);
     }
+    processHookMemberAccess(path);
   }
 };
 
