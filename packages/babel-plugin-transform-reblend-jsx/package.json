@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-reblend-jsx",
-  "version": "7.26.0",
+  "version": "7.27.0",
   "description": "Turn JSX into Reblend function calls",
   "repository": {
     "type": "git",
