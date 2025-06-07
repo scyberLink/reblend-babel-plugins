@@ -11,10 +11,15 @@ export function processHookMemberAccess(path: NodePath) {
         return;
       }
 
+      const parentPath = t.isSequenceExpression(innerPath.parent)
+        ? innerPath.parentPath.parentPath
+        : innerPath.parentPath;
+
       bindThis(
         innerPath,
         innerPath.node.property as t.Identifier,
-        (innerPath.parent as t.CallExpression).arguments,
+        (parentPath?.node as t.CallExpression).arguments,
+        parentPath?.parent,
         {
           object: innerPath.node.object as t.Identifier,
           property: innerPath.node.property as t.Identifier,
@@ -27,7 +32,7 @@ export function processHookMemberAccess(path: NodePath) {
       if (!t.isIdentifier(p.node.callee) || !isHookName(p.node.callee.name)) {
         return;
       }
-      bindThis(p, p.node.callee, p.node.arguments);
+      bindThis(p, p.node.callee, p.node.arguments, p.parent);
     },
   });
 }
@@ -36,6 +41,7 @@ function bindThis(
   path: NodePath,
   callee: t.Identifier,
   calleeArguments: any[],
+  parent: any,
   asMemberObject?: {
     object: t.Identifier;
     property: t.Identifier;
@@ -70,20 +76,13 @@ function bindThis(
 
   const include = ['useState', 'useReducer', 'useMemo', 'useContext'];
 
-  const expectedDeclaratorParent = asMemberObject ? path.parentPath : path;
-
-  if (
-    include.includes(callee.name) &&
-    expectedDeclaratorParent &&
-    t.isVariableDeclarator(expectedDeclaratorParent.parent)
-  ) {
+  if (include.includes(callee.name) && t.isVariableDeclarator(parent)) {
     let variableName: t.Identifier = t.identifier('');
 
-    if (t.isArrayPattern(expectedDeclaratorParent.parent.id)) {
-      variableName = expectedDeclaratorParent.parent.id
-        .elements[0] as t.Identifier;
-    } else if (t.isIdentifier(expectedDeclaratorParent.parent.id)) {
-      variableName = expectedDeclaratorParent.parent.id as t.Identifier;
+    if (t.isArrayPattern(parent.id)) {
+      variableName = parent.id.elements[0] as t.Identifier;
+    } else if (t.isIdentifier(parent.id)) {
+      variableName = parent.id as t.Identifier;
     }
 
     calleeArguments.push(
