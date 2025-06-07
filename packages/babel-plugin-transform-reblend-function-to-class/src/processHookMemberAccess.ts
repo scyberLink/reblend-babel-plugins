@@ -68,15 +68,29 @@ function bindThis(
         calleeArguments,
       );
 
+  const includeForDependencyArgument = [
+    'useEffect',
+    'useMemo',
+    'useEffectAfter',
+  ];
+
   const dep = calleeArguments[1];
-  if ((callee.name === 'useEffect' || callee.name === 'useMemo') && dep) {
+  if (dep && includeForDependencyArgument.includes(callee.name)) {
     const stringValue = generate(dep).code;
     calleeArguments[1] = t.stringLiteral(stringValue);
   }
 
-  const include = ['useState', 'useReducer', 'useMemo', 'useContext'];
+  const includeForVariableDeclarator = [
+    'useState',
+    'useReducer',
+    'useMemo',
+    'useContext',
+  ];
 
-  if (include.includes(callee.name) && t.isVariableDeclarator(parent)) {
+  if (
+    includeForVariableDeclarator.includes(callee.name) &&
+    t.isVariableDeclarator(parent)
+  ) {
     let variableName: t.Identifier = t.identifier('');
 
     if (t.isArrayPattern(parent.id)) {
