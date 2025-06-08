@@ -71,10 +71,9 @@ const functionToClass: FunctionToClass = (path, state) => {
     const body = (node as t.FunctionDeclaration).body.body || [];
 
     const bodyStatements: t.Statement[] = [];
-    let renderReturnStatement: t.ReturnStatement | undefined =
-      !isBlockStatement && t.isJSXElement(node.body)
-        ? t.returnStatement(node.body as t.JSXElement)
-        : undefined;
+    let renderReturnStatement: t.ReturnStatement | undefined = !isBlockStatement
+      ? t.returnStatement(node.body as t.JSXElement)
+      : undefined;
 
     body.forEach(statement => {
       if (t.isReturnStatement(statement)) {
