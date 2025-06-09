@@ -12,6 +12,11 @@ export default function (): { visitor: Visitor } {
     visitor: {
       Program: {
         enter(path: any, state: any) {
+          // Skip transforming files from node_modules or other external libraries
+          if (state.filename && state.filename.includes('/node_modules/')) {
+            state.__skipReblendTransform = true;
+            return;
+          }
           let reblendImportName: string | undefined = get(
             state,
             REBLEND_IMPORT_NAME_ID,
@@ -24,7 +29,10 @@ export default function (): { visitor: Visitor } {
       },
 
       Function: {
-        enter: functionToClass as any,
+        enter(path: any, state: any) {
+          if (state.__skipReblendTransform) return;
+          (functionToClass as any)(path, state);
+        },
       },
     },
   };
