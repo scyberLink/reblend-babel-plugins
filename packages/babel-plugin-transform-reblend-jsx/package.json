@@ -36,7 +36,7 @@
   "engines": {
     "node": ">=6.9.0"
   },
-  "author": "Emmanuel Elom <scansioquielom@gmail.com>, The Babel Team (https://babel.dev/team)",
+  "author": "Emmanuel Elom <scansioquielom@gmail.com>",
   "conditions": {
     "BABEL_8_BREAKING": [
       {

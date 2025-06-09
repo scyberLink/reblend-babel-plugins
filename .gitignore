@@ -136,3 +136,5 @@ dist
 
 # npmrc 
 .npmrc
+package-lock.json
+**/*lock
