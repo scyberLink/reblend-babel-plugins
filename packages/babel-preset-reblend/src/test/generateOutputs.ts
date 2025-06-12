@@ -1,4 +1,4 @@
 import { generateOutputFiles } from "./testUtils";
 import { resolve } from "path";
 
-generateOutputFiles(resolve());
+generateOutputFiles(resolve(__dirname));

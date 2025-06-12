@@ -1,12 +1,9 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 exports.default = useDebouncedState;
 var _reblendjs = require("reblendjs");
-var _useDebouncedCallback = _interopRequireDefault(require("./useDebouncedCallback.js"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
+var _useDebouncedCallback = require("./useDebouncedCallback.js");
 //@ts-ignore
 /**
  * Similar to `useState`, except the setter function is debounced by

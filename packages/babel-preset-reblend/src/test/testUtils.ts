@@ -9,13 +9,21 @@ interface TransformResult {
 
 export function run(dir: string, writeOutFile = false): TransformResult {
   const inputFilePath = path.resolve(dir, "input.ts").replace("/lib/", "/src/");
+  const inputFilePathtsx = path.resolve(dir, "input.tsx").replace("/lib/", "/src/");
   const babelOptionPath = path.resolve(dir, "option.json").replace("/lib/", "/src/");
   const outputFilePath = path
     .resolve(dir, "output.js")
     .replace("/lib/", "/src/");
 
   // Read the input code
-  const inputCode = fs.readFileSync(inputFilePath, "utf8");
+  let inputCode: string;
+  let isTsx = false;
+  try {
+    inputCode = fs.readFileSync(inputFilePath, "utf8");
+  } catch (err) {
+    inputCode = fs.readFileSync(inputFilePathtsx, "utf8");
+    isTsx = true;
+  }
   let babelOptions = {}
   try {
     babelOptions = require(babelOptionPath);
@@ -25,7 +33,7 @@ export function run(dir: string, writeOutFile = false): TransformResult {
   // Use Babel to transform the code (assuming it's needed)
 
   const config = {
-    filename: inputFilePath,
+    filename: isTsx ? inputFilePathtsx : inputFilePath,
     presets: [[require.resolve('../index.js'), babelOptions]],
   };
   let outputCode = ''
@@ -69,7 +77,8 @@ export function generateOutputFiles(filepath = ""): void {
   ) {
     return;
   }
-  if (fs.existsSync(path.resolve(filepath, "input.js"))) {
+  filepath = filepath.replace("/lib/", "/src/")
+  if (fs.existsSync(path.resolve(filepath, "output.js"))) {
     run(filepath, true);
   }
   for (const dir of fs.readdirSync(filepath)) {

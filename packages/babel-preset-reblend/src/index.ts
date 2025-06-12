@@ -13,13 +13,25 @@ export default declare((api, opts, dirname) => {
   return {
     presets: [
       ...(includeTypescript
-        ? [require.resolve('@babel/preset-typescript')]
+        ? [[require.resolve('@babel/preset-typescript'), { jsx: 'preserve' }]]
         : []),
     ],
     plugins: [
+      ...(cjs
+        ? [
+            [
+              require.resolve('@babel/plugin-transform-modules-commonjs'),
+              {
+                loose: true,
+                importInterop: 'none',
+                enumerableModuleMeta: true,
+                allowTopLevelThis: true,
+              },
+            ],
+          ]
+        : []),
       transformReblendFunctionToClass,
       transformReblendJSX,
-      ...(cjs ? [require.resolve('@babel/plugin-transform-modules-commonjs')] : []),
     ].filter(Boolean),
   } as any;
 });
