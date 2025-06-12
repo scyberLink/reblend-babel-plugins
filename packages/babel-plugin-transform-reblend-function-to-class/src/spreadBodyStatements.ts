@@ -108,10 +108,7 @@ function spreadBodyStatements(
         memberExpr &&
         from === PropStateType.PROPS
       ) {
-        memberExprWithKey = t.memberExpression(
-          memberExpr,
-          parent.key,
-        );
+        memberExprWithKey = t.memberExpression(memberExpr, parent.key);
       }
 
       // Use the most specific mapping
@@ -155,7 +152,29 @@ function spreadBodyStatements(
 
       if (binding) {
         binding.referencePaths.forEach(refPath => {
-          let jsxReplacement: t.JSXMemberExpression | t.MemberExpression | null = null;
+          // Skip TypeScript type nodes
+          if (
+            t.isTSType(refPath.parent) ||
+            t.isTSTypeAnnotation(refPath.parent) ||
+            t.isTSTypeReference(refPath.parent) ||
+            t.isTSTypeQuery(refPath.parent) ||
+            t.isTSImportType(refPath.parent) ||
+            t.isTSInterfaceDeclaration(refPath.parent) ||
+            t.isTSEnumDeclaration(refPath.parent) ||
+            t.isTSModuleDeclaration(refPath.parent) ||
+            t.isTSAsExpression(refPath.parent) ||
+            t.isTSNonNullExpression(refPath.parent) ||
+            t.isTSParameterProperty(refPath.parent) ||
+            t.isTSDeclareFunction(refPath.parent) ||
+            t.isTSDeclareMethod(refPath.parent)
+          ) {
+            return;
+          }
+
+          let jsxReplacement:
+            | t.JSXMemberExpression
+            | t.MemberExpression
+            | null = null;
           if (t.isJSXIdentifier(refPath.node as t.JSXIdentifier)) {
             // Replace JSX usage with this.state.var or this.props.var
             switch (from) {
@@ -229,19 +248,12 @@ function spreadBodyStatements(
       arrowFunction.innerComments = node.innerComments;
       arrowFunction.trailingComments = node.trailingComments;
 
-      const variableDeclarator = t.variableDeclarator(
-        node.id!,
-        arrowFunction,
-      );
+      const variableDeclarator = t.variableDeclarator(node.id!, arrowFunction);
       const variableDeclaration = t.variableDeclaration('const', [
         variableDeclarator,
       ]);
 
-      addAssignment(
-        variableDeclaration,
-        DeclarationType.DECLARATION,
-        from,
-      );
+      addAssignment(variableDeclaration, DeclarationType.DECLARATION, from);
 
       if (node.id) {
         processNode(node.id, from, null);
@@ -253,18 +265,16 @@ function spreadBodyStatements(
     }
     // Handle object patterns (destructuring: const { a, ...rest } = ...)
     else if (t.isObjectPattern(node)) {
-      node.properties.forEach(
-        (property: t.ObjectProperty | t.RestElement) => {
-          if (property) {
-            if (t.isObjectProperty(property)) {
-              processNode(property.value, from, property);
-            } else if (t.isRestElement(property)) {
-              // Rest element in object pattern (e.g., ...rest)
-              processNode(property.argument, from, property);
-            }
+      node.properties.forEach((property: t.ObjectProperty | t.RestElement) => {
+        if (property) {
+          if (t.isObjectProperty(property)) {
+            processNode(property.value, from, property);
+          } else if (t.isRestElement(property)) {
+            // Rest element in object pattern (e.g., ...rest)
+            processNode(property.argument, from, property);
           }
-        },
-      );
+        }
+      });
     }
     // Handle array patterns (destructuring: const [a, ...rest] = ...)
     else if (t.isArrayPattern(node)) {
