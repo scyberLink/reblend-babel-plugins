@@ -9,18 +9,24 @@ interface TransformResult {
 
 export function run(dir: string, writeOutFile = false): TransformResult {
   const inputFilePath = path.resolve(dir, "input.ts").replace("/lib/", "/src/");
+  const babelOptionPath = path.resolve(dir, "option.json").replace("/lib/", "/src/");
   const outputFilePath = path
     .resolve(dir, "output.js")
     .replace("/lib/", "/src/");
 
   // Read the input code
   const inputCode = fs.readFileSync(inputFilePath, "utf8");
+  let babelOptions = {}
+  try {
+    babelOptions = require(babelOptionPath);
+  } catch (error) {
+  }
 
   // Use Babel to transform the code (assuming it's needed)
 
   const config = {
     filename: inputFilePath,
-    presets: [require.resolve('../index.js')]
+    presets: [[require.resolve('../index.js'), babelOptions]],
   };
   let outputCode = ''
   try {

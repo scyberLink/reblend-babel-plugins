@@ -4,10 +4,11 @@ import transformReblendFunctionToClass from 'babel-plugin-transform-reblend-func
 
 export interface Options {
   includeTypescript?: boolean;
+  cjs?: boolean;
 }
 
 export default declare((api, opts, dirname) => {
-  const { includeTypescript = true } = opts || {};
+  const { includeTypescript = true, cjs = false } = opts || {};
 
   return {
     presets: [
@@ -15,8 +16,10 @@ export default declare((api, opts, dirname) => {
         ? [require.resolve('@babel/preset-typescript')]
         : []),
     ],
-    plugins: [transformReblendFunctionToClass, transformReblendJSX].filter(
-      Boolean,
-    ),
+    plugins: [
+      transformReblendFunctionToClass,
+      transformReblendJSX,
+      ...(cjs ? [require.resolve('@babel/plugin-transform-modules-commonjs')] : []),
+    ].filter(Boolean),
   } as any;
 });
