@@ -2,7 +2,9 @@ import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
 
 // Helper to find the local name for reblendjs import/require/__importStar
-export function findReblendImportName(path: NodePath<t.Function>): string {
+export function findReblendImportName(
+  path: NodePath<t.Function> | NodePath<t.Program>,
+): string {
   let importName = 'Reblend'; // default fallback
 
   const program = path.isProgram()
