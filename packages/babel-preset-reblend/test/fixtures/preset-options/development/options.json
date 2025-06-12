@@ -1,3 +1,0 @@
-{
-  "presets": [["reblend", { "development": true, "runtime": "classic" }]]
-}

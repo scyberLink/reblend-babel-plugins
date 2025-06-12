@@ -1,3 +1,0 @@
-{
-  "presets": [["reblend", { "pragma": "__jsx", "runtime": "classic" }]]
-}
