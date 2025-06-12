@@ -18,8 +18,7 @@
   "scripts": {
     "build": "tsc",
     "generate_test_output": "npm run build; node ./lib/test/generateOutputs.js",
-    "test": "jest",
-    "prepublishOnly": "rm -rf dist; rm -rf lib; npm run build"
+    "test": "jest"
   },
   "dependencies": {
     "@babel/core": "^7.25.7",

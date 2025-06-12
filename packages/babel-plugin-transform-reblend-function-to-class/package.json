@@ -7,8 +7,7 @@
     "generate_test_output": "npm run pretest; node ./lib/test/generateOutputs.js",
     "test": "jest",
     "pretest": "tsc",
-    "build": "npm run pretest",
-    "prepublishOnly": "rm -rf dist; rm -rf lib; npm run pretest"
+    "build": "npm run pretest"
   },
   "keywords": [
     "babel",
