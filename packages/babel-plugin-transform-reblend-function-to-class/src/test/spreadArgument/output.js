@@ -18,7 +18,7 @@ extends Reblend {
     }, (() => [this.props.user, this.state.dispatch]).bind(this));
     const cter = useMemo.bind(this)(() => {
       return this.state.count++;
-    }, (() => [this.state.count]).bind(this), "cter");
+    }, "cter", (() => [this.state.count]).bind(this));
     this.state.cter = cter;
   }
   async initProps({

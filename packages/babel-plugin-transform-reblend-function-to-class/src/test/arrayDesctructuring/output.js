@@ -16,7 +16,7 @@ extends Reblend {
         msg,
         i: s
       }));
-    }, (() => []).bind(this), "Header1");
+    }, "Header1", (() => []).bind(this));
     this.state.Header1 = Header1;
     const handleClick = () => {
       this.state.setCount(this.state.count + 1);

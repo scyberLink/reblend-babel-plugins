@@ -74,8 +74,10 @@ function bindThis(
   ];
 
   const dep = calleeArguments[1];
-  if (dep && includeForDependencyArgument.includes(callee.name)) {
-    // Use an arrow function bound to this, not an IIFE
+
+  const shouldIncludeDependency = dep && includeForDependencyArgument.includes(callee.name)
+
+  if (shouldIncludeDependency) {
     const arrowFn = t.arrowFunctionExpression([], dep);
     const boundArrowFn = t.callExpression(
       t.memberExpression(arrowFn, t.identifier('bind')),
@@ -106,6 +108,15 @@ function bindThis(
     calleeArguments.push(
       t.stringLiteral(variableName?.name || 'unneededIdentifier'),
     );
+  }
+
+  if (shouldIncludeDependency && callee.name == 'useMemo') {
+    if (calleeArguments.length >= 2) {
+      const lastIdx = calleeArguments.length - 1;
+      const temp = calleeArguments[lastIdx];
+      calleeArguments[lastIdx] = calleeArguments[lastIdx - 1];
+      calleeArguments[lastIdx - 1] = temp;
+    }
   }
 
   path.replaceWith(newCallExpression);

@@ -15,7 +15,7 @@ class App extends Reblend {
     setInterval(() => {
       this.state.setS(pre => pre + 2);
     }, 1000);
-    const msg = useMemo.bind(this)(() => `State = "${this.state.s}"`, (() => [this.state.s]).bind(this), "msg");
+    const msg = useMemo.bind(this)(() => `State = "${this.state.s}"`, "msg", (() => [this.state.s]).bind(this));
     this.state.msg = msg;
     const theme = useContext.bind(this)(ThemeContext, "theme");
     this.state.theme = theme;

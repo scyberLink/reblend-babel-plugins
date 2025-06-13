@@ -131,7 +131,7 @@ class HistoryComponentsForm extends Reblend {
         this.state.data[this.state.changeData.key] = this.state.changeData.value;
       }
       return !this.state.tracker;
-    }, (() => [this.state.changeData]).bind(this), "tracker");
+    }, "tracker", (() => [this.state.changeData]).bind(this));
     this.state.tracker = tracker;
   }
   async initProps({

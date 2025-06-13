@@ -7,9 +7,9 @@ class SampleComponent extends Reblend {
     const [count, setCount] = useState.bind(this)(0, "count");
     this.state.count = count;
     this.state.setCount = setCount;
-    const memo = useMemo.bind(this)(() => console.log("memo"), (() => this.state.count).bind(this), "memo");
+    const memo = useMemo.bind(this)(() => console.log("memo"), "memo", (() => this.state.count).bind(this));
     this.state.memo = memo;
-    const memoArray = useMemo.bind(this)(() => console.log("memo"), (() => [this.state.count]).bind(this), "memoArray");
+    const memoArray = useMemo.bind(this)(() => console.log("memo"), "memoArray", (() => [this.state.count]).bind(this));
     this.state.memoArray = memoArray;
     useEffect.bind(this)(() => console.log("effect"), (() => this.state.count).bind(this));
     useEffect.bind(this)(() => console.log("effect"), (() => [this.state.count]).bind(this));

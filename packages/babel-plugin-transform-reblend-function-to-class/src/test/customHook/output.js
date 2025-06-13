@@ -6,7 +6,7 @@ export default function useCustomHook(initial) {
   this.state.setI = setI;
   const ii = useMemo.bind(this)(() => {
     return `i = ${this.state.i + 2}`;
-  }, (() => [this.state.i]).bind(this), "ii");
+  }, "ii", (() => [this.state.i]).bind(this));
   this.state.ii = ii;
   return [this.state.setI, this.state.ii];
 }
