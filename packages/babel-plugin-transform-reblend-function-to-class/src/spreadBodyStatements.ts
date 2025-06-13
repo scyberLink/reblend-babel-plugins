@@ -1,5 +1,6 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
+import { isTypescriptNode } from './utils';
 
 enum PropStateType {
   NONE,
@@ -153,21 +154,7 @@ function spreadBodyStatements(
       if (binding) {
         binding.referencePaths.forEach(refPath => {
           // Skip TypeScript type nodes
-          if (
-            t.isTSType(refPath.parent) ||
-            t.isTSTypeAnnotation(refPath.parent) ||
-            t.isTSTypeReference(refPath.parent) ||
-            t.isTSTypeQuery(refPath.parent) ||
-            t.isTSImportType(refPath.parent) ||
-            t.isTSInterfaceDeclaration(refPath.parent) ||
-            t.isTSEnumDeclaration(refPath.parent) ||
-            t.isTSModuleDeclaration(refPath.parent) ||
-            t.isTSAsExpression(refPath.parent) ||
-            t.isTSNonNullExpression(refPath.parent) ||
-            t.isTSParameterProperty(refPath.parent) ||
-            t.isTSDeclareFunction(refPath.parent) ||
-            t.isTSDeclareMethod(refPath.parent)
-          ) {
+          if (isTypescriptNode(refPath.parent)) {
             return;
           }
 

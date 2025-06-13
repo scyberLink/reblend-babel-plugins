@@ -124,8 +124,26 @@ export const isHookName = (functionName: string) =>
   functionName[3] &&
   functionName[3] === functionName[3]?.toUpperCase();
 
-  // Plugin state helpers
+// Plugin state helpers
 export const get = (pass: PluginPass, name: string) =>
   pass.get(`babel-plugin-transform-reblend-function-to-class/${name}`);
 export const set = (pass: PluginPass, name: string, v: any) =>
   pass.set(`babel-plugin-transform-reblend-function-to-class/${name}`, v);
+
+export const isTypescriptNode = (node: t.Node): node is t.TSType =>
+  t.isTSType(node) ||
+  t.isTSTypeAnnotation(node) ||
+  t.isTSTypeParameterDeclaration(node) ||
+  t.isTSTypeParameterInstantiation(node) ||
+  t.isTSParameterProperty(node) ||
+  t.isTSDeclareFunction(node) ||
+  t.isTSInterfaceDeclaration(node) ||
+  t.isTSTypeAliasDeclaration(node) ||
+  t.isTSModuleDeclaration(node) ||
+  t.isTSTypeReference(node) ||
+  t.isTSTypeQuery(node) ||
+  t.isTSImportType(node) ||
+  t.isTSEnumDeclaration(node) ||
+  t.isTSAsExpression(node) ||
+  t.isTSNonNullExpression(node) ||
+  t.isTSDeclareMethod(node);

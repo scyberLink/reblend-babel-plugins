@@ -1,6 +1,6 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
-import { isHookName } from './utils';
+import { isHookName, isTypescriptNode } from './utils';
 
 export function processHookMemberAccess(path: NodePath) {
   path.traverse({
@@ -10,9 +10,13 @@ export function processHookMemberAccess(path: NodePath) {
         return;
       }
 
-      const parentPath = t.isSequenceExpression(innerPath.parent)
+      let parentPath = t.isSequenceExpression(innerPath.parent)
         ? innerPath.parentPath.parentPath
         : innerPath.parentPath;
+
+      parentPath = !parentPath
+        ? parentPath
+        : getNonTypescriptParent(parentPath!);
 
       bindThis(
         innerPath,
@@ -31,7 +35,8 @@ export function processHookMemberAccess(path: NodePath) {
       if (!t.isIdentifier(p.node.callee) || !isHookName(p.node.callee.name)) {
         return;
       }
-      bindThis(p, p.node.callee, p.node.arguments, p.parent);
+      const parentPath = getNonTypescriptParent(p);
+      bindThis(p, p.node.callee, p.node.arguments, parentPath.parent);
     },
   });
 }
@@ -75,7 +80,8 @@ function bindThis(
 
   const dep = calleeArguments[1];
 
-  const shouldIncludeDependency = dep && includeForDependencyArgument.includes(callee.name)
+  const shouldIncludeDependency =
+    dep && includeForDependencyArgument.includes(callee.name);
 
   if (shouldIncludeDependency) {
     const arrowFn = t.arrowFunctionExpression([], dep);
@@ -128,4 +134,12 @@ function isAlreadyBound(path: NodePath) {
     t.isMemberExpression(path.parent) &&
     (path.parent.property as t.Identifier).name === 'bind'
   );
+}
+
+function getNonTypescriptParent(path: NodePath) {
+  let parentPath = path;
+  while (parentPath && isTypescriptNode(parentPath.parent)) {
+    parentPath = parentPath.parentPath!;
+  }
+  return parentPath;
 }

@@ -118,7 +118,7 @@ async function renderHook(useRenderCallback, options = {}) {
       _reblendjs.useEffect.bind(this)(() => {
         const pendingResult = useRenderCallback.bind(this)(this.props.renderCallbackProps);
         result && (result.current = pendingResult);
-      }, "this.props.refreshCode");
+      }, (() => this.props.refreshCode).bind(this));
     }
     async initProps({
       renderCallbackProps,
