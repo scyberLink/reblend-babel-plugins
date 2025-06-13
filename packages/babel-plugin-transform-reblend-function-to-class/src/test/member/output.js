@@ -21,7 +21,7 @@ class App extends Reblend {
         msg: this.state.msg,
         i: this.state.s
       }));
-    }, "[]", "Header1");
+    }, (() => []).bind(this), "Header1");
     this.state.Header1 = Header1;
     const themeDispatcher = useContextDispatch.bind(this)(ThemeContext);
     this.state.themeDispatcher = themeDispatcher;

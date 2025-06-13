@@ -13,7 +13,7 @@ const SampleComponent = class SampleComponent extends Reblend {
         this.state.setCount(prevCount => prevCount + 1);
       }, 1000);
       return () => clearInterval(interval);
-    }, "[]");
+    }, (() => []).bind(this));
   }
   async initProps(props) {
     this.props = {};

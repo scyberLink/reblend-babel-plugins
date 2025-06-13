@@ -24,7 +24,7 @@ extends Reblend {
       } else {
         reassignmentMapping_data = false;
       }
-    }, "[yes]");
+    }, (() => [yes]).bind(this));
     let f = false;
     this.state.f = f;
   }

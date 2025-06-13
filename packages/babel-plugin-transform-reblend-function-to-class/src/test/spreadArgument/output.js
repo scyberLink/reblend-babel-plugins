@@ -15,10 +15,10 @@ extends Reblend {
     this.state.dispatch = dispatch;
     useEffect.bind(this)(() => {
       console.log("count", this.state.count + 1 + this.props.user);
-    }, "[this.props.user, this.state.dispatch]");
+    }, (() => [this.props.user, this.state.dispatch]).bind(this));
     const cter = useMemo.bind(this)(() => {
       return this.state.count++;
-    }, "[this.state.count]", "cter");
+    }, (() => [this.state.count]).bind(this), "cter");
     this.state.cter = cter;
   }
   async initProps({

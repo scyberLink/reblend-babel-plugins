@@ -139,19 +139,19 @@ class PaginatedTable extends Reblend {
           inline: 'center'
         });
       }
-    }, "[this.state.results]");
+    }, (() => [this.state.results]).bind(this));
     useEffect.bind(this)(() => {
       !this.state.firstDisplay && this.state.setReload(!this.state.reload);
-    }, "[this.props.reload]");
+    }, (() => [this.props.reload]).bind(this));
     useEffect.bind(this)(() => {
       this.state.setSearchValue('');
-    }, "[this.state.searchKey]");
+    }, (() => [this.state.searchKey]).bind(this));
     useEffect.bind(this)(() => {
       !this.state.firstDisplay && this.state.querySetter();
-    }, "[this.state.sortKey, this.state.sortOrder]");
+    }, (() => [this.state.sortKey, this.state.sortOrder]).bind(this));
     useEffect.bind(this)(() => {
       !this.state.firstDisplay && this.state.querySetter();
-    }, "[this.props.query]");
+    }, (() => [this.props.query]).bind(this));
     useEffect.bind(this)(() => {
       const f = {
         ...this.props.fields
@@ -234,7 +234,7 @@ class PaginatedTable extends Reblend {
       this.state.setSortOrder(defaultSortOrder);
       this.state.setInitQuery(newQuery);
       this.state.setQuery(newQuery);
-    }, "[this.props.fields, this.props.query]");
+    }, (() => [this.props.fields, this.props.query]).bind(this));
     const resultSetter = data => {
       if (data) {
         this.state.setResults(data);

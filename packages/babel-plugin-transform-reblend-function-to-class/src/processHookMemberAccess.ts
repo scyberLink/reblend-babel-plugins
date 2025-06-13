@@ -1,6 +1,5 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
-import generate from '@babel/generator';
 import { isHookName } from './utils';
 
 export function processHookMemberAccess(path: NodePath) {
@@ -76,8 +75,13 @@ function bindThis(
 
   const dep = calleeArguments[1];
   if (dep && includeForDependencyArgument.includes(callee.name)) {
-    const stringValue = generate(dep).code;
-    calleeArguments[1] = t.stringLiteral(stringValue);
+    // Use an arrow function bound to this, not an IIFE
+    const arrowFn = t.arrowFunctionExpression([], dep);
+    const boundArrowFn = t.callExpression(
+      t.memberExpression(arrowFn, t.identifier('bind')),
+      [t.thisExpression()],
+    );
+    calleeArguments[1] = boundArrowFn;
   }
 
   const includeForVariableDeclarator = [

@@ -45,7 +45,7 @@ class HistoryComponentsForm extends Reblend {
         type: "text"
       });
       this.state.setKeys(_fields);
-    }, "[this.props.fields]");
+    }, (() => [this.props.fields]).bind(this));
     let data = this.props.updates;
     this.state.data = data;
     useEffect.bind(this)(() => {
@@ -70,7 +70,7 @@ class HistoryComponentsForm extends Reblend {
           this.state.data[key.key] = value;
         });
       }
-    }, "[this.props.updates]");
+    }, (() => [this.props.updates]).bind(this));
     const createUser = e => {
       this.state.setSubmitting(true);
       e.preventDefault();
@@ -131,7 +131,7 @@ class HistoryComponentsForm extends Reblend {
         this.state.data[this.state.changeData.key] = this.state.changeData.value;
       }
       return !this.state.tracker;
-    }, "[this.state.changeData]", "tracker");
+    }, (() => [this.state.changeData]).bind(this), "tracker");
     this.state.tracker = tracker;
   }
   async initProps({

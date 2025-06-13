@@ -6,7 +6,7 @@ export const useNameExportArrowFunctionHook = function useNameExportArrowFunctio
   this.state.setI = setI;
   const ii = useMemo.bind(this)(() => {
     return `i = ${this.state.i + 2}`;
-  }, "[this.state.i]", "ii");
+  }, (() => [this.state.i]).bind(this), "ii");
   this.state.ii = ii;
   return [this.state.setI, this.state.ii];
 } /* @Reblend: Transformed from function to class */;
