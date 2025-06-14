@@ -1,6 +1,7 @@
 import { useState, useMemo } from "reblendjs";
 //@ReblendHook
 export const useNameExportArrowFunctionHook = function useNameExportArrowFunctionHook(useNameExportArrowFunctionHookProps) {
+  this.state.useNameExportArrowFunctionHookProps = useNameExportArrowFunctionHookProps;
   const [i, setI] = useState.bind(this)(initial, "i");
   this.state.i = i;
   this.state.setI = setI;

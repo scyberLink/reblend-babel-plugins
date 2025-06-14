@@ -21,12 +21,14 @@ from './useDebouncedCallback.js';
  * @param delayOrOptions The milliseconds delay before a new value is set, or options object
  */
 export default function useDebouncedState(initialState, delayOrOptions) {
-  const [state, setState] = useState.bind(this)(initialState, "state");
+  this.state.initialState = initialState;
+  this.state.delayOrOptions = delayOrOptions;
+  const [state, setState] = useState.bind(this)(this.state.initialState, "state");
   this.state.state = state;
   this.state.setState = setState;
   const {
     callback
-  } = useDebouncedCallback.bind(this)(this.state.setState, delayOrOptions);
+  } = useDebouncedCallback.bind(this)(this.state.setState, this.state.delayOrOptions);
   this.state.callback = callback;
   return {
     state: this.state.state,

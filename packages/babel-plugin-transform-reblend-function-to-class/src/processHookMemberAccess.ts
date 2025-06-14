@@ -10,6 +10,11 @@ export function processHookMemberAccess(path: NodePath) {
         return;
       }
 
+      if ((innerPath.node.object as any)?.object?.type === 'ThisExpression') {
+        // If the object is already bound to `this`, we don't need to do anything
+        return;
+      }
+
       let parentPath = t.isSequenceExpression(innerPath.parent)
         ? innerPath.parentPath.parentPath
         : innerPath.parentPath;

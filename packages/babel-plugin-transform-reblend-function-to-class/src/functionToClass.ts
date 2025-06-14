@@ -101,13 +101,11 @@ const functionToClass: FunctionToClass = (path, state) => {
     ];
 
     let initPropsMethodArgument = getProps(node);
-    if (initPropsMethodArgument?.length > 1) {
-      if (initPropsMethodArgument.length > 2) {
-        throw new Error(
-          `Reblend does not support multiple props parameter's for components
+    if (initPropsMethodArgument.length > 1) {
+      throw new Error(
+        `Reblend does not support multiple props parameter's for components
           ${functionName} ${(path.hub as any).file.opts.filename}:${node.loc?.start.line}:${node.loc?.start.column}`,
-        );
-      }
+      );
     }
 
     const assignments = spreadBodyStatements(

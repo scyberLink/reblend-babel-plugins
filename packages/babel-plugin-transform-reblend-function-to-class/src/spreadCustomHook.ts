@@ -2,6 +2,7 @@ import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
 import spreadBodyStatements from './spreadBodyStatements';
 import { processHookMemberAccess } from './processHookMemberAccess';
+import { getProps } from './utils';
 
 interface FunctionToClass {
   (path: NodePath<t.Function>, t: typeof import('@babel/types')): void;
@@ -40,6 +41,10 @@ const spreadCustomHook: FunctionToClass = (path, t) => {
         bodyStatements.push(statement);
       }
     });
+
+    let hookArguments = getProps(node);
+
+    bodyStatements.unshift(...(hookArguments as any));
 
     const assignmentStatements = spreadBodyStatements(
       path,

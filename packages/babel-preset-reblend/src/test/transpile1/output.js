@@ -21,12 +21,14 @@ var _useDebouncedCallback = require("./useDebouncedCallback.js");
  * @param delayOrOptions The milliseconds delay before a new value is set, or options object
  */
 function useDebouncedState(initialState, delayOrOptions) {
-  const [state, setState] = _reblendjs.useState.bind(this)(initialState, "state");
+  this.state.initialState = initialState;
+  this.state.delayOrOptions = delayOrOptions;
+  const [state, setState] = _reblendjs.useState.bind(this)(this.state.initialState, "state");
   this.state.state = state;
   this.state.setState = setState;
   const {
     callback
-  } = _useDebouncedCallback.default.bind(this)(this.state.setState, delayOrOptions);
+  } = _useDebouncedCallback.default.bind(this)(this.state.setState, this.state.delayOrOptions);
   this.state.callback = callback;
   return {
     state: this.state.state,

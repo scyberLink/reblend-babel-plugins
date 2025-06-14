@@ -24,11 +24,16 @@ export function run(dir: string, writeOutFile = false): TransformResult {
   };
   let outputCode = ''
   try {
-     outputCode = transformSync(inputCode, config)!.code as string;
-  }catch(error){
-    console.error(error)
+    outputCode = transformSync(inputCode, config)!.code as string;
+  } catch (error) {
+    if (writeOutFile) {
+      console.error(error)
+      return { outputCode, expectedOutputCode: "" };
+    } else {
+      throw error; // Re-throw the error if not writing the output file
+    }
   }
-  
+
   const write = () => fs.writeFileSync(outputFilePath, `${outputCode}`);
   let writing: boolean = false;
   let expectedOutputCode: string = "";

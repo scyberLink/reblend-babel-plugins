@@ -1,7 +1,8 @@
 import { useState, useMemo } from "reblendjs";
 //@ReblendHook
 export default function useCustomHook(initial) {
-  const [i, setI] = useState.bind(this)(initial, "i");
+  this.state.initial = initial;
+  const [i, setI] = useState.bind(this)(this.state.initial, "i");
   this.state.i = i;
   this.state.setI = setI;
   const ii = useMemo.bind(this)(() => {
