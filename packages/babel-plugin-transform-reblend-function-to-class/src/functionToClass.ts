@@ -51,7 +51,7 @@ const functionToClass: FunctionToClass = (path, state) => {
   }
 
   if (isHookName(functionName)) {
-    return spreadCustomHook(path, t);
+    return spreadCustomHook(functionName, path, state);
   }
 
   let isBlockStatement = node.body.type === 'BlockStatement';
@@ -190,8 +190,7 @@ const functionToClass: FunctionToClass = (path, state) => {
       [],
     );
 
-    //@ts-ignore
-    node.id?.name && path.scope.removeBinding(node.id?.name);
+    path.scope.removeBinding(functionName);
 
     //@ts-ignore
     if (t.isExpression(path)) {
