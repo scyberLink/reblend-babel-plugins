@@ -1,6 +1,7 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
 import { isHookName, isTypescriptNode } from './utils';
+import { randomUUID } from 'crypto';
 
 export function processHookMemberAccess(path: NodePath) {
   path.traverse({
@@ -117,7 +118,7 @@ function bindThis(
     }
 
     calleeArguments.push(
-      t.stringLiteral(variableName?.name || 'unneededIdentifier'),
+      t.stringLiteral(variableName?.name || `unneededIdentifier_${randomUUID()}`),
     );
   }
 
