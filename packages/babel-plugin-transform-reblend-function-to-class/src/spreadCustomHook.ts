@@ -2,7 +2,7 @@ import * as t from '@babel/types';
 import type { PluginPass, NodePath } from '@babel/core';
 import spreadBodyStatements from './spreadBodyStatements';
 import { processHookMemberAccess } from './processHookMemberAccess';
-import { getProps } from './utils';
+import { getProps, TRANSFORMED_COMMENT } from './utils';
 
 interface FunctionToClass {
   (functionName: string, path: NodePath<t.Function>, state: PluginPass): void;
@@ -10,43 +10,8 @@ interface FunctionToClass {
 
 const spreadCustomHook: FunctionToClass = (functionName, path, _state) => {
   const { node } = path;
-  let containSkipComment = false;
-  const comments = path.node.innerComments;
-  if (comments && comments.length > 0) {
-    comments.forEach(comment => {
-      if (
-        comment.value.includes('@Reblend: Transformed from function to class')
-      ) {
-        containSkipComment = true;
-      }
-    });
-  }
 
-  const excludeHooks = [
-    'useState',
-    'useReducer',
-    'useRef',
-    'useMemo',
-    'useCallback',
-    'useEffect',
-    'useContext',
-    'useTransition',
-    'useEffectAfter',
-  ];
-
-  if (
-    containSkipComment ||
-    node.type == 'ClassMethod' ||
-    excludeHooks.includes(functionName)
-  ) {
-    return;
-  }
-
-  path.addComment(
-    'inner',
-    ' @Reblend: Transformed from function to class ',
-    false,
-  );
+  path.addComment('inner', TRANSFORMED_COMMENT, false);
 
   const body = (node as t.FunctionDeclaration).body.body;
 

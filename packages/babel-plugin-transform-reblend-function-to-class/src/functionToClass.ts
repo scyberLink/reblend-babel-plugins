@@ -12,6 +12,7 @@ import {
   isComponentName,
   isHookName,
   REBLEND_IMPORT_NAME_ID,
+  TRANSFORMED_COMMENT,
 } from './utils';
 
 interface FunctionToClass {
@@ -25,17 +26,11 @@ const functionToClass: FunctionToClass = (path, state) => {
   const comments = path.node.innerComments;
   if (comments && comments.length > 0) {
     for (const comment of comments || []) {
-      if (
-        comment.value.includes('@Reblend: Transformed from function to class')
-      ) {
+      if (comment.value.includes(TRANSFORMED_COMMENT.trim())) {
         containSkipComment = true;
         break;
       }
     }
-  }
-
-  if (containSkipComment) {
-    return;
   }
 
   // @ts-ignore
@@ -46,7 +41,25 @@ const functionToClass: FunctionToClass = (path, state) => {
       ? ((path.parent as t.VariableDeclarator).id as t.Identifier).name
       : '';
 
-  if (!functionName) {
+  const excludeHooks = [
+    'useState',
+    'useReducer',
+    'useRef',
+    'useMemo',
+    'useCallback',
+    'useEffect',
+    'useContext',
+    'useTransition',
+    'useEffectAfter',
+    'useProps',
+  ];
+
+  if (
+    !functionName ||
+    containSkipComment ||
+    node.type == 'ClassMethod' ||
+    excludeHooks.includes(functionName)
+  ) {
     return;
   }
 
@@ -60,13 +73,9 @@ const functionToClass: FunctionToClass = (path, state) => {
   if (
     (hasReblendComment('Component', path) &&
       !hasReblendComment('NotComponent', path)) ||
-    (isComponentName(functionName) && node.type !== 'ClassMethod')
+    isComponentName(functionName)
   ) {
-    path.addComment(
-      'inner',
-      ' @Reblend: Transformed from function to class ',
-      false,
-    );
+    path.addComment('inner', TRANSFORMED_COMMENT, false);
 
     const body = (node as t.FunctionDeclaration).body.body || [];
 

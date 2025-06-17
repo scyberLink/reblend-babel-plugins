@@ -2,6 +2,8 @@ import * as t from '@babel/types';
 import type { PluginPass, NodePath } from '@babel/core';
 
 export const REBLEND_IMPORT_NAME_ID = 'id/REBLEND_IMPORT_NAME_ID';
+export const TRANSFORMED_COMMENT =
+  ' @Reblend: Transformed from function to class ';
 
 export function hasReblendComment(commentSuffix: string, path: NodePath) {
   if (!commentSuffix || !path) {
