@@ -7,7 +7,7 @@ extends rbl {
     super();
   }
   async initState() {
-    const [, setContext] = rbl.useContext.bind(this)(0, "unneededIdentifier");
+    const [, setContext] = rbl.useContext.bind(this)(0, "unneededIdentifier_53e8b51e-74e3-436e-8bab-2ed0334f076a");
     this.state.setContext = setContext;
     const [State, setState] = rbl.useState.bind(this)(0, "State");
     this.state.State = State;

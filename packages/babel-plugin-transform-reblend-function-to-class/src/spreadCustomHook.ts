@@ -2,7 +2,7 @@ import * as t from '@babel/types';
 import type { PluginPass, NodePath } from '@babel/core';
 import spreadBodyStatements from './spreadBodyStatements';
 import { processHookMemberAccess } from './processHookMemberAccess';
-import { getProps, TRANSFORMED_COMMENT } from './utils';
+import { TRANSFORMED_COMMENT } from './utils';
 
 interface FunctionToClass {
   (functionName: string, path: NodePath<t.Function>, state: PluginPass): void;
@@ -25,9 +25,6 @@ const spreadCustomHook: FunctionToClass = (functionName, path, _state) => {
       bodyStatements.push(statement);
     }
   });
-
-  let hookArguments = getProps(node);
-  bodyStatements.unshift(...(hookArguments as any));
 
   const assignmentStatements = spreadBodyStatements(path, bodyStatements, null);
 

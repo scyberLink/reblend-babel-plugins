@@ -9,7 +9,6 @@ const reblendjs_1 = __importStar(require("reblendjs"));
 function useAny({
   defaultValue
 }) {
-  this.state.defaultValue = defaultValue;
-  return (0, reblendjs_1.useState.bind(this))(this.state.defaultValue)[0];
+  return (0, reblendjs_1.useState.bind(this))(defaultValue)[0];
 }
 /* @Reblend: Transformed from function to class */
