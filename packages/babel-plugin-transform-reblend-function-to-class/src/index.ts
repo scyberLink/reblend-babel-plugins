@@ -11,7 +11,7 @@ export default function (): { visitor: Visitor; name: string } {
   return {
     name: 'transform-reblend-function-to-class',
     visitor: {
-      Function(path: any, state: any) {
+      Program(path: any, state: any) {
         // Skip transforming files from node_modules or other external libraries
         if (state.filename && state.filename.includes('/node_modules/')) {
           return;
@@ -26,7 +26,11 @@ export default function (): { visitor: Visitor; name: string } {
           set(state, REBLEND_IMPORT_NAME_ID, reblendImportName);
         }
 
-        functionToClass(path, state);
+        path.traverse({
+          Function(functionPath: any) {
+            functionToClass(functionPath, state);
+          },
+        });
       },
     },
   };
