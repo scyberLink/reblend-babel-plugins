@@ -116,9 +116,7 @@ export function findReblendImportName(path: NodePath<t.Function>): string {
 }
 
 export const isComponentName = (functionName: string) =>
-  functionName &&
-  functionName[0] &&
-  functionName[0] === functionName[0]?.toUpperCase();
+  !!functionName && /^[A-Z][A-Za-z0-9_]*$/.test(functionName);
 
 export const isHookName = (functionName: string) =>
   functionName &&
