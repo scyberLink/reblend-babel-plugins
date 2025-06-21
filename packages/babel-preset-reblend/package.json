@@ -18,7 +18,8 @@
   "scripts": {
     "build": "tsc",
     "generate_test_output": "npm run build; node ./lib/test/generateOutputs.js",
-    "test": "jest"
+    "test": "jest",
+    "build:test": "npm run build && npm run test"
   },
   "dependencies": {
     "@babel/core": "^7.25.7",

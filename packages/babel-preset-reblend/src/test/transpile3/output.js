@@ -24,8 +24,7 @@ import { useMemo, useReducer } from 'reblendjs';
  * ```
  */
 export default function useToggleState(initialState = false) {
-  this.state.initialState = initialState;
-  const [show, toggleShow] = useReducer.bind(this)((state, action) => action == null ? !state : action, this.state.initialState, "show");
+  const [show, toggleShow] = useReducer.bind(this)((state, action) => action == null ? !state : action, initialState, "show");
   this.state.show = show;
   this.state.toggleShow = toggleShow;
   const toggleState = useMemo.bind(this)(() => ({

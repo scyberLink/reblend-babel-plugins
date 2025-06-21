@@ -7,10 +7,11 @@ import {
   set,
 } from './utils';
 
-export default function (): { visitor: Visitor } {
+export default function (): { visitor: Visitor; name: string } {
   return {
+    name: 'transform-reblend-function-to-class',
     visitor: {
-      Program(path: any, state: any) {
+      Function(path: any, state: any) {
         // Skip transforming files from node_modules or other external libraries
         if (state.filename && state.filename.includes('/node_modules/')) {
           return;
@@ -25,11 +26,7 @@ export default function (): { visitor: Visitor } {
           set(state, REBLEND_IMPORT_NAME_ID, reblendImportName);
         }
 
-        path.traverse({
-          Function(functionPath: any) {
-            functionToClass(functionPath, state);
-          },
-        });
+        functionToClass(path, state);
       },
     },
   };

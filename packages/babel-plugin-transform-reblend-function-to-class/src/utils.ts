@@ -147,5 +147,5 @@ export const isTypescriptNode = (node: t.Node): node is t.TSType =>
   t.isTSImportType(node) ||
   t.isTSEnumDeclaration(node) ||
   t.isTSAsExpression(node) ||
-  t.isTSNonNullExpression(node) ||
+  //t.isTSNonNullExpression(node) ||
   t.isTSDeclareMethod(node);
