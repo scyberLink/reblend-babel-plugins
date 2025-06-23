@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-reblend-function-to-class",
-  "version": "9.2.1",
+  "version": "9.2.2",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
