@@ -5,7 +5,6 @@ import spreadBodyStatements from './spreadBodyStatements';
 import spreadCustomHook from './spreadCustomHook';
 import { processHookMemberAccess } from './processHookMemberAccess';
 import {
-  findReblendImportName,
   get,
   getProps,
   hasReblendComment,
@@ -182,7 +181,8 @@ const functionToClass: FunctionToClass = (path, state) => {
       renderMethod,
     ];
 
-    const reblendSuperNode = get(state, REBLEND_IMPORT_NAME_ID); // now an AST node
+    const reblendImportNode = get(state, REBLEND_IMPORT_NAME_ID);
+    const reblendSuperNode = t.cloneNode(reblendImportNode);
     const classDecl = t.classDeclaration(
       //@ts-ignore
       node.id ? t.identifier(node.id.name) : null,
