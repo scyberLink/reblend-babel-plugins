@@ -145,32 +145,3 @@ export function getTag(openingPath: NodePath<JSXOpeningElement>) {
     return tagExpr;
   }
 }
-
-// Converts a string like "Reblend.construct" to a member expression or call
-export function toMemberExpression(
-  id: string,
-  isFragment: boolean,
-): Identifier | CallExpression {
-  if (isFragment) {
-    return (
-      id
-        .split('.')
-        .map(name => t.identifier(name))
-        // @ts-expect-error - The Array#reduce does not have a signature
-        // where the type of initial value differs from callback return type
-        .reduce((object, property) => t.memberExpression(object, property))
-    );
-  }
-  return t.callExpression(
-    t.memberExpression(
-      id
-        .split('.')
-        .map(name => t.identifier(name))
-        // @ts-expect-error - The Array#reduce does not have a signature
-        // where the type of initial value differs from callback return type
-        .reduce((object, property) => t.memberExpression(object, property)),
-      t.identifier('bind'),
-    ),
-    [t.thisExpression()],
-  );
-}

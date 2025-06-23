@@ -4,44 +4,49 @@ import { NodePath } from '@babel/traverse';
 // Helper to find the local name for reblendjs import/require/__importStar
 export function findReblendImportName(
   path: NodePath<t.Function> | NodePath<t.Program>,
-): string {
+): t.Identifier | t.MemberExpression {
   let importName = 'Reblend'; // default fallback
 
   const program = path.isProgram()
     ? path
     : (path.findParent(p => p.isProgram()) as NodePath<t.Program>);
-  if (!program) return importName;
+  if (!program) return t.identifier('Reblend');
 
   for (const node of program.node.body) {
-    // ESM: import Reblend from 'reblendjs'
     if (
       t.isImportDeclaration(node) &&
       node.source.value === 'reblendjs' &&
       node.specifiers.length > 0
     ) {
-      // Default import: import Reblend from 'reblendjs'
       const defaultImport = node.specifiers.find(s =>
         t.isImportDefaultSpecifier(s),
       );
       if (defaultImport && t.isIdentifier(defaultImport.local)) {
-        return defaultImport.local.name;
+        return defaultImport.local;
       }
-
-      // Named import: import { Reblend } from 'reblendjs'
       const namedImport = node.specifiers.find(
         s =>
           t.isImportSpecifier(s) &&
           t.isIdentifier(s.imported, { name: 'Reblend' }),
       );
       if (namedImport && t.isImportSpecifier(namedImport)) {
-        // Handle alias: import { Reblend as R } from 'reblendjs'
-        return namedImport.local.name;
+        return namedImport.local;
+      }
+      // Handle import * as Reblend from 'reblendjs'
+      const namespaceImport = node.specifiers.find(s =>
+        t.isImportNamespaceSpecifier(s),
+      );
+      if (namespaceImport && t.isImportNamespaceSpecifier(namespaceImport)) {
+        // Return Reblend.Reblend
+        return t.memberExpression(
+          namespaceImport.local,
+          t.identifier('Reblend'),
+        );
       }
     }
     // CJS: const Reblend = require('reblendjs')
     if (t.isVariableDeclaration(node)) {
       for (const decl of node.declarations) {
-        // const Reblend = require('reblendjs')
         if (
           t.isVariableDeclarator(decl) &&
           t.isCallExpression(decl.init) &&
@@ -50,7 +55,8 @@ export function findReblendImportName(
           t.isStringLiteral(decl.init.arguments[0], { value: 'reblendjs' }) &&
           t.isIdentifier(decl.id)
         ) {
-          return `${decl.id.name}.Reblend`;
+          // return MemberExpression: Reblend.construct
+          return t.memberExpression(decl.id, t.identifier('Reblend'));
         }
         // const reblendjs_1 = __importStar(require("reblendjs"))
         if (
@@ -66,12 +72,12 @@ export function findReblendImportName(
           }) &&
           t.isIdentifier(decl.id)
         ) {
-          // Return the namespace import variable, e.g. "reblendjs_1"
-          // You will likely need to use `${namespace}.Reblend` as the pragma
-          return `${decl.id.name}.Reblend`;
+          // return MemberExpression: reblendjs_1.Reblend
+          return t.memberExpression(decl.id, t.identifier('Reblend'));
         }
       }
     }
   }
-  return importName;
+  // fallback: Identifier('Reblend')
+  return t.identifier('Reblend');
 }

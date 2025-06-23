@@ -8,7 +8,8 @@ interface TransformResult {
 }
 
 export function run(dir: string, writeOutFile = false): TransformResult {
-  const inputFilePath = path.resolve(dir, "input.ts").replace("/lib/", "/src/");
+  const inputFilePath = path.resolve(dir, "input.js").replace("/lib/", "/src/");
+  const inputFilePathts = path.resolve(dir, "input.ts").replace("/lib/", "/src/");
   const inputFilePathtsx = path.resolve(dir, "input.tsx").replace("/lib/", "/src/");
   const babelOptionPath = path.resolve(dir, "option.json").replace("/lib/", "/src/");
   const outputFilePath = path
@@ -18,11 +19,17 @@ export function run(dir: string, writeOutFile = false): TransformResult {
   // Read the input code
   let inputCode: string;
   let isTsx = false;
+  let isTs = false;
   try {
     inputCode = fs.readFileSync(inputFilePath, "utf8");
   } catch (err) {
-    inputCode = fs.readFileSync(inputFilePathtsx, "utf8");
-    isTsx = true;
+    try {
+      inputCode = fs.readFileSync(inputFilePathts, "utf8");
+      isTs = true;
+    } catch (err) {
+      inputCode = fs.readFileSync(inputFilePathtsx, "utf8");
+      isTsx = true;
+    }
   }
   let babelOptions = {}
   try {
@@ -33,7 +40,7 @@ export function run(dir: string, writeOutFile = false): TransformResult {
   // Use Babel to transform the code (assuming it's needed)
 
   const config = {
-    filename: isTsx ? inputFilePathtsx : inputFilePath,
+    filename: isTs ? inputFilePathts : isTsx ? inputFilePathtsx : inputFilePath,
     presets: [[require.resolve('../index.js'), babelOptions]],
   };
   let outputCode = ''

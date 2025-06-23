@@ -1,6 +1,6 @@
-import { accumulateAttribute, getTag, get } from "./utils";
-import * as t from "@babel/types";
-import type { PluginPass, NodePath } from "@babel/core";
+import { accumulateAttribute, getTag, get } from './utils';
+import * as t from '@babel/types';
+import type { PluginPass, NodePath } from '@babel/core';
 import type {
   JSXFragment,
   JSXElement,
@@ -8,8 +8,8 @@ import type {
   JSXSpreadAttribute,
   ObjectExpression,
   CallExpression,
-} from "@babel/types";
-import { REBLEND_CONSTRUCT_ID, REBLEND_IMPORT_NAME_ID } from "./constants";
+} from '@babel/types';
+import { REBLEND_CONSTRUCT_ID, REBLEND_IMPORT_NAME_ID } from './constants';
 
 // Builds JSX Fragment <></> into
 // Reblend.construct(Reblend, null, ...children)
@@ -18,9 +18,8 @@ export function createFragmentConstructCall(
   file: PluginPass,
 ) {
   return call(file, REBLEND_CONSTRUCT_ID, [
-    t.identifier(get(file, REBLEND_IMPORT_NAME_ID)),
+    get(file, REBLEND_IMPORT_NAME_ID), // use the actual AST node, not t.identifier
     t.nullLiteral(),
-    // @ts-expect-error JSXSpreadChild has been transformed in convertAttributeValue
     ...t.react.buildChildren(path.node),
   ]);
 }
@@ -70,11 +69,7 @@ export function createElementConstructCall(
 
   return call(file, REBLEND_CONSTRUCT_ID, [
     getTag(openingPath),
-    createPropsObjectFromAttributes(
-      file,
-      path,
-      openingPath.get('attributes'),
-    ),
+    createPropsObjectFromAttributes(file, path, openingPath.get('attributes')),
     // @ts-expect-error JSXSpreadChild has been transformed in convertAttributeValue
     ...t.react.buildChildren(path.node),
   ]);

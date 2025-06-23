@@ -13,7 +13,16 @@ export default declare((api, opts, dirname) => {
   return {
     presets: [
       ...(includeTypescript
-        ? [[require.resolve('@babel/preset-typescript'), { jsx: 'preserve' }]]
+        ? [
+            [
+              require.resolve('@babel/preset-typescript'),
+              {
+                jsx: 'preserve',
+                jsxPragma: 'Reblend.construct',
+                jsxPragmaFrag: 'Reblend',
+              },
+            ],
+          ]
         : []),
     ],
     plugins: [

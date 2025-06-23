@@ -182,11 +182,11 @@ const functionToClass: FunctionToClass = (path, state) => {
       renderMethod,
     ];
 
-    const reblendSuperName = get(state, REBLEND_IMPORT_NAME_ID);
+    const reblendSuperNode = get(state, REBLEND_IMPORT_NAME_ID); // now an AST node
     const classDecl = t.classDeclaration(
       //@ts-ignore
       node.id ? t.identifier(node.id.name) : null,
-      t.identifier(reblendSuperName),
+      reblendSuperNode,
       t.classBody(classBody),
       [],
     );
@@ -194,7 +194,7 @@ const functionToClass: FunctionToClass = (path, state) => {
     const classExpr = t.classExpression(
       //@ts-ignore
       node.id ? t.identifier(node.id.name) : null,
-      t.identifier(reblendSuperName),
+      reblendSuperNode,
       t.classBody(classBody),
       [],
     );

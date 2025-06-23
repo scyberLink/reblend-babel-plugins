@@ -17,13 +17,13 @@ export default function (): { visitor: Visitor; name: string } {
           return;
         }
 
-        let reblendImportName: string | undefined = get(
+        let reblendImportNode = get(
           state,
           REBLEND_IMPORT_NAME_ID,
         );
-        if (!reblendImportName) {
-          reblendImportName = findReblendImportName(path);
-          set(state, REBLEND_IMPORT_NAME_ID, reblendImportName);
+        if (!reblendImportNode) {
+          reblendImportNode = findReblendImportName(path);
+          set(state, REBLEND_IMPORT_NAME_ID, reblendImportNode);
         }
 
         path.traverse({

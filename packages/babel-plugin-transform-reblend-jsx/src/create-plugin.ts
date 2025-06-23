@@ -3,7 +3,7 @@ import { declare } from '@babel/helper-plugin-utils';
 import { types as t } from '@babel/core';
 import type { PluginPass } from '@babel/core';
 import { findReblendImportName } from './findReblendImportName';
-import { get, set, toMemberExpression } from './utils';
+import { get, set } from './utils';
 import {
   REBLEND_CONSTRUCT_ID,
   REBLEND_FRAGMENT_ID,
@@ -36,19 +36,23 @@ export default function createPlugin({
       visitor: {
         Program: {
           enter(path, state) {
-            let reblendImportName: string | undefined = get(
-              state,
-              REBLEND_IMPORT_NAME_ID,
-            );
-            if (!reblendImportName) {
-              reblendImportName = findReblendImportName(path);
-              set(state, REBLEND_IMPORT_NAME_ID, reblendImportName);
+            let reblendImportNode = get(state, REBLEND_IMPORT_NAME_ID);
+            if (!reblendImportNode) {
+              reblendImportNode = findReblendImportName(path); // now returns AST node
+              set(state, REBLEND_IMPORT_NAME_ID, reblendImportNode);
             }
-            let pragma: string = `${reblendImportName}.construct`;
-            let pragmaFrag: string = reblendImportName;
-
-            const construct = toMemberExpression(pragma, false);
-            const fragment = toMemberExpression(pragmaFrag, true);
+            // Use the actual AST node for Reblend import
+            const construct = t.callExpression(
+              t.memberExpression(
+                t.memberExpression(
+                  reblendImportNode,
+                  t.identifier('construct'),
+                ),
+                t.identifier('bind'),
+              ),
+              [t.thisExpression()],
+            );
+            const fragment = t.cloneNode(reblendImportNode);
 
             set(state, REBLEND_CONSTRUCT_ID, () => t.cloneNode(construct));
             set(state, REBLEND_FRAGMENT_ID, () => t.cloneNode(fragment));
