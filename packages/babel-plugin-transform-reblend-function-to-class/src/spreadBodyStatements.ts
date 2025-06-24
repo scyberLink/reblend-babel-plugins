@@ -109,7 +109,10 @@ function spreadBodyStatements(
         memberExpr &&
         from === PropStateType.PROPS
       ) {
-        memberExprWithKey = t.memberExpression(memberExpr, parent.key);
+        memberExprWithKey = t.memberExpression(
+          memberExpr,
+          t.isIdentifier(parent.value) ? parent.value : parent.key,
+        );
       }
 
       // Use the most specific mapping
