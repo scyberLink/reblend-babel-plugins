@@ -111,7 +111,12 @@ function spreadBodyStatements(
       ) {
         memberExprWithKey = t.memberExpression(
           memberExpr,
-          t.isIdentifier(parent.value) ? parent.value : parent.key,
+          t.isIdentifier(parent.value)
+            ? parent.value
+            : t.isAssignmentPattern(parent.value) &&
+                t.isIdentifier(parent.value.left)
+              ? parent.value.left
+              : parent.key,
         );
       }
 
