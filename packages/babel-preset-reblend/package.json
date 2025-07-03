@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-reblend",
-  "version": "11.2.4",
+  "version": "11.2.5",
   "description": "Babel preset for all Reblend plugins.",
   "author": "Emmanuel Elom <scansioquielom@gmail.com>, The Babel Team (https://babel.dev/team)",
   "homepage": "https://babel.dev/docs/en/next/babel-preset-reblend",
@@ -27,7 +27,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.27.1",
     "@babel/plugin-transform-typescript": "^7.27.1",
     "@babel/preset-typescript": "^7.25.7",
-    "babel-plugin-transform-reblend-function-to-class": "^9.2.5",
+    "babel-plugin-transform-reblend-function-to-class": "^9.2.6",
     "babel-plugin-transform-reblend-jsx": "^8.1.0"
   },
   "devDependencies": {
