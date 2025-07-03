@@ -7,7 +7,7 @@ extends Reblend {
   }
   async initState() {}
   async initProps() {
-    this.props = {};
+    this.props = arguments[0] || {};
   }
   async html() {
     return alert("HELLO from inside sequence expression"), 0, Reblend.construct.bind(this)(Reblend, null, Reblend.construct.bind(this)("h1", {

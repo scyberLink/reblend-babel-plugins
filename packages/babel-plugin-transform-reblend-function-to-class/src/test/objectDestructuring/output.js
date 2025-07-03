@@ -20,7 +20,7 @@ extends Reblend {
   async initProps(props = {
     yes: 'iii'
   }) {
-    this.props = {};
+    this.props = arguments[0] || {};
     this.props = props;
   }
   async html() {

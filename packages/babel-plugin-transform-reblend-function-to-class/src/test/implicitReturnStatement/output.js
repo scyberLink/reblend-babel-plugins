@@ -16,7 +16,7 @@ export default class sampleComponent extends Reblend {
     this.state.handleClick = handleClick;
   }
   async initProps(props) {
-    this.props = {};
+    this.props = arguments[0] || {};
     this.props = props;
   }
   async html() {

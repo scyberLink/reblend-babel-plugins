@@ -16,7 +16,7 @@ extends Reblend {
     this.state.increment = increment;
   }
   async initProps(props) {
-    this.props = {};
+    this.props = arguments[0] || {};
     this.props = props;
   }
   async html() {

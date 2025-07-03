@@ -17,7 +17,7 @@ class SampleComponent extends Reblend {
     useEffectAfter.bind(this)(() => console.log("effect"), (() => [this.state.count]).bind(this));
   }
   async initProps() {
-    this.props = {};
+    this.props = arguments[0] || {};
   }
   async html() {
     return;

@@ -39,7 +39,7 @@ describe('useMutationObserver', () => {
         }, (() => [this.state.item]).bind(this));
       }
       async initProps(props) {
-        this.props = {};
+        this.props = arguments[0] || {};
         this.props = props;
       }
       async html() {
@@ -111,7 +111,7 @@ describe('useMutationObserver', () => {
         attributeFilter,
         ...props
       }) {
-        this.props = {};
+        this.props = arguments[0] || {};
         this.props.attributeFilter = attributeFilter;
         this.props = {
           ...this.props,

@@ -65,9 +65,9 @@ function spreadBodyStatements(
     if (assignment) {
       if (from === PropStateType.STATE) {
         stateAssignments.push(assignment as t.ExpressionStatement);
-      } else if (from === PropStateType.PROPS) {
+      } /* else if (from === PropStateType.PROPS) {
         propsAssignments.push(assignment as t.ExpressionStatement);
-      }
+      } */
     }
   };
 

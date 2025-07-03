@@ -27,7 +27,7 @@ extends Reblend {
     name,
     Header2
   }) {
-    this.props = {};
+    this.props = arguments[0] || {};
     this.props.name = name;
     this.props.Header2 = Header2;
   }

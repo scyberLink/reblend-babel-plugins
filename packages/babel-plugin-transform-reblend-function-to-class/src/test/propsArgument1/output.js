@@ -17,7 +17,7 @@ class SampleComponent extends Reblend {
     as: Component,
     name
   }) {
-    this.props = {};
+    this.props = arguments[0] || {};
     this.props.Component = Component;
     this.props.name = name;
   }

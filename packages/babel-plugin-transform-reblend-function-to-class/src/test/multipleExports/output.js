@@ -360,7 +360,7 @@ class PaginatedTable extends Reblend {
     this.state.sortTip = sortTip;
   }
   async initProps(props) {
-    this.props = {};
+    this.props = arguments[0] || {};
     this.props = props;
   }
   async html() {

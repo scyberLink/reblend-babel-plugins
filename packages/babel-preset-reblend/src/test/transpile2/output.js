@@ -124,7 +124,7 @@ async function renderHook(useRenderCallback, options = {}) {
       renderCallbackProps,
       refreshCode
     }) {
-      this.props = {};
+      this.props = arguments[0] || {};
       this.props.renderCallbackProps = renderCallbackProps;
       this.props.refreshCode = refreshCode;
     }

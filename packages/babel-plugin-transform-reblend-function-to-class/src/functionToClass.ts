@@ -96,18 +96,6 @@ const functionToClass: FunctionToClass = (path, state) => {
       }
     });
 
-    const stateAssignments: any[] = [];
-    const propsAssignments: any[] = [
-      //Props initializer
-      t.expressionStatement(
-        t.assignmentExpression(
-          '=',
-          t.memberExpression(t.thisExpression(), t.identifier('props')),
-          t.objectExpression([]),
-        ),
-      ),
-    ];
-
     let initPropsMethodArgument = getProps(node);
     if (initPropsMethodArgument.length > 1) {
       throw new Error(
@@ -115,6 +103,26 @@ const functionToClass: FunctionToClass = (path, state) => {
           ${functionName} ${(path.hub as any).file.opts.filename}:${node.loc?.start.line}:${node.loc?.start.column}`,
       );
     }
+
+    const stateAssignments: any[] = [];
+    const propsAssignments: any[] = [
+      //Props initializer
+      t.expressionStatement(
+        t.assignmentExpression(
+          '=',
+          t.memberExpression(t.thisExpression(), t.identifier('props')),
+          t.assignmentExpression(
+            '||',
+            t.memberExpression(
+              t.identifier('arguments'),
+              t.identifier('0'),
+              true,
+            ),
+            t.objectExpression([]),
+          ),
+        ),
+      ),
+    ];
 
     const assignments = spreadBodyStatements(
       path,

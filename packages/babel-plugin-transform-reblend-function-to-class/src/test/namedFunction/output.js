@@ -16,7 +16,7 @@ const SampleComponent = class SampleComponent extends Reblend {
     }, (() => []).bind(this));
   }
   async initProps(props) {
-    this.props = {};
+    this.props = arguments[0] || {};
     this.props = props;
   }
   async html() {

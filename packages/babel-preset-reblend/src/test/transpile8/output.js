@@ -76,7 +76,7 @@ extends _reblendjs.default {
     ref,
     ...props
   }) {
-    this.props = {};
+    this.props = arguments[0] || {};
     this.props.eventKey = eventKey;
     this.props.disabled = disabled;
     this.props.onClick = onClick;

@@ -26,7 +26,7 @@ var _ModalManager = require("../src/ModalManager");
       async initProps({
         children
       }) {
-        this.props = {};
+        this.props = arguments[0] || {};
         this.props.children = children;
       }
       async html() {
@@ -54,7 +54,7 @@ var _ModalManager = require("../src/ModalManager");
         this.state.setIsOpen = setIsOpen;
       }
       async initProps() {
-        this.props = {};
+        this.props = arguments[0] || {};
       }
       async html() {
         return Reblend.Reblend.construct.bind(this)(_Modal.default, {

@@ -7,7 +7,7 @@ extends rbl {
     super();
   }
   async initState() {
-    const [, setContext] = rbl.useContext.bind(this)(0, "unneededIdentifier_08617239-6c91-4909-9275-5f5d83fe8219");
+    const [, setContext] = rbl.useContext.bind(this)(0, "unneededIdentifier_175244d2-ef9b-4584-a988-eee0ecf3f530");
     this.state.setContext = setContext;
     const [State, setState] = rbl.useState.bind(this)(0, "State");
     this.state.State = State;
@@ -28,7 +28,7 @@ extends rbl {
   async initProps({
     name
   }) {
-    this.props = {};
+    this.props = arguments[0] || {};
     this.props.name = name;
   }
   async html() {

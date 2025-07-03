@@ -27,7 +27,7 @@ class App extends Reblend {
     this.state.atss = atss;
   }
   async initProps() {
-    this.props = {};
+    this.props = arguments[0] || {};
   }
   async html() {
     return Reblend.construct.bind(this)(Reblend, null, Reblend.construct.bind(this)("div", {

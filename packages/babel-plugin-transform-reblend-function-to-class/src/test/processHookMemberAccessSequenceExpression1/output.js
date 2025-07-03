@@ -19,7 +19,7 @@ class UseAny extends reblendjs_1.Reblend {
   async initProps({
     defaultValue
   }) {
-    this.props = {};
+    this.props = arguments[0] || {};
     this.props.defaultValue = defaultValue;
   }
   async html() {

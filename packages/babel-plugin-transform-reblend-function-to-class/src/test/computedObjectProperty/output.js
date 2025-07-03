@@ -29,7 +29,7 @@ export default class Route extends Reblend {
     path,
     ...props
   }) {
-    this.props = {};
+    this.props = arguments[0] || {};
     this.props.Component = Component;
     this.props.element = element;
     this.props.path = path;

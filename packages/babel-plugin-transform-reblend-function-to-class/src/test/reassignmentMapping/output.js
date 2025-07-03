@@ -29,7 +29,7 @@ extends Reblend {
     this.state.f = f;
   }
   async initProps(props) {
-    this.props = {};
+    this.props = arguments[0] || {};
     this.props = props;
   }
   async html() {
