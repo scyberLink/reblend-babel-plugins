@@ -150,6 +150,6 @@ export const isTypescriptNode = (node: t.Node): node is t.TSType =>
   t.isTSTypeQuery(node) ||
   t.isTSImportType(node) ||
   t.isTSEnumDeclaration(node) ||
-  t.isTSAsExpression(node) ||
+  //t.isTSAsExpression(node) ||
   //t.isTSNonNullExpression(node) ||
   t.isTSDeclareMethod(node);
